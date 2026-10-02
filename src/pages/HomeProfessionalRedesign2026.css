@@ -2395,7 +2395,7 @@ div.pcx-skeleton.pcx-store-row { aspect-ratio: auto; height: 4.4rem; }
   .pcx-trustbar__icon { width: 34px; height: 34px; border-radius: 10px; }
   .pcx-trustbar__icon svg { width: 15px; height: 15px; }
   .pcx-trustbar__list strong { font-size: 0.8rem; }
-  .pcx-trustbar__list small { font-size: 0.72rem; }
+  .pcx-trustbar__list small { font-size: 0.75rem; }
 }
 @media (max-width: 480px) {
   .pcx-trustbar__list small { display: none; }
