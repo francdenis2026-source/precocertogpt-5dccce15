@@ -1,0 +1,96 @@
+/* Grade de categorias da home: bento 4×3 sem células vazias (hero 2×2 + 8
+   setores). Foto ocupa o card inteiro; o rótulo fica num painel de vidro. */
+.pcx-bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 176px;
+  gap: 14px;
+}
+.pcx-tile {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #16202c;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 32, 0.12), 0 8px 24px -12px rgba(15, 23, 32, 0.35);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease;
+}
+.pcx-tile--hero { grid-column: span 2; grid-row: span 2; }
+.pcx-tile:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(15, 23, 32, 0.14), 0 16px 32px -12px rgba(15, 23, 32, 0.45); }
+.pcx-tile:active { transform: translateY(0) scale(0.99); transition-duration: 90ms; }
+.pcx-tile:focus-visible { outline: 3px solid var(--h-primary, #1d6fe8); outline-offset: 3px; }
+.pcx-tile > img {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pcx-tile:hover > img { transform: scale(1.05); }
+/* Degradê só na base: dá contraste ao painel de vidro em qualquer foto. */
+.pcx-tile::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to top, rgba(8, 14, 24, 0.62) 0%, rgba(8, 14, 24, 0.18) 42%, transparent 62%);
+  pointer-events: none;
+}
+.pcx-tile__glass {
+  position: absolute; left: 10px; right: 10px; bottom: 10px;
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: rgba(14, 22, 34, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 24px -10px rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+}
+.pcx-tile__chip {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 2.1rem; height: 2.1rem; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92); color: var(--tile-accent, #1d6fe8);
+}
+.pcx-tile__chip svg { width: 1.05rem; height: 1.05rem; }
+.pcx-tile__text { display: grid; gap: 0.1rem; min-width: 0; flex: 1; }
+.pcx-tile .pcx-tile__text strong { color: #fff; font-size: 0.92rem; font-weight: 700; line-height: 1.2; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
+.pcx-tile .pcx-tile__text span { font-size: 0.78rem; color: rgba(255, 255, 255, 0.9); }
+.pcx-tile__go { flex-shrink: 0; width: 1.1rem; height: 1.1rem; opacity: 0.85; transition: transform 200ms ease; }
+.pcx-tile:hover .pcx-tile__go { transform: translateX(3px); }
+
+.pcx-tile--hero .pcx-tile__glass { left: 16px; right: 16px; bottom: 16px; padding: 0.9rem 1rem; border-radius: 18px; gap: 0.9rem; }
+.pcx-tile.pcx-tile--hero .pcx-tile__text strong { font-size: clamp(1.1rem, 1.9vw, 1.55rem); letter-spacing: -0.01em; }
+.pcx-tile.pcx-tile--hero .pcx-tile__text span { font-size: 0.88rem; }
+.pcx-tile--hero .pcx-tile__go { width: 1.4rem; height: 1.4rem; }
+
+.pcx-tile--green { --tile-accent: #1a7f4b; }
+.pcx-tile--red { --tile-accent: #c03a2a; }
+.pcx-tile--amber { --tile-accent: #935f0c; }
+.pcx-tile--orange { --tile-accent: #a4540f; }
+.pcx-tile--blue { --tile-accent: #2e50ad; }
+.pcx-tile--violet { --tile-accent: #5b3ec2; }
+.pcx-tile--slate { --tile-accent: #44505c; }
+.pcx-tile--pink { --tile-accent: #b23d78; }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pcx-tile__glass { background: rgba(14, 22, 34, 0.78); }
+}
+@media (max-width: 960px) {
+  .pcx-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 150px; gap: 10px; }
+  .pcx-tile--hero { grid-column: 1 / -1; grid-row: span 1; }
+  .pcx-tile .pcx-tile__text strong { font-size: 0.84rem; }
+  .pcx-tile .pcx-tile__text span { display: none; }
+  .pcx-tile.pcx-tile--hero .pcx-tile__text span { display: block; }
+  .pcx-tile__go { display: none; }
+  .pcx-tile--hero .pcx-tile__go { display: block; }
+}
+@media (max-width: 640px) {
+  .pcx-bento { grid-auto-rows: 128px; }
+  .pcx-tile--hero { grid-row: span 2; }
+  .pcx-tile__glass { left: 8px; right: 8px; bottom: 8px; padding: 0.45rem 0.55rem; gap: 0.5rem; }
+  .pcx-tile__chip { width: 1.8rem; height: 1.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pcx-tile, .pcx-tile > img, .pcx-tile__go { transition: none; }
+  .pcx-tile:hover { transform: none; }
+  .pcx-tile:hover > img { transform: none; }
+}
