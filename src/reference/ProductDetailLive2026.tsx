@@ -14,6 +14,7 @@ import { getCachedAvailability, useProductOnlineSales } from "../lib/onlineSales
 import { trackProductView } from "../lib/analytics";
 import { buildComparableOffers, findComparableProducts, type ComparableOffer } from "../lib/productSearch";
 import { ProductThumb } from "../components/catalog/ProductThumb";
+import { PriceChangeBadge } from "../components/catalog/PriceChangeBadge";
 import { PublicFooter, PublicHeader } from "./PublicChrome";
 import "./ProductDetailLive2026.css";
 
@@ -283,6 +284,9 @@ export function ProductDetailLive2026() {
                 )}
                 {dropped > 0 && (
                   <span className="pdl-price__save"><TrendingDown aria-hidden="true" />{brl.format(dropped)} abaixo do preço anterior</span>
+                )}
+                {previous > 0 && previous < price && (
+                  <PriceChangeBadge current={price} previous={previous} capturedAt={displayed?.capturedAt} />
                 )}
               </div>
 

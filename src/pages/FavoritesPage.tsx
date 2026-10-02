@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { type Product } from "../data/catalog";
 import { money } from "../lib/pricing";
+import { PriceChangeBadge } from "../components/catalog/PriceChangeBadge";
 
 
 interface FavoritesPageProps {
@@ -498,11 +499,7 @@ function FavoriteCard({
           <span style={{ fontSize: '0.7rem', color: 'var(--muted)', display: 'block' }}>Menor preço em Feijó</span>
           <strong style={{ fontSize: '1.5rem', color: 'var(--green)', fontWeight: 900 }}>{money(product.minPrice)}</strong>
         </div>
-        {product.previousPrice && product.previousPrice > product.minPrice && (
-          <span style={{ color: 'var(--green)', fontSize: '0.8rem', fontWeight: 850, background: 'var(--green-soft)', padding: '2px 6px', borderRadius: '4px', marginBottom: '4px' }}>
-            -{Math.round((1 - product.minPrice / product.previousPrice) * 100)}%
-          </span>
-        )}
+        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} />
       </div>
 
       <div style={{ display: 'flex', gap: '0.75rem' }}>
