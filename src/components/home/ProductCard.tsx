@@ -12,6 +12,7 @@ import { resolveProductImage } from "../../data/productImageResolver";
 import { freshnessText, priceFreshness } from "../../lib/pricing";
 import { ProductCardActions } from "../catalog/ProductCardActions";
 import { PriceBadge } from "../catalog/PriceBadge";
+import { PriceChangeBadge } from "../catalog/PriceChangeBadge";
 
 const brl = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -96,6 +97,7 @@ export const ProductCard = memo(function ProductCard({
             <strong>{brl.format(product.minPrice)}</strong>
           </div>
         </div>
+        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} />
 
         <div className="pcx-product__footer">
           <time dateTime={product.capturedAt}>
