@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   Beef,
   BookOpen,
   Croissant,
@@ -24,6 +25,7 @@ import servicesImage from "../../assets/sectors-2026/sector-services-v3.jpg";
 import otherImage from "../../assets/home-2026/promo-setores-organizados.jpg";
 import heroImage from "../../assets/home-2026/comercio-local-atendimento.jpg";
 import { SectionHeader } from "./SectionHeader";
+import "./CategoryTiles.css";
 
 const intBr = new Intl.NumberFormat("pt-BR");
 
@@ -104,47 +106,30 @@ export function CategoryBar({ stores = [] }: { stores?: StoreRow[] }) {
           linkLabel="Ver todas"
           linkIcon={<LayoutGrid aria-hidden="true" />}
         />
-        <div className="pcx-categories" aria-label="Categorias de estabelecimentos">
-
-          <Link className="pcx-category pcx-category--hero" to="/explorar">
-            <span className="pcx-category__media">
-              <img
-                src={heroImage}
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                decoding="async"
-                width="440"
-                height="360"
-              />
-            </span>
-            <span className="pcx-category__text">
-              <strong>Comércio de Feijó, tudo num só lugar</strong>
-              <span>Escolha um tipo de loja para começar →</span>
+        <div className="pcx-bento" aria-label="Categorias de estabelecimentos">
+          <Link className="pcx-tile pcx-tile--hero pcx-tile--green" to="/explorar">
+            <img src={heroImage} alt="" aria-hidden="true" loading="lazy" decoding="async" width="1280" height="720" />
+            <span className="pcx-tile__glass">
+              <span className="pcx-tile__text">
+                <strong>Comércio de Feijó, tudo num só lugar</strong>
+                <span>Escolha um tipo de loja para começar</span>
+              </span>
+              <ArrowRight className="pcx-tile__go" aria-hidden="true" />
             </span>
           </Link>
           {businessGroups.map((group) => {
             const Icon = CATEGORY_ICON[group.id];
             const productCount = productCountByGroup.get(group.id);
             return (
-              <Link className="pcx-category" key={group.id} to={group.href}>
-                <span className="pcx-category__media">
-                  <img
-                    src={CATEGORY_IMAGE[group.id]}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    decoding="async"
-                    width="320"
-                    height="180"
-                  />
-                  <i className={CATEGORY_TINT[group.id]}>
-                    <Icon aria-hidden="true" />
-                  </i>
-                </span>
-                <span className="pcx-category__text">
-                  <strong>{group.shortLabel}</strong>
-                  <span>{productCount ? `${intBr.format(productCount)} produtos` : CATEGORY_SUB[group.id]}</span>
+              <Link className={`pcx-tile ${CATEGORY_TINT[group.id].replace("pcx-category--", "pcx-tile--")}`} key={group.id} to={group.href}>
+                <img src={CATEGORY_IMAGE[group.id]} alt="" aria-hidden="true" loading="lazy" decoding="async" width="1280" height="720" />
+                <span className="pcx-tile__glass">
+                  <i className="pcx-tile__chip"><Icon aria-hidden="true" /></i>
+                  <span className="pcx-tile__text">
+                    <strong>{group.shortLabel}</strong>
+                    <span>{productCount ? `${intBr.format(productCount)} produtos` : CATEGORY_SUB[group.id]}</span>
+                  </span>
+                  <ArrowRight className="pcx-tile__go" aria-hidden="true" />
                 </span>
               </Link>
             );
