@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import {
   ArrowLeft, ArrowRight, BadgeCheck, CalendarDays, ChevronRight, Factory, Heart, Home,
   Info, Layers3, MapPin, Package, PackageSearch, PiggyBank, RadioTower, RefreshCw,
-  ShieldCheck, ShoppingBasket, Store, Tag, TrendingDown,
+  ShieldCheck, ShoppingBasket, Store, Tag, TrendingDown, TrendingUp,
 } from "lucide-react";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { CatalogPayload, Product } from "../data/catalog";
@@ -279,9 +279,11 @@ export function ProductDetailLive2026() {
                   <strong>{brl.format(price)}</strong>
                   <Link to={storeHref}><Store aria-hidden="true" />{displayed?.establishment || product.establishment}</Link>
                 </div>
-                {!single && spread > 0 && (
+                {!single && spread > 0 && (price > storeOffers[0].value ? (
+                  <span className="pdl-price__save"><TrendingUp aria-hidden="true" />{brl.format(price - storeOffers[0].value)} acima do menor preço</span>
+                ) : (
                   <span className="pdl-price__save"><PiggyBank aria-hidden="true" />Economize até {brl.format(spread)}</span>
-                )}
+                ))}
                 {dropped > 0 && (
                   <span className="pdl-price__save"><TrendingDown aria-hidden="true" />{brl.format(dropped)} abaixo do preço anterior</span>
                 )}
@@ -349,6 +351,7 @@ export function ProductDetailLive2026() {
                       <span className="pdl-compare__price">
                         <b>{brl.format(offer.value)}</b>
                         <small>{formatDate(offer.capturedAt)}</small>
+                        <PriceChangeBadge current={offer.value} previous={offer.previousPrice} capturedAt={offer.capturedAt} />
                       </span>
                       <ChevronRight aria-hidden="true" />
                     </Link>
