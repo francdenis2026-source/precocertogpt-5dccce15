@@ -1,0 +1,99 @@
+{
+  "name": "PreçoCerto | Marketplace Local",
+  "short_name": "PreçoCerto",
+  "description": "Economia real em Feijó — Compare preços e compre online.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#F4EFE8",
+  "theme_color": "#202126",
+  "orientation": "any",
+  "categories": [
+    "shopping",
+    "utilities",
+    "lifestyle"
+  ],
+  "shortcuts": [
+    {
+      "name": "Buscar preços",
+      "short_name": "Buscar",
+      "url": "/buscar",
+      "icons": [
+        {
+          "src": "/preco-certo-mark.svg?v=17",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Minha cesta",
+      "short_name": "Cesta",
+      "url": "/cesta-basica",
+      "icons": [
+        {
+          "src": "/preco-certo-mark.svg?v=17",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Explorar locais",
+      "short_name": "Explorar",
+      "url": "/explorar",
+      "icons": [
+        {
+          "src": "/preco-certo-mark.svg?v=17",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "/preco-certo-mark.svg?v=17",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-192x192.png?v=17",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png?v=17",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-preco-certo-oficial.jpg?v=17",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Marketplace Local PreçoCerto"
+    }
+  ],
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  }
+}

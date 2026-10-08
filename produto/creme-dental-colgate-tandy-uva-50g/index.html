@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="application-name" content="PreçoCerto" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="PreçoCerto" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- A primeira requisição ao Supabase (catálogo, métricas) só começava depois
+         de o JS baixar e executar, pagando o handshake TLS ali, em série com o
+         resto do carregamento. Isso deixa o navegador abrir a conexão em paralelo
+         enquanto o resto da página ainda está carregando. -->
+    <link rel="preconnect" href="https://kqueiohjadwzxafdrrxk.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://kqueiohjadwzxafdrrxk.supabase.co" />
+    <script>
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search.slice(1).split("&").map(function (segment) {
+            return segment.replace(/~and~/g, "&");
+          }).join("?");
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+    <script>
+      /* O Chrome dispara "beforeinstallprompt" assim que decide que a página
+         é instalável — muitas vezes antes do bundle React terminar de
+         carregar e montar os componentes que escutavam esse evento (o botão
+         "Instalar" do header e a seção de destaque na home). O evento não
+         dá segunda chance: quem perde o disparo nunca mais vê o prompt
+         automático naquela visita, mesmo em aparelhos onde a instalação é
+         totalmente compatível — o que parecia "o PWA não é detectado" em
+         alguns Android era, na maior parte das vezes, essa corrida perdida
+         em aparelhos mais lentos ou com rede mais lenta. Capturar aqui, no
+         primeiro script da página, garante que o evento nunca escapa antes
+         de qualquer componente existir para ouvi-lo. */
+      window.__pcInstallPromptEvent = null;
+      window.addEventListener("beforeinstallprompt", function (event) {
+        event.preventDefault();
+        window.__pcInstallPromptEvent = event;
+      });
+      window.addEventListener("appinstalled", function () {
+        window.__pcInstallPromptEvent = null;
+      });
+    </script>
+    <script>
+      /* Define o tema final antes da primeira pintura. */
+      (function () {
+        var keys = ["theme", "precocerto-theme", "precocerto:theme"];
+        var theme = null;
+        try {
+          for (var i = 0; i < keys.length; i++) {
+            var value = localStorage.getItem(keys[i]);
+            if (value === "light" || value === "dark") { theme = value; break; }
+          }
+        } catch (e) {}
+        if (!theme) theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        /* O conteúdo nunca deve ficar bloqueado aguardando folhas CSS externas. */
+        document.documentElement.classList.add("pc-styles-ready");
+      })();
+    </script>
+    <title>Creme Dental Colgate Tandy Uva 50g | PreçoCerto</title>
+    <meta name="description" content="Creme Dental Colgate Tandy Uva 50g — Colgate · un · bucal. Compare preços e disponibilidade no comércio local de Feijó (AC)." />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://www.precocerto.live/produto/creme-dental-colgate-tandy-uva-50g" />
+
+    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1418" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/preco-certo-mark.svg?v=17" type="image/svg+xml" sizes="any" />
+    <link rel="icon" href="/favicon.png?v=17" type="image/png" sizes="64x64" />
+    <link rel="shortcut icon" href="/favicon.ico?v=17" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=17" sizes="512x512" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="PreçoCerto" />
+    <meta property="og:title" content="Creme Dental Colgate Tandy Uva 50g | PreçoCerto" />
+    <meta property="og:description" content="Creme Dental Colgate Tandy Uva 50g — Colgate · un · bucal. Compare preços e disponibilidade no comércio local de Feijó (AC)." />
+    <meta property="og:url" content="https://www.precocerto.live/produto/creme-dental-colgate-tandy-uva-50g" />
+    <meta property="og:image" content="https://www.precocerto.live/og-preco-certo-oficial-v2.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Creme Dental Colgate Tandy Uva 50g | PreçoCerto" />
+    <meta name="twitter:description" content="Creme Dental Colgate Tandy Uva 50g — Colgate · un · bucal. Compare preços e disponibilidade no comércio local de Feijó (AC)." />
+    <meta name="twitter:image" content="https://www.precocerto.live/og-preco-certo-oficial-v2.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://www.precocerto.live/#organization",
+            "name": "PreçoCerto",
+            "url": "https://www.precocerto.live/",
+            "logo": "https://www.precocerto.live/preco-certo-mark.svg?v=17",
+            "areaServed": { "@type": "City", "name": "Feijó", "addressRegion": "AC", "addressCountry": "BR" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.precocerto.live/#website",
+            "url": "https://www.precocerto.live/",
+            "name": "PreçoCerto",
+            "inLanguage": "pt-BR",
+            "description": "Comparação de preços e marketplace do comércio local de Feijó (AC).",
+            "publisher": { "@id": "https://www.precocerto.live/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://www.precocerto.live/buscar?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
+    <style>
+      #seo-prerender{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+      /* Sem isso, rolar até o topo/fim da página no celular deixa o
+         navegador esticar a página inteira (o "elástico" do overscroll) e
+         pode disparar o puxar-para-atualizar sem querer — os dois dão a
+         sensação de página solta, não de app. overscroll-behavior:none no
+         html (quem rola de verdade neste site) trava só esse elástico,
+         sem afetar a rolagem normal do conteúdo. */
+      html{overscroll-behavior:none}
+      html,body,#root{min-height:100%;margin:0}
+      /* Primeira pintura neutra: evita o flash cinza antes de o React montar a home. */
+      html[data-theme="light"],html[data-theme="light"] body,html[data-theme="light"] #root{background:#FFFFFF;color:#17181C}
+      html[data-theme="dark"],html[data-theme="dark"] body,html[data-theme="dark"] #root{background:#0F1418;color:#FFFFFF}
+      #root{visibility:visible!important}
+    </style>
+    <script type="module" crossorigin src="/assets/react-vendor-C7KVCnMi.js"></script>
+    <script type="module" crossorigin src="/assets/supabase-vendor-BnGCNdwk.js"></script>
+    <script type="module" crossorigin src="/assets/icons-vendor-EGca65PK.js"></script>
+    <script type="module" crossorigin src="/assets/main-C-O8ZweF.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BOCNCXZw.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Creme Dental Colgate Tandy Uva 50g","brand":{"@type":"Brand","name":"Colgate"},"category":"bucal","url":"https://www.precocerto.live/produto/creme-dental-colgate-tandy-uva-50g","description":"Creme Dental Colgate Tandy Uva 50g — Colgate · un · bucal. Compare preços e disponibilidade no comércio local de Feijó (AC)."}</script></head>
+  <body>
+    <div id="root"><main id="seo-prerender" data-seo-prerender="true"><article><h1>Creme Dental Colgate Tandy Uva 50g</h1><p>Creme Dental Colgate Tandy Uva 50g — Colgate · un · bucal. Compare preços e disponibilidade no comércio local de Feijó (AC).</p><nav aria-label="Navegação principal"><a href="/">Início</a> <a href="/buscar">Buscar</a> <a href="/explorar">Explorar</a> <a href="/estabelecimentos">Perto de mim</a> <a href="/minha-conta">Conta</a></nav></article></main></div>
+  </body>
+</html>

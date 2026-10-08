@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Preço Certo</title>
+  <desc id="desc">Símbolo do Preço Certo: etiqueta de preço com sinal de confirmação.</desc>
+  <defs>
+    <linearGradient id="pc-bg" x1="18" y1="12" x2="110" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#242A2F"/>
+      <stop offset="1" stop-color="#121619"/>
+    </linearGradient>
+    <linearGradient id="pc-gold" x1="40" y1="28" x2="92" y2="102" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD968"/>
+      <stop offset="1" stop-color="#F2B705"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="118" height="118" rx="32" fill="url(#pc-bg)"/>
+  <path d="M35 25h35.5c4.8 0 9.4 1.9 12.8 5.3l23.4 23.4a12 12 0 0 1 0 17L72 105.4a12 12 0 0 1-17 0L27.6 78A12 12 0 0 1 24 69.5V36a11 11 0 0 1 11-11Z" fill="url(#pc-gold)"/>
+  <circle cx="47" cy="48" r="8" fill="#171C20"/>
+  <path d="m47 73 12 12 25-28" fill="none" stroke="#171C20" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
