@@ -25,19 +25,36 @@ img[data-pc-img-ready] { opacity: 1; }
 }
 #root { min-height: 100vh; min-height: 100dvh; background:inherit; }
 
+/* Selo "Made with Lovable" — oculto em todas as variantes conhecidas
+   (iframe, elemento custom, host de shadow DOM e link de assinatura),
+   sem afetar nenhum outro elemento do layout. */
 #lovable-badge,
+lovable-badge,
 [data-lovable-badge],
 .lovable-badge,
 iframe[src*="lovable.app/badge"],
-a[href*="lovable.app"][target="_blank"]:has(img[src*="lovable"]) {
+a[href*="lovable.app"][target="_blank"]:has(img[src*="lovable"]),
+a[href*="lovable.app"][data-lovable-badge],
+body > lovable-badge,
+body > div:has(> iframe[src*="lovable.app/badge"]) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
   width: 0 !important;
   height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
   position: absolute !important;
   left: -9999px !important;
+  top: -9999px !important;
+  z-index: -1 !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  clip-path: inset(50%) !important;
 }
 
 * { box-sizing: border-box; }
