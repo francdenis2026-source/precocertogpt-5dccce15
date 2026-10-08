@@ -15,6 +15,27 @@ function getSessionId() {
   }
 }
 
+const PRIVATE_PREFIXES = ["/admin", "/painel-lojista", "/lojista"];
+
+/** Registra a abertura de uma página pública do site (contador de visitas). */
+export function trackPageView(path: string) {
+  if (!supabase || !path) return;
+  if (PRIVATE_PREFIXES.some((prefix) => path.startsWith(prefix))) return;
+  let referrer: string | null = null;
+  try {
+    if (document.referrer && new URL(document.referrer).host !== location.host) {
+      referrer = document.referrer.slice(0, 300);
+    }
+  } catch {
+    referrer = null;
+  }
+  void supabase.from("page_views").insert({
+    path: path.slice(0, 300),
+    referrer,
+    session_id: getSessionId(),
+  });
+}
+
 /** Registra a visualização de um produto (cliente cadastrado ou não). */
 export function trackProductView(productId: string) {
   if (!supabase || !productId) return;
