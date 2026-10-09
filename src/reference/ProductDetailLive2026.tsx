@@ -88,7 +88,7 @@ export function ProductDetailLive2026() {
       .channel("pdl-live-prices")
       .on("postgres_changes", { event: "*", schema: "public", table: "prices" }, () => {
         if (refreshTimer.current) window.clearTimeout(refreshTimer.current);
-        refreshTimer.current = window.setTimeout(() => void loadCatalog(true), 900);
+        refreshTimer.current = window.setTimeout(() => void loadCatalog(true), 5 * 60_000); // egress: reler o catálogo inteiro a cada alteração de preço custa caro
       })
       .subscribe();
     return () => {
