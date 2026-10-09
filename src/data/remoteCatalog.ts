@@ -93,7 +93,7 @@ export type CatalogResult = CatalogPayload & { source: CatalogSource; error?: st
 const round = (value: number) => Math.round(value * 100) / 100;
 const toNumber = (value: number | string | null) => (value === null ? NaN : Number(value));
 const DATABASE_PAGE_SIZE = 1000;
-const CATALOG_CACHE_TTL_MS = 5 * 60_000;
+const CATALOG_CACHE_TTL_MS = 60 * 60_000; // egress: cada reload baixa o catálogo inteiro; 1h em vez de 5 min
 const CATALOG_REQUEST_TIMEOUT_MS = 20_000;
 const CATALOG_RETRY_DELAY_MS = 350;
 
