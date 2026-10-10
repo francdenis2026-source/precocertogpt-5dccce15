@@ -20,6 +20,7 @@ import { fetchSectorCatalog, withoutDemoEstablishments } from "../data/sectorCat
 import { resolveProductImage } from "../data/productImageResolver";
 import { getStoreLogoUrl, isStoreLogoTightCrop } from "../data/storeLogos";
 import { loadSessionProfile, requestPasswordReset } from "../lib/roles";
+import { supabase } from "../lib/supabase";
 import { useFavorites } from "../features/favorites/FavoritesProvider";
 import { useStoreFavorites } from "../features/favorites/StoreFavoritesProvider";
 import { OnlinePresence } from "../components/OnlinePresence";
@@ -237,6 +238,9 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
   const [recoverEmail, setRecoverEmail] = useState("");
   const [recoverBusy, setRecoverBusy] = useState(false);
   const [recoverSent, setRecoverSent] = useState(false);
+  const [sentTo, setSentTo] = useState("");
+  const [resendIn, setResendIn] = useState(0);
+  const [resendNote, setResendNote] = useState("");
   const formRef = useRef<HTMLElement>(null);
   const fitRef = useRef<HTMLDivElement>(null);
 
@@ -260,8 +264,8 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
       // Sem isso, quem cadastra caía direto na home sem estar logado de
       // verdade (o projeto exige confirmar o e-mail antes) — parecia que o
       // cadastro simplesmente não tinha ido a lugar nenhum.
-      setMessageKind("info");
-      setMessage("Conta criada! Confira seu e-mail e clique no link de confirmação para entrar.");
+      setSentTo(email);
+      setResendIn(60);
       return;
     }
     navigate(redirectTo !== "/" ? redirectTo : accountType === "merchant" ? "/painel-lojista" : "/", { replace: true });
@@ -271,6 +275,26 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
    * conta ou não — a mesma mensagem de sucesso aparece nos dois casos.
    * Quem decide se existe conta ou não é o link que chega (ou não) no e-mail,
    * nunca a resposta desta tela. */
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const timer = window.setTimeout(() => setResendIn(value => value - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [resendIn]);
+
+  const resendConfirmation = async () => {
+    if (!supabase || resendIn > 0) return;
+    setResendIn(60);
+    const { error } = await supabase.auth.resend({ type: "signup", email: sentTo, options: { emailRedirectTo: `${window.location.origin}/bem-vindo` } });
+    setResendNote(error ? "Não conseguimos reenviar agora. Tente de novo em instantes." : "Pronto! Enviamos um novo link.");
+  };
+
+  const mailDomain = sentTo.split("@")[1]?.toLowerCase() ?? "";
+  const inboxUrl = mailDomain === "gmail.com" ? "https://mail.google.com/mail/u/0/#search/from%3Aprecocerto.live"
+    : /^(outlook|hotmail|live)\./.test(mailDomain) ? "https://outlook.live.com/mail/"
+    : mailDomain.startsWith("yahoo.") ? "https://mail.yahoo.com/"
+    : /^(proton\.me|protonmail\.com)$/.test(mailDomain) ? "https://mail.proton.me/"
+    : "";
+
   const submitRecover = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!recoverEmail.trim()) return;
@@ -288,7 +312,26 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
 
     <div className="ref-auth__card">
 
-    {showRecover ? (
+    {sentTo ? (
+      <div className="ref-auth__confirm" role="status">
+        <i className="ref-auth__confirm-icon" aria-hidden="true"><Mail /></i>
+        <span className="ref-auth__eyebrow">CONTA CRIADA · FALTA SÓ UM PASSO</span>
+        <h2>Confirme seu e-mail</h2>
+        <p>Enviamos um link de confirmação para <strong>{sentTo}</strong>. Clique nele e você já entra no PreçoCerto, sem precisar digitar a senha de novo.</p>
+        <ol className="ref-auth__steps">
+          <li><Check aria-hidden="true" /> Abra o e-mail de <b>PreçoCerto</b> (no-reply@precocerto.live)</li>
+          <li><Check aria-hidden="true" /> Toque em <b>Confirmar meu e-mail</b></li>
+          <li><Check aria-hidden="true" /> Pronto: sua conta abre automaticamente</li>
+        </ol>
+        {inboxUrl && <a className="ref-auth__submit" href={inboxUrl} target="_blank" rel="noreferrer">Abrir meu e-mail <ArrowRight /></a>}
+        <p className="ref-auth__hint">Não chegou em 2 minutos? Confira o <b>spam</b> ou <b>promoções</b>.</p>
+        <button type="button" className="ref-auth__recover" onClick={() => void resendConfirmation()} disabled={resendIn > 0}>
+          {resendIn > 0 ? `Reenviar e-mail em ${resendIn}s` : "Reenviar e-mail de confirmação"}
+        </button>
+        {resendNote && <p className="ref-auth__message ref-auth__message--info">{resendNote}</p>}
+        <div className="ref-auth__switch"><span>E-mail errado?</span><button type="button" className="ref-auth__recover" onClick={() => { setSentTo(""); setResendNote(""); }}>Usar outro e-mail</button></div>
+      </div>
+    ) : showRecover ? (
       <>
         <span className="ref-auth__eyebrow">RECUPERAR ACESSO</span>
         <h2>Esqueceu sua senha?</h2>
@@ -498,6 +541,46 @@ function ContactPage() {
     </main>
     <PublicFooter />
   </div>;
+}
+
+/* Destino do link de confirmação (emailRedirectTo). O supabase-js lê o token
+ * do endereço sozinho e o AuthProvider já recebe a sessão — esta página só
+ * espera isso acontecer e dá as boas-vindas. Link vencido/usado volta com
+ * #error=... no endereço. */
+export function ReferenceWelcomePage() {
+  const { user, loading } = useAuth();
+  const [linkError] = useState(() => new URLSearchParams(window.location.hash.slice(1)).get("error_description"));
+  const [waited, setWaited] = useState(false);
+  useEffect(() => { const timer = window.setTimeout(() => setWaited(true), 6000); return () => window.clearTimeout(timer); }, []);
+  const firstName = String(user?.user_metadata?.name || user?.user_metadata?.full_name || "").trim().split(/\s+/)[0];
+  const failed = !user && (linkError || (waited && !loading));
+
+  return <div className="ref-auth"><aside className="ref-auth__story"><Brand inverse /><div className="ref-auth__hero-copy"><span className="ref-kicker"><MapPin /> FEIJÓ, ACRE</span><h1>Escolhas melhores começam por aqui.</h1><p>Compare preços locais com clareza e compre com mais confiança.</p></div><small>PreçoCerto · Economia perto de você</small></aside><main className="ref-auth__form"><div className="ref-auth__fit"><div className="ref-auth__card ref-auth__confirm" role="status">
+    {user ? <>
+      <i className="ref-auth__confirm-icon is-success" aria-hidden="true"><BadgeCheck /></i>
+      <span className="ref-auth__eyebrow">E-MAIL CONFIRMADO</span>
+      <h2>Bem-vindo{firstName ? `, ${firstName}` : ""}!</h2>
+      <p>Sua conta está ativa e você já está conectado. Agora é só aproveitar:</p>
+      <ol className="ref-auth__steps">
+        <li><Search aria-hidden="true" /> Compare preços entre as lojas da cidade</li>
+        <li><Heart aria-hidden="true" /> Salve produtos favoritos e acompanhe os preços</li>
+        <li><ShoppingBasket aria-hidden="true" /> Monte sua lista e descubra onde sai mais barato</li>
+      </ol>
+      <Link className="ref-auth__submit" to="/" replace>Começar a economizar <ArrowRight /></Link>
+      <div className="ref-auth__switch"><span>Tem um comércio?</span><Link to="/cadastro-lojista">Divulgar minhas ofertas</Link></div>
+    </> : failed ? <>
+      <i className="ref-auth__confirm-icon is-error" aria-hidden="true"><Info /></i>
+      <span className="ref-auth__eyebrow">LINK INVÁLIDO</span>
+      <h2>Esse link já expirou</h2>
+      <p>O link de confirmação vale por pouco tempo e só pode ser usado uma vez. Se você já confirmou, é só entrar com seu e-mail e senha.</p>
+      <Link className="ref-auth__submit" to="/login" replace>Entrar na minha conta <ArrowRight /></Link>
+      <div className="ref-auth__switch"><span>Ainda não confirmou?</span><Link to="/cadastro">Cadastrar de novo</Link></div>
+    </> : <>
+      <span className="ref-spinner" aria-hidden="true" />
+      <h2>Confirmando seu e-mail…</h2>
+      <p>Só um instante, já vamos abrir sua conta.</p>
+    </>}
+  </div></div></main><AppDock /></div>;
 }
 
 export function ReferenceInfoPage({ kind }: { kind: InfoKind }) { if (kind === "collaborate") return <CollaborationPage />; if (kind === "contact") return <ContactPage />; const content = infoCopy[kind]; return <div className="ref-page"><PublicHeader /><main id="conteudo-principal" className="ref-info"><span>{content.eyebrow}</span><h1>{content.title}</h1><p>{content.copy}</p><Link to={content.to}>{content.action} <ArrowRight /></Link></main><PublicFooter /></div>; }

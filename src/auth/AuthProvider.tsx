@@ -154,7 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase.auth.signUp({
       email: email.trim().toLocaleLowerCase("pt-BR"),
       password,
-      options: { data: { name: cleanName, full_name: cleanName }, emailRedirectTo: window.location.origin },
+      options: { data: { name: cleanName, full_name: cleanName }, emailRedirectTo: `${window.location.origin}/bem-vindo` },
     });
     if (error) return { error: messageFor(error.message) };
     if (data.session) {
