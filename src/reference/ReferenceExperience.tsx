@@ -223,6 +223,48 @@ function reasonForRedirect(safePath: string, rawRedirect: string | null): string
   return "Você precisa entrar para continuar.";
 }
 
+const PENDING_EMAIL_KEY = "precocerto:pending-confirmation-email";
+const confirmRedirect = () => `${window.location.origin}/bem-vindo`;
+function readPendingEmail() { try { return localStorage.getItem(PENDING_EMAIL_KEY) ?? ""; } catch { return ""; } }
+function writePendingEmail(email: string | null) { try { if (email) localStorage.setItem(PENDING_EMAIL_KEY, email); else localStorage.removeItem(PENDING_EMAIL_KEY); } catch { /* armazenamento indisponível */ } }
+
+/* Reenvio do link de confirmação. O Supabase só reenvia para cadastros ainda
+ * não confirmados e limita a frequência — por isso a espera de 60 s. */
+async function resendSignupConfirmation(email: string) {
+  if (!supabase) return "Cadastro indisponível agora.";
+  const { error } = await supabase.auth.resend({ type: "signup", email: email.trim().toLocaleLowerCase("pt-BR"), options: { emailRedirectTo: confirmRedirect() } });
+  if (!error) { writePendingEmail(email.trim()); return null; }
+  const text = error.message.toLocaleLowerCase();
+  if (text.includes("rate") || text.includes("seconds")) return "Aguarde um minuto antes de pedir outro link.";
+  return "Não conseguimos reenviar agora. Confira o e-mail digitado e tente de novo.";
+}
+
+function ResendConfirmationForm({ initialEmail = "", cta = "Reenviar link de confirmação" }: { initialEmail?: string; cta?: string }) {
+  const [email, setEmail] = useState(() => initialEmail || readPendingEmail());
+  const [busy, setBusy] = useState(false);
+  const [wait, setWait] = useState(0);
+  const [note, setNote] = useState<{ kind: "info" | "error"; text: string } | null>(null);
+  useEffect(() => {
+    if (wait <= 0) return;
+    const timer = window.setTimeout(() => setWait(value => value - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [wait]);
+  const send = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email.trim() || wait > 0) return;
+    setBusy(true);
+    const problem = await resendSignupConfirmation(email);
+    setBusy(false);
+    setWait(60);
+    setNote(problem ? { kind: "error", text: problem } : { kind: "info", text: `Enviamos um novo link para ${email.trim()}. Ele vale por tempo limitado: confirme assim que receber.` });
+  };
+  return <form className="ref-auth__resend" onSubmit={send}>
+    <label>Seu e-mail de cadastro<input type="email" required autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} /></label>
+    {note && <p className={note.kind === "info" ? "ref-auth__message ref-auth__message--info" : "ref-auth__message"} role="status">{note.text}</p>}
+    <button className="ref-auth__submit" type="submit" disabled={busy || wait > 0}>{busy ? "Enviando…" : wait > 0 ? `Pedir outro em ${wait}s` : cta}<Mail /></button>
+  </form>;
+}
+
 export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -241,6 +283,7 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
   const [sentTo, setSentTo] = useState("");
   const [resendIn, setResendIn] = useState(0);
   const [resendNote, setResendNote] = useState("");
+  const [unconfirmedEmail, setUnconfirmedEmail] = useState("");
   const formRef = useRef<HTMLElement>(null);
   const fitRef = useRef<HTMLDivElement>(null);
 
@@ -249,6 +292,7 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
     setBusy(true);
     setMessage("");
     setMessageKind("error");
+    setUnconfirmedEmail("");
     const data = new FormData(event.currentTarget);
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
@@ -258,9 +302,13 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
     setBusy(false);
     if (result.error) {
       setMessage(result.error);
+      // Conta existe mas o e-mail não foi confirmado (link expirou ou nunca
+      // foi aberto): oferece o reenvio ali mesmo, com o e-mail já preenchido.
+      if (mode === "login" && result.error.startsWith("Confirme seu e-mail")) setUnconfirmedEmail(email);
       return;
     }
     if (result.needsEmailConfirmation) {
+      writePendingEmail(email);
       // Sem isso, quem cadastra caía direto na home sem estar logado de
       // verdade (o projeto exige confirmar o e-mail antes) — parecia que o
       // cadastro simplesmente não tinha ido a lugar nenhum.
@@ -284,8 +332,8 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
   const resendConfirmation = async () => {
     if (!supabase || resendIn > 0) return;
     setResendIn(60);
-    const { error } = await supabase.auth.resend({ type: "signup", email: sentTo, options: { emailRedirectTo: `${window.location.origin}/bem-vindo` } });
-    setResendNote(error ? "Não conseguimos reenviar agora. Tente de novo em instantes." : "Pronto! Enviamos um novo link.");
+    const problem = await resendSignupConfirmation(sentTo);
+    setResendNote(problem ?? "Pronto! Enviamos um novo link.");
   };
 
   const mailDomain = sentTo.split("@")[1]?.toLowerCase() ?? "";
@@ -385,6 +433,7 @@ export function ReferenceAuthPage({ mode }: { mode: "login" | "register" }) {
           {message && <p className={messageKind === "info" ? "ref-auth__message ref-auth__message--info" : "ref-auth__message"} role="status">{message}</p>}
           <button className="ref-auth__submit" type="submit" disabled={busy}>{busy ? "Aguarde…" : mode === "login" ? "Entrar" : "Criar minha conta"}<ArrowRight /></button>
         </form>
+        {unconfirmedEmail && <ResendConfirmationForm key={unconfirmedEmail} initialEmail={unconfirmedEmail} cta="Reenviar e-mail de confirmação" />}
         {mode === "login" && <button type="button" className="ref-auth__recover" onClick={() => { setShowRecover(true); setMessage(""); }}>Esqueci minha senha</button>}
         <div className="ref-auth__switch"><span>{mode === "login" ? "Ainda não tem conta?" : "Já possui uma conta?"}</span><Link to={mode === "login" ? "/cadastro" : "/login"}>{mode === "login" ? "Criar conta" : "Entrar"}</Link></div>
         <p className="ref-auth__safe"><LockKeyhole /> Seus dados estão protegidos.</p>
@@ -549,11 +598,19 @@ function ContactPage() {
  * #error=... no endereço. */
 export function ReferenceWelcomePage() {
   const { user, loading } = useAuth();
-  const [linkError] = useState(() => new URLSearchParams(window.location.hash.slice(1)).get("error_description"));
+  // O erro pode voltar no #hash (fluxo implícito) ou na ?query, conforme a versão do Auth.
+  const [linkError] = useState(() => {
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const query = new URLSearchParams(window.location.search);
+    const code = hash.get("error_code") || query.get("error_code");
+    const description = hash.get("error_description") || query.get("error_description");
+    return code || description ? { expired: code === "otp_expired" || /expired|invalid/i.test(description ?? "") } : null;
+  });
   const [waited, setWaited] = useState(false);
   useEffect(() => { const timer = window.setTimeout(() => setWaited(true), 6000); return () => window.clearTimeout(timer); }, []);
   const firstName = String(user?.user_metadata?.name || user?.user_metadata?.full_name || "").trim().split(/\s+/)[0];
   const failed = !user && (linkError || (waited && !loading));
+  useEffect(() => { if (user) writePendingEmail(null); }, [user]);
 
   return <div className="ref-auth"><aside className="ref-auth__story"><Brand inverse /><div className="ref-auth__hero-copy"><span className="ref-kicker"><MapPin /> FEIJÓ, ACRE</span><h1>Escolhas melhores começam por aqui.</h1><p>Compare preços locais com clareza e compre com mais confiança.</p></div><small>PreçoCerto · Economia perto de você</small></aside><main className="ref-auth__form"><div className="ref-auth__fit"><div className="ref-auth__card ref-auth__confirm" role="status">
     {user ? <>
@@ -570,11 +627,11 @@ export function ReferenceWelcomePage() {
       <div className="ref-auth__switch"><span>Tem um comércio?</span><Link to="/cadastro-lojista">Divulgar minhas ofertas</Link></div>
     </> : failed ? <>
       <i className="ref-auth__confirm-icon is-error" aria-hidden="true"><Info /></i>
-      <span className="ref-auth__eyebrow">LINK INVÁLIDO</span>
-      <h2>Esse link já expirou</h2>
-      <p>O link de confirmação vale por pouco tempo e só pode ser usado uma vez. Se você já confirmou, é só entrar com seu e-mail e senha.</p>
-      <Link className="ref-auth__submit" to="/login" replace>Entrar na minha conta <ArrowRight /></Link>
-      <div className="ref-auth__switch"><span>Ainda não confirmou?</span><Link to="/cadastro">Cadastrar de novo</Link></div>
+      <span className="ref-auth__eyebrow">{linkError?.expired ? "LINK EXPIRADO" : "NÃO FOI POSSÍVEL CONFIRMAR"}</span>
+      <h2>{linkError?.expired ? "Esse link expirou" : "Vamos enviar um link novo"}</h2>
+      <p>O link de confirmação vale por tempo limitado e só funciona uma vez. Sua conta continua guardada: confirme o e-mail abaixo e enviamos um link novo na hora.</p>
+      <ResendConfirmationForm cta="Enviar novo link de confirmação" />
+      <div className="ref-auth__switch"><span>Já confirmou antes?</span><Link to="/login" replace>Entrar na minha conta</Link></div>
     </> : <>
       <span className="ref-spinner" aria-hidden="true" />
       <h2>Confirmando seu e-mail…</h2>

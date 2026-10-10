@@ -30,6 +30,7 @@ import { Footer } from "../components/home/Footer";
 import { Header } from "../components/home/Header";
 import { LiveProductSearch } from "../components/home/LiveProductSearch";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
+import heroPhoto from "../assets/home-2026/hero-profissional-precocerto-2026.jpg";
 import "./HomeProfessionalRedesign2026.css";
 import "./HomePreco2026.css";
 
@@ -208,7 +209,12 @@ export function HomeNew2026() {
                 <div><dt>Última atualização</dt><dd>{latest ? latest.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) : "—"}</dd></div>
               </dl>
             </div>
-            <BestPriceBoard products={board} loading={loading} />
+            <div className="ph-hero__visual">
+              <figure className="ph-hero__photo">
+                <img src={heroPhoto} alt="Cliente comparando o preço de um produto no celular dentro do mercado" width="1280" height="720" fetchPriority="high" decoding="async" />
+              </figure>
+              <BestPriceBoard products={board} loading={loading} />
+            </div>
           </div>
         </section>
 
