@@ -216,3 +216,19 @@ html[data-theme="dark"] .ph-thumb--empty { background: var(--ph-surface-2); }
 
 /* Busca reaproveitada: botão na cor de ação da home */
 .ph .ph-hero__search .pc26-live-search__submit { background: var(--ph-save) !important; color: #fff !important; }
+
+/* O hero fica sobre uma foto clara nos dois temas: o tema escuro global
+   (títulos/parágrafos quase brancos, busca preta) não vale aqui. Trava o
+   hero em esquema claro, com !important só onde a regra global também usa. */
+html[data-theme="dark"] .ph .ph-hero h1,
+html[data-theme="dark"] .ph .ph-hero .ph-hero__facts dd { color: var(--ph-hero-ink) !important; -webkit-text-fill-color: var(--ph-hero-ink) !important; }
+html[data-theme="dark"] .ph .ph-hero h1 span { color: #0b7a4b !important; -webkit-text-fill-color: #0b7a4b !important; }
+html[data-theme="dark"] .ph .ph-hero .ph-hero__lede,
+html[data-theme="dark"] .ph .ph-hero .ph-hero__facts dt { color: var(--ph-hero-muted) !important; -webkit-text-fill-color: var(--ph-hero-muted) !important; }
+html[data-theme="dark"] .ph .ph-hero .ph-hero__place { color: #06603b !important; background: #fff7ee !important; }
+html[data-theme="dark"] .ph .ph-hero .ph-hero__quick a { color: var(--ph-hero-ink) !important; background: rgba(255, 255, 255, .9) !important; border-color: rgba(16, 32, 44, .12) !important; }
+/* Busca clara, com texto digitado e placeholder legíveis */
+html[data-theme="dark"] .ph .ph-hero__search .pc26-hero-search { background: #fff !important; border-color: rgba(16, 32, 44, .14) !important; }
+html[data-theme="dark"] .ph .ph-hero__search .pc26-live-search input { color: #10202c !important; -webkit-text-fill-color: #10202c !important; caret-color: #0b7a4b; background: transparent !important; }
+html[data-theme="dark"] .ph .ph-hero__search .pc26-live-search input::placeholder { color: #5b6b78 !important; -webkit-text-fill-color: #5b6b78 !important; }
+html[data-theme="dark"] .ph .ph-hero__search .pc26-live-search__icon { color: #0b7a4b !important; }
