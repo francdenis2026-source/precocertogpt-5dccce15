@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   ImageOff,
   ListChecks,
+  Lock,
   MapPin,
   Search,
   Sparkles,
@@ -25,6 +26,8 @@ import { buildFeatured, currentCycle, msUntilNextCycle } from "../data/featuredR
 import { hasProfessionalProductPhoto, resolveProductImage } from "../data/productImageResolver";
 import { getStoreLogoUrl } from "../data/storeLogos";
 import { freshnessText, priceFreshness } from "../lib/pricing";
+import { useAuth } from "../auth/AuthProvider";
+import { usePriceVisibility } from "../hooks/usePriceVisibility";
 import { AppDock } from "../reference/PublicChrome";
 import { Footer } from "../components/home/Footer";
 import { Header } from "../components/home/Header";
@@ -40,6 +43,36 @@ const QUICK_TERMS = ["Arroz", "Feijão", "Café", "Leite", "Açúcar", "Óleo"];
 
 const productHref = (product: Product) => `/produto/${product.slug || product.id}`;
 const spread = (product: Product) => Math.max(0, product.maxPrice - product.minPrice);
+
+const FREE_OFFERS = 4;
+const FREE_BOARD_ROWS = 2;
+const FREE_STORES = 4;
+const SIGNUP_HREF = "/cadastro?redirect=%2F";
+const MASKED_PRICE = "R$ 00,00";
+
+/** Visitante = sem conta e sem a chave "todos os preços visíveis" do admin
+ *  (a mesma regra da busca). Enquanto a sessão carrega ninguém é bloqueado,
+ *  para quem já tem conta não ver o borrão piscar. */
+function useIsGuest() {
+  const { user, loading } = useAuth();
+  const { allPricesVisible, loading: pricesLoading } = usePriceVisibility();
+  return !loading && !pricesLoading && !user && !allPricesVisible;
+}
+
+/** Véu do borrão: cobre o bloco travado e convida a criar a conta. */
+function LockVeil({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="ph-lock__veil">
+      <div className="ph-lock__card" role="group" aria-label={title}>
+        <span className="ph-lock__icon" aria-hidden="true"><Lock /></span>
+        <h3>{title}</h3>
+        <p>{text}</p>
+        <Link className="ph-btn ph-btn--primary" to={SIGNUP_HREF}>Criar conta grátis <ArrowRight aria-hidden="true" /></Link>
+        <Link className="ph-lock__login" to="/login?redirect=%2F">Já tenho conta · Entrar</Link>
+      </div>
+    </div>
+  );
+}
 
 function ProductThumb({ product, size }: { product: Product; size: number }) {
   const image = resolveProductImage(product);
@@ -65,7 +98,7 @@ function StoreMark({ store }: { store: StoreRow }) {
 
 /** "Menor preço agora": produtos com maior diferença real entre a loja mais
  *  barata e a mais cara — é a prova do que o PreçoCerto faz, na primeira tela. */
-function BestPriceBoard({ products, loading }: { products: Product[]; loading: boolean }) {
+function BestPriceBoard({ products, loading, guest }: { products: Product[]; loading: boolean; guest: boolean }) {
   return (
     <section className="ph-board" aria-labelledby="ph-board-title">
       <header className="ph-board__head">
@@ -78,27 +111,52 @@ function BestPriceBoard({ products, loading }: { products: Product[]; loading: b
         </ol>
       ) : products.length ? (
         <ol className="ph-board__list">
-          {products.map(product => (
+          {products.map((product, index) => {
+            const locked = guest && index >= FREE_BOARD_ROWS;
+            return (
             <li key={product.id}>
-              <Link className="ph-board__row" to={productHref(product)}>
+              <Link className={`ph-board__row${locked ? " is-locked" : ""}`} to={locked ? SIGNUP_HREF : productHref(product)} aria-label={locked ? `${product.name}: crie sua conta grátis para ver o preço` : undefined}>
                 <ProductThumb product={product} size={48} />
                 <span className="ph-board__info">
                   <strong>{product.name}</strong>
                   <small><StoreIcon aria-hidden="true" /> {product.establishment || `${product.storeCount} lojas`}</small>
                 </span>
-                <span className="ph-board__price">
-                  <strong>{brl.format(product.minPrice)}</strong>
-                  {spread(product) > 0 && <small aria-label={`${brl.format(spread(product))} mais barato que a loja mais cara`}><TrendingDown aria-hidden="true" />{brl.format(spread(product))}</small>}
-                </span>
+                {locked ? (
+                  <span className="ph-board__price ph-board__price--locked">
+                    <strong aria-hidden="true">{MASKED_PRICE}</strong>
+                    <small><Lock aria-hidden="true" />Ver preço</small>
+                  </span>
+                ) : (
+                  <span className="ph-board__price">
+                    <strong>{brl.format(product.minPrice)}</strong>
+                    {spread(product) > 0 && <small aria-label={`${brl.format(spread(product))} mais barato que a loja mais cara`}><TrendingDown aria-hidden="true" />{brl.format(spread(product))}</small>}
+                  </span>
+                )}
               </Link>
             </li>
-          ))}
+            );
+          })}
         </ol>
       ) : (
         <p className="ph-board__empty">Os preços estão sendo atualizados. <Link to="/buscar">Pesquise o catálogo</Link></p>
       )}
       <p className="ph-board__note">Diferença calculada entre a loja mais barata e a mais cara de Feijó.</p>
     </section>
+  );
+}
+
+/** Card travado: mantém nome e foto, mas o preço real nem entra no HTML. */
+function LockedOfferCard({ product }: { product: Product }) {
+  return (
+    <article className="ph-offer ph-offer--locked" aria-hidden="true">
+      <span className="ph-offer__link">
+        <span className="ph-offer__media"><ProductThumb product={product} size={160} /></span>
+        <span className="ph-offer__name">{product.name}</span>
+        <span className="ph-offer__meta">{[product.size !== "-" ? product.size : "", product.establishment].filter(Boolean).join(" · ")}</span>
+        <span className="ph-offer__price"><strong>{MASKED_PRICE}</strong><del>{MASKED_PRICE}</del></span>
+        <span className="ph-offer__foot"><span>{product.storeCount > 1 ? `${product.storeCount} lojas` : "1 loja"}</span><span>Atualizado hoje</span></span>
+      </span>
+    </article>
   );
 }
 
@@ -178,6 +236,7 @@ export function HomeNew2026() {
     return times.length ? new Date(Math.max(...times)) : null;
   }, [products]);
 
+  const guest = useIsGuest();
   const productCount = catalog.metrics.products || products.length;
   const storeCount = catalog.stores.length;
 
@@ -228,7 +287,7 @@ export function HomeNew2026() {
           </div>
         </section>
         <div className="ph-wrap ph-board-strip">
-          <BestPriceBoard products={board} loading={loading} />
+          <BestPriceBoard products={board} loading={loading} guest={guest} />
         </div>
 
         {categories.length > 0 && (
@@ -256,7 +315,15 @@ export function HomeNew2026() {
           {loading && !featured.length ? (
             <div className="ph-offers" aria-busy="true">{Array.from({ length: 8 }, (_, index) => <div key={index} className="ph-offer ph-skeleton" />)}</div>
           ) : featured.length ? (
-            <div className="ph-offers">{featured.map(product => <OfferCard key={product.id} product={product} />)}</div>
+            <>
+              <div className="ph-offers">{featured.slice(0, guest ? FREE_OFFERS : featured.length).map(product => <OfferCard key={product.id} product={product} />)}</div>
+              {guest && featured.length > FREE_OFFERS && (
+                <div className="ph-lock">
+                  <div className="ph-offers ph-lock__content" inert aria-hidden="true">{featured.slice(FREE_OFFERS).map(product => <LockedOfferCard key={product.id} product={product} />)}</div>
+                  <LockVeil title="Veja todas as ofertas de hoje" text={`Crie sua conta grátis e desbloqueie o preço de mais ${featured.length - FREE_OFFERS} produtos, o comparativo entre as lojas e os favoritos.`} />
+                </div>
+              )}
+            </>
           ) : (
             <p className="ph-empty">Os preços estão sendo atualizados. <Link to="/buscar">Pesquise o catálogo completo</Link>.</p>
           )}
@@ -271,6 +338,7 @@ export function HomeNew2026() {
                 <Link className="ph-btn ph-btn--light" to="/cesta-inteligente"><Sparkles aria-hidden="true" /> Usar a Cesta Inteligente</Link>
                 <Link className="ph-btn ph-btn--ghost" to="/cesta"><ListChecks aria-hidden="true" /> Montar minha lista</Link>
               </div>
+              {guest && <p className="ph-band__hint"><Lock aria-hidden="true" /> Recurso exclusivo para quem tem conta. <Link to={SIGNUP_HREF}>Criar conta grátis</Link></p>}
             </div>
             <ol className="ph-steps">
               <li><strong>Busque</strong><span>Digite o produto ou escolha uma categoria.</span></li>
@@ -290,7 +358,7 @@ export function HomeNew2026() {
               <Link to="/estabelecimentos">Ver todas <ArrowRight aria-hidden="true" /></Link>
             </header>
             <ul className="ph-stores">
-              {stores.map(store => (
+              {stores.slice(0, guest ? FREE_STORES : stores.length).map(store => (
                 <li key={store.id}>
                   <Link className="ph-store" to={`/estabelecimento/${store.slug}`}>
                     <StoreMark store={store} />
@@ -299,6 +367,18 @@ export function HomeNew2026() {
                 </li>
               ))}
             </ul>
+            {guest && stores.length > FREE_STORES && (
+              <div className="ph-lock">
+                <ul className="ph-stores ph-lock__content" inert aria-hidden="true">
+                  {stores.slice(FREE_STORES).map(store => (
+                    <li key={store.id}>
+                      <span className="ph-store"><StoreMark store={store} /><span><strong>Loja de Feijó</strong><small>Feijó · 000 produtos</small></span></span>
+                    </li>
+                  ))}
+                </ul>
+                <LockVeil title="Conheça todas as lojas" text="Crie sua conta grátis para ver todas as lojas, o catálogo completo de cada uma e comparar os preços entre elas." />
+              </div>
+            )}
           </section>
         )}
 
