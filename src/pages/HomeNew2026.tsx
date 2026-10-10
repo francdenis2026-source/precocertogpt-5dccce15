@@ -43,20 +43,24 @@ const spread = (product: Product) => Math.max(0, product.maxPrice - product.minP
 
 function ProductThumb({ product, size }: { product: Product; size: number }) {
   const image = resolveProductImage(product);
-  const [failed, setFailed] = useState(false);
-  if (!image || failed) {
-    // Sem foto: inicial do produto em vez de um ícone de "imagem quebrada".
-    return <span className="ph-thumb ph-thumb--empty" role="img" aria-label={`Foto de ${product.name} indisponível`}>{size >= 100 ? <ImageOff aria-hidden="true" /> : <b aria-hidden="true">{product.name.trim().charAt(0).toUpperCase()}</b>}</span>;
+  const storeLogo = getStoreLogoUrl(product.establishment || "");
+  const [imageFailed, setImageFailed] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
+  if (image && !imageFailed) {
+    return <span className="ph-thumb"><img src={image} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setImageFailed(true)} /></span>;
   }
-  return <span className="ph-thumb"><img src={image} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setFailed(true)} /></span>;
+  // Sem foto do produto: logo do estabelecimento (nunca uma letra solta).
+  if (storeLogo && !logoFailed) {
+    return <span className="ph-thumb ph-thumb--logo" role="img" aria-label={`Logo de ${product.establishment}`}><img src={storeLogo} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setLogoFailed(true)} /></span>;
+  }
+  return <span className="ph-thumb ph-thumb--empty" role="img" aria-label={`Foto de ${product.name} indisponível`}>{size >= 100 ? <ImageOff aria-hidden="true" /> : <StoreIcon aria-hidden="true" />}</span>;
 }
 
 function StoreMark({ store }: { store: StoreRow }) {
   const logo = getStoreLogoUrl(store.name);
   const [failed, setFailed] = useState(false);
   if (logo && !failed) return <span className="ph-store__mark"><img src={logo} alt="" loading="lazy" decoding="async" onError={() => setFailed(true)} /></span>;
-  const initials = store.name.split(/\s+/).filter(Boolean).slice(0, 2).map(word => word[0]).join("").toUpperCase();
-  return <span className="ph-store__mark ph-store__mark--text" aria-hidden="true">{initials}</span>;
+  return <span className="ph-store__mark ph-store__mark--text" aria-hidden="true"><StoreIcon /></span>;
 }
 
 /** "Menor preço agora": produtos com maior diferença real entre a loja mais
