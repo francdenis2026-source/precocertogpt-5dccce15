@@ -44,7 +44,7 @@ export default function FavoritesPage({
   }, [products, favorites]);
 
   const filteredProducts = useMemo(() => {
-    let result = favoriteProducts.filter(p => 
+    const result = favoriteProducts.filter(p => 
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.brand.toLowerCase().includes(search.toLowerCase())
     );
