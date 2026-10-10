@@ -5,9 +5,9 @@
 .pc-auth-prompt{position:fixed;z-index:10050;inset:0;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));background:rgb(8 20 16 / 62%);backdrop-filter:blur(10px) saturate(.82);-webkit-backdrop-filter:blur(10px) saturate(.82);overscroll-behavior:contain;touch-action:none;animation:pc-auth-fade 180ms ease-out both}
 .pc-auth-prompt__card{position:relative;width:min(380px,100%);max-height:min(640px,calc(100dvh - 28px));display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;border:1px solid #e3e7ec;border-radius:22px;background:#fff;color:#10161d;box-shadow:0 30px 90px rgb(0 0 0 / 28%);animation:pc-auth-rise 220ms cubic-bezier(.2,.8,.2,1) both}
 
-.pc-auth-prompt__hero{position:relative;flex:0 0 auto;height:148px;overflow:hidden;background:#0d3a30}
-.pc-auth-prompt__hero img{width:100%;height:100%;object-fit:cover;display:block}
-.pc-auth-prompt__hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgb(9 27 22 / 12%) 0%,rgb(8 20 16 / 6%) 46%,rgb(6 16 13 / 70%) 100%)}
+.pc-auth-prompt__hero{position:relative;flex:0 0 auto;height:148px;overflow:hidden;background:#e4c9ab}
+.pc-auth-prompt__hero img{width:100%;height:100%;object-fit:cover;object-position:68% 62%;display:block}
+.pc-auth-prompt__hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgb(9 27 22 / 0%) 0%,rgb(8 20 16 / 0%) 58%,rgb(6 16 13 / 52%) 100%)}
 .pc-auth-prompt__hero-badge{position:absolute;z-index:1;left:14px;bottom:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;background:rgb(10 26 21 / 56%);backdrop-filter:blur(10px) saturate(160%);-webkit-backdrop-filter:blur(10px) saturate(160%);border:1px solid rgb(255 255 255 / 16%);color:#fff;font-size:11px;font-weight:750;letter-spacing:.01em}
 .pc-auth-prompt__hero-badge svg{width:14px;height:14px;color:#3fd88a;flex:none}
 .pc-auth-prompt__close{position:absolute;z-index:2;top:10px;right:10px;width:36px;height:36px;display:grid;place-items:center;border:1px solid rgb(255 255 255 / 20%);border-radius:12px;background:rgb(10 26 21 / 46%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;cursor:pointer}

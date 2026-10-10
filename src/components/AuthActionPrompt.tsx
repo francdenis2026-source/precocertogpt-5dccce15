@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, BadgeCheck, Check, LogIn, X } from "lucide-react";
 import type { AuthActionPromptDetail } from "../lib/authActionPrompt";
 import { loadSessionProfile } from "../lib/roles";
-import authHeroImage from "../assets/home-2026/app-showcase-mao-celular-2026.jpg";
 import "./AuthActionPrompt.css";
 
 const AUTH_RETURN_KEY = "precocerto:auth-return-to:v1";
@@ -119,7 +118,7 @@ export function AuthActionPrompt() {
   return createPortal(<div className="pc-auth-prompt" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setPrompt(null); }}>
     <section ref={dialogRef} className="pc-auth-prompt__card" role="dialog" aria-modal="true" aria-labelledby="pc-auth-prompt-title">
       <div className="pc-auth-prompt__hero">
-        <img src={authHeroImage} alt="" />
+        <img src="/editorial-2026/home-shopping-1280.webp" srcSet="/editorial-2026/home-shopping-640.webp 640w, /editorial-2026/home-shopping-1280.webp 1280w" sizes="380px" width="1280" height="853" alt="" decoding="async" />
         <span className="pc-auth-prompt__hero-badge"><BadgeCheck aria-hidden="true"/> Marketplace local verificado</span>
         <button ref={closeRef} className="pc-auth-prompt__close" type="button" onClick={() => setPrompt(null)} aria-label="Fechar"><X aria-hidden="true"/></button>
       </div>
