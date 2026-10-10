@@ -56,6 +56,13 @@ html[data-theme="dark"] .ph {
 .ph-hero__facts dt { color: var(--ph-muted); font-size: 12.5px; font-weight: 600; }
 .ph-hero__facts dd { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
 
+/* Foto do hero: a cena de uso real (comparar no corredor), com o painel de
+   menor preço sobreposto como a "tela" que a cliente está consultando. */
+.ph-hero__visual { position: relative; display: grid; }
+.ph-hero__photo { margin: 0; overflow: hidden; aspect-ratio: 4 / 3; border-radius: 24px; background: var(--ph-surface-2); box-shadow: var(--ph-shadow); }
+.ph-hero__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 72% 30%; }
+.ph-hero__visual .ph-board { position: relative; z-index: 1; width: min(400px, 92%); margin: -42% 0 0 -48px; }
+
 /* Painel "Menor preço agora" */
 .ph-board { padding: 20px; border: 1px solid var(--ph-line); border-radius: 20px; background: var(--ph-surface); box-shadow: var(--ph-shadow); }
 .ph-board__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
@@ -170,6 +177,8 @@ html[data-theme="dark"] .ph-thumb--empty { background: var(--ph-surface-2); }
 }
 @media (max-width: 860px) {
   .ph-hero__grid, .ph-band__grid { grid-template-columns: 1fr; }
+  .ph-hero__photo { aspect-ratio: 16 / 10; }
+  .ph-hero__visual .ph-board { width: auto; margin: -56px 12px 0; }
   .ph-merchant { grid-template-columns: auto minmax(0, 1fr); }
   .ph-merchant .ph-btn { grid-column: 1 / -1; }
 }
