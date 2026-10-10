@@ -150,37 +150,58 @@ function LockedOfferCard({ product }: { product: Product }) {
   return (
     <article className="ph-offer ph-offer--locked" aria-hidden="true">
       <span className="ph-offer__link">
-        <span className="ph-offer__media"><ProductThumb product={product} size={160} /></span>
+        <span className="ph-offer__media"><ProductThumb product={product} size={200} /></span>
+        <span className="ph-offer__store"><StoreIcon aria-hidden="true" /><span>{product.establishment || "Estabelecimento"}</span></span>
         <span className="ph-offer__name">{product.name}</span>
-        <span className="ph-offer__meta">{[product.size !== "-" ? product.size : "", product.establishment].filter(Boolean).join(" · ")}</span>
-        <span className="ph-offer__price"><strong>{MASKED_PRICE}</strong><del>{MASKED_PRICE}</del></span>
-        <span className="ph-offer__foot"><span>{product.storeCount > 1 ? `${product.storeCount} lojas` : "1 loja"}</span><span>Atualizado hoje</span></span>
+        {product.size && product.size.trim() !== "-" && <span className="ph-offer__size">{product.size}</span>}
+        <span className="ph-offer__price"><small>a partir de</small><strong>{MASKED_PRICE}</strong><del>{MASKED_PRICE}</del></span>
+        <span className="ph-offer__save"><TrendingDown aria-hidden="true" /> Economize {MASKED_PRICE}</span>
+        <span className="ph-offer__foot"><span>Compare {product.storeCount} lojas</span><ArrowRight aria-hidden="true" /></span>
       </span>
     </article>
+  );
+}
+
+/** Linha da loja: logo pequeno + nome (ou ícone, nunca uma letra). */
+function StoreLine({ name }: { name: string }) {
+  const logo = getStoreLogoUrl(name);
+  const [failed, setFailed] = useState(false);
+  return (
+    <span className="ph-offer__store">
+      {logo && !failed
+        ? <img src={logo} alt="" width="18" height="18" loading="lazy" decoding="async" onError={() => setFailed(true)} />
+        : <StoreIcon aria-hidden="true" />}
+      <span>{name || "Vários estabelecimentos"}</span>
+    </span>
   );
 }
 
 function OfferCard({ product }: { product: Product }) {
   const saving = spread(product);
   const percent = product.maxPrice > 0 ? Math.round((saving / product.maxPrice) * 100) : 0;
-  const freshness = freshnessText(priceFreshness(product.capturedAt, product.category));
+  const freshness = priceFreshness(product.capturedAt, product.category);
+  // "Preço expirado" só confundia: o aviso de frescor aparece apenas quando o preço está em dia.
+  const showFresh = freshness.state !== "expired" && freshness.state !== "aging";
   return (
     <article className="ph-offer">
       <ProductCardActions product={product} className="ph-offer__actions" />
       <Link to={productHref(product)} className="ph-offer__link" aria-label={`Comparar preços de ${product.name}`}>
         <span className="ph-offer__media">
-          <ProductThumb product={product} size={160} />
+          <ProductThumb product={product} size={200} />
           {percent >= 5 && <span className="ph-offer__badge">-{percent}%</span>}
         </span>
+        <StoreLine name={product.establishment} />
         <span className="ph-offer__name">{product.name}</span>
-        <span className="ph-offer__meta">{[product.size !== "-" ? product.size : "", product.establishment].filter(Boolean).join(" · ")}</span>
+        {product.size && product.size.trim() !== "-" && <span className="ph-offer__size">{product.size}</span>}
         <span className="ph-offer__price">
+          <small>a partir de</small>
           <strong>{brl.format(product.minPrice)}</strong>
           {saving > 0 && <del>{brl.format(product.maxPrice)}</del>}
         </span>
+        {saving > 0 && <span className="ph-offer__save"><TrendingDown aria-hidden="true" /> Economize {brl.format(saving)}</span>}
         <span className="ph-offer__foot">
-          <span>{product.storeCount > 1 ? `${product.storeCount} lojas` : "1 loja"}</span>
-          <time dateTime={product.capturedAt}>{freshness}</time>
+          <span>{product.storeCount > 1 ? `Compare ${product.storeCount} lojas` : "1 loja"}</span>
+          {showFresh ? <time dateTime={product.capturedAt}>{freshnessText(freshness)}</time> : <ArrowRight aria-hidden="true" />}
         </span>
       </Link>
     </article>

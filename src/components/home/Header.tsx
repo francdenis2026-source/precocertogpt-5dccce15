@@ -19,6 +19,7 @@ import { OnlinePresence } from "../OnlinePresence";
 import { prefetchRoute } from "../../lib/routePrefetch";
 import { useCurrentProfile } from "../UserAccountExperience";
 import { LiveProductSearch } from "./LiveProductSearch";
+import "./HeaderPro2026.css";
 
 function HeaderThemeToggle() {
   const { theme, toggleTheme } = useSiteTheme();
@@ -124,7 +125,7 @@ export function Header({ products = [] }: { products?: Product[] }) {
               ícone entre 641-860px — sem esta entrada, quem não estava logado
               ficava sem nenhum jeito de chegar em /login no mobile. */}
           {!profile && (
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
+            <Link className="pcx-header__nav-login" to="/login" onClick={() => setMenuOpen(false)}>
               <UserRound aria-hidden="true" />
               <span>Entrar ou criar conta</span>
             </Link>
@@ -178,6 +179,7 @@ export function Header({ products = [] }: { products?: Product[] }) {
               <span>Entrar</span>
             </Link>
           )}
+          {!profile && <Link className="pcx-header__signup" to="/cadastro">Criar conta grátis</Link>}
 
           <button
             className="pcx-header__menu"

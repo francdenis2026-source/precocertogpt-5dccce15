@@ -1,0 +1,92 @@
+/* Cabeçalho (v2): barra limpa, controles com o mesmo desenho e micro-interações
+   consistentes. Só no desktop (>=861px); no celular vale o layout atual. */
+@media (min-width: 861px) {
+  html .pcx-header {
+    --hp-bg: rgb(255 255 255 / 92%);
+    --hp-line: #e1e7ec;
+    --hp-ink: #0f1d2a;
+    --hp-muted: #5a6a78;
+    --hp-hover: #eef2f5;
+    --hp-accent: #0b8a55;
+    --hp-accent-ink: #06603b;
+    --hp-accent-soft: #e3f5ec;
+    background: var(--hp-bg);
+    border-bottom: 1px solid var(--hp-line);
+    box-shadow: none;
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    transition: box-shadow .25s ease, background-color .25s ease;
+  }
+  html[data-theme="dark"] .pcx-header {
+    --hp-bg: rgb(13 21 28 / 92%);
+    --hp-line: #253542;
+    --hp-ink: #ecf2f6;
+    --hp-muted: #9fb0bd;
+    --hp-hover: #1c2a35;
+    --hp-accent: #34c98a;
+    --hp-accent-ink: #6fe0ad;
+    --hp-accent-soft: rgb(52 201 138 / 14%);
+  }
+  html .pcx-header.is-scrolled { box-shadow: 0 10px 30px -18px rgb(15 29 42 / 45%); }
+  html .pcx-header__bar { gap: 8px; }
+
+  /* Marca */
+  html .pcx-header__brand strong { color: var(--hp-ink); letter-spacing: -0.01em; }
+  html .pcx-header__brand small { color: var(--hp-muted); }
+  html .pcx-header__brand img { transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
+
+  /* Navegação: texto simples, sublinhado que desliza no hover e na página atual */
+  html .pcx-header__nav { gap: 2px; }
+  html .pcx-header__nav a { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 9px 12px; border-radius: 10px; background: transparent; color: var(--hp-muted); font-size: 14.5px; font-weight: 600; transition: color .16s ease-out, background-color .16s ease-out; }
+  html .pcx-header__nav a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--hp-accent); transform: scaleX(0); transform-origin: left; transition: transform .28s cubic-bezier(.16, 1, .3, 1); }
+  html .pcx-header__nav a:hover { color: var(--hp-ink); background: var(--hp-hover); }
+  html .pcx-header__nav a:hover::after, html .pcx-header__nav a[aria-current="page"]::after { transform: scaleX(1); }
+  html .pcx-header__nav a[aria-current="page"] { color: var(--hp-ink); background: transparent; }
+  html .pcx-header__nav a svg { width: 16px; height: 16px; opacity: .8; }
+  html .pcx-header__nav .pcx-header__nav-login { display: none; }
+
+  /* Controles de ícone: mesmo círculo, sem borda, foco e clique consistentes */
+  html .pcx-header__icon, html .pcx-header__theme { width: 40px; height: 40px; display: inline-grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--hp-muted); cursor: pointer; transition: background-color .16s ease-out, color .16s ease-out, transform .12s ease-out; }
+  html .pcx-header__icon svg, html .pcx-header__theme svg { width: 19px; height: 19px; }
+  html .pcx-header__icon:hover, html .pcx-header__theme:hover { background: var(--hp-hover); color: var(--hp-ink); }
+  html .pcx-header__icon:active, html .pcx-header__theme:active { transform: scale(.92); }
+  html .pcx-header__theme[data-active-theme] { background: var(--hp-hover); }
+  html .pcx-header :is(a, button):focus-visible { outline: 3px solid var(--hp-accent); outline-offset: 2px; }
+
+  /* Presença online: pílula discreta com ponto verde pulsando */
+  html .pcx-header .ref-online { gap: 7px; padding: 7px 12px; border: 0; border-radius: 999px; background: var(--hp-hover); color: var(--hp-muted); font-size: 12.5px; font-weight: 600; }
+  html .pcx-header .ref-online strong { color: var(--hp-ink); font-weight: 800; }
+  html .pcx-header .ref-online__signal { color: var(--hp-accent); }
+  html .pcx-header .ref-online.is-connecting { opacity: .7; }
+
+  /* Rádio: botão redondo com play verde, sem o anel escuro */
+  html .pcx-header .pc-radio, html .pcx-header .pc-radio__play { border: 0 !important; box-shadow: none !important; background: transparent !important; }
+  html .pcx-header .pc-radio__play { padding: 4px; border-radius: 999px; transition: background-color .16s ease-out, transform .12s ease-out; }
+  html .pcx-header .pc-radio__play:hover { background: var(--hp-hover) !important; }
+  html .pcx-header .pc-radio__play:active { transform: scale(.94); }
+  html .pcx-header .pc-radio__control { width: 32px; height: 32px; border-radius: 50%; background: var(--hp-accent); color: #fff; box-shadow: 0 4px 10px -4px rgb(11 138 85 / 70%); transition: transform .2s cubic-bezier(.16, 1, .3, 1); }
+  html .pcx-header .pc-radio__play:hover .pc-radio__control { transform: scale(1.06); }
+  html .pcx-header .pc-radio.is-playing .pc-radio__control { animation: hp-live 1.8s ease-out infinite; }
+
+  /* Entrar (contorno) e Criar conta (principal) */
+  html .pcx-header__login { height: 40px; padding: 0 16px; border: 1px solid var(--hp-line); border-radius: 12px; background: transparent; color: var(--hp-ink); font-size: 14.5px; font-weight: 700; transition: border-color .16s ease-out, background-color .16s ease-out, transform .12s ease-out; }
+  html .pcx-header__login:hover { border-color: var(--hp-accent); background: var(--hp-hover); }
+  html .pcx-header__login:active { transform: scale(.97); }
+  html .pcx-header__signup { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 12px; background: var(--hp-accent); color: #fff; font-size: 14.5px; font-weight: 800; box-shadow: 0 6px 16px -8px rgb(11 138 85 / 75%); transition: transform .14s ease-out, box-shadow .2s ease, filter .16s ease-out; }
+  html .pcx-header__signup:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 10px 20px -10px rgb(11 138 85 / 80%); }
+  html .pcx-header__signup:active { transform: scale(.97); }
+  html[data-theme="dark"] .pcx-header__signup { color: #052b1b; }
+}
+
+/* Em telas menores só o botão "Criar conta" some (o menu já oferece "Entrar ou criar conta") */
+@media (max-width: 860px) {
+  html .pcx-header__signup { display: none; }
+}
+
+@keyframes hp-live {
+  0% { box-shadow: 0 0 0 0 rgb(52 201 138 / 45%); }
+  100% { box-shadow: 0 0 0 10px rgb(52 201 138 / 0%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html .pcx-header * { transition: none !important; animation: none !important; }
+}
