@@ -30,7 +30,6 @@ import { Footer } from "../components/home/Footer";
 import { Header } from "../components/home/Header";
 import { LiveProductSearch } from "../components/home/LiveProductSearch";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
-import heroPhoto from "../assets/home-2026/hero-profissional-precocerto-2026.jpg";
 import "./HomeProfessionalRedesign2026.css";
 import "./HomePreco2026.css";
 
@@ -192,7 +191,20 @@ export function HomeNew2026() {
 
       <main id="conteudo-principal">
         <section className="ph-hero" aria-labelledby="ph-hero-title">
-          <div className="ph-wrap ph-hero__grid">
+          {/* Foto editorial: parede clara à esquerda recebe o texto sem véu nem
+              vidro; a compra (sacola, arroz, café, leite, celular) fica à direita. */}
+          <img
+            className="ph-hero__bg"
+            src="/editorial-2026/home-shopping-1280.webp"
+            srcSet="/editorial-2026/home-shopping-640.webp 640w, /editorial-2026/home-shopping-1280.webp 1280w"
+            sizes="100vw"
+            alt=""
+            width="1280"
+            height="853"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <div className="ph-wrap ph-hero__inner">
             <div className="ph-hero__copy">
               <p className="ph-hero__place"><MapPin aria-hidden="true" /> Feijó, Acre</p>
               <h1 id="ph-hero-title">Quanto custa em Feijó <span>hoje?</span></h1>
@@ -209,14 +221,11 @@ export function HomeNew2026() {
                 <div><dt>Última atualização</dt><dd>{latest ? latest.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) : "—"}</dd></div>
               </dl>
             </div>
-            <div className="ph-hero__visual">
-              <figure className="ph-hero__photo">
-                <img src={heroPhoto} alt="Cliente comparando o preço de um produto no celular dentro do mercado" width="1280" height="720" fetchPriority="high" decoding="async" />
-              </figure>
-              <BestPriceBoard products={board} loading={loading} />
-            </div>
           </div>
         </section>
+        <div className="ph-wrap ph-board-strip">
+          <BestPriceBoard products={board} loading={loading} />
+        </div>
 
         {categories.length > 0 && (
           <section className="ph-section ph-wrap" aria-labelledby="ph-cat-title">
