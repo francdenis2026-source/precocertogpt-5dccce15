@@ -1,0 +1,16 @@
+/* Menus nativos (<select>) no modo escuro: o popup do navegador herdava fundo
+   claro com letras claras (ilegível). Força o esquema escuro no controle e
+   cores explícitas nas opções, em todas as páginas. */
+html[data-theme="dark"] select,
+html[data-theme="dark"] select option,
+html[data-theme="dark"] select optgroup { color-scheme: dark; }
+html[data-theme="dark"] select option,
+html[data-theme="dark"] select optgroup { background-color: #15212b; color: #ecf2f6; }
+html[data-theme="dark"] select option:disabled { color: #7f909d; }
+html[data-theme="dark"] select option:checked,
+html[data-theme="dark"] select option:hover { background-color: #0b8a55; color: #fff; }
+
+html[data-theme="light"] select,
+html:not([data-theme]) select { color-scheme: light; }
+html[data-theme="light"] select option,
+html:not([data-theme]) select option { background-color: #fff; color: #10202c; }
