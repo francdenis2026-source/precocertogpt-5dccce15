@@ -23,7 +23,7 @@
   --pc-color-border: var(--brand-line, #d9e2ef);
   --pc-color-primary: var(--brand-primary, #2563eb);
   --pc-color-primary-foreground: var(--brand-onPrimary, #fff);
-  --pc-color-primary-hover: var(--brand-navy, #091c36);
+  --pc-color-primary-hover: var(--brand-primaryText, #1d4ed8);
   --pc-color-accent: var(--brand-primarySoft, #e8f0ff);
   --pc-color-accent-foreground: var(--brand-primaryText, #1d4ed8);
   --pc-color-success: #0b9568;
@@ -39,7 +39,7 @@ html[data-theme="dark"] {
   --pc-color-border: var(--brand-line, #293b52);
   --pc-color-primary: var(--brand-primary, #60a5fa);
   --pc-color-primary-foreground: var(--brand-onPrimary, #08111f);
-  --pc-color-primary-hover: var(--brand-navy, #071426);
+  --pc-color-primary-hover: var(--brand-primaryText, #93c5fd);
   --pc-color-accent: var(--brand-primarySoft, #132d4f);
   --pc-color-accent-foreground: var(--brand-primaryText, #93c5fd);
   --pc-color-success: #42c99a;
