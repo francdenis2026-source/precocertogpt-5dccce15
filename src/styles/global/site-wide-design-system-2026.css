@@ -1272,8 +1272,8 @@ html:root body .pdl-similar b {
 }
 
 html:root body .pdl-price__save {
-  background: var(--brand-primarySoft);
-  color: var(--brand-primaryText);
+  background: color-mix(in srgb, var(--pc-color-success) 14%, var(--brand-surface));
+  color: var(--pc-color-success);
 }
 
 html:root body .pdl-facts span,
@@ -2248,4 +2248,16 @@ html:root body .pc-offers__badge {
 html:root body .pc-offers__link:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
   outline-offset: 2px;
+}
+
+
+/* Economia e desconto são estados positivos: usam verde semântico,
+   enquanto navegação e ações principais continuam azuis. */
+html:root body .pc-offers__badge {
+  background: var(--pc-color-success);
+  color: #fff;
+}
+
+html[data-theme="dark"] body .pc-offers__badge {
+  color: #08111f;
 }
