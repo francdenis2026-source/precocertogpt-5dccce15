@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { formatCategoryLabel } from "../lib/categoryLabels";
 import {
   ArrowLeft, ArrowRight, BadgeCheck, CalendarDays, ChevronRight, Factory, Heart, Home,
   Info, Layers3, MapPin, Package, PackageSearch, PiggyBank, RadioTower, RefreshCw,
@@ -255,7 +256,7 @@ export function ProductDetailLive2026() {
           <nav className="pdl-crumbs" aria-label="Navegação estrutural">
             <Link to="/"><Home aria-hidden="true" /><span>Início</span></Link>
             <ChevronRight aria-hidden="true" />
-            <Link to={`/buscar?q=${encodeURIComponent(product.category)}`}>{product.category}</Link>
+            <Link to={`/buscar?q=${encodeURIComponent(product.category)}`}>{formatCategoryLabel(product.category)}</Link>
             <ChevronRight aria-hidden="true" />
             <span>{product.name}</span>
           </nav>
@@ -268,10 +269,10 @@ export function ProductDetailLive2026() {
                   {syncing ? "Sincronizando com o banco…" : single ? "Preço monitorado em tempo real" : `Comparando ${storeOffers.length} estabelecimentos`}
                   {liveAt && !syncing && <small>· {formatClock(liveAt)}</small>}
                 </span>
-                <span className="pdl-chip"><Tag aria-hidden="true" />{cleanValue(product.brand, product.category)}</span>
+                <span className="pdl-chip"><Tag aria-hidden="true" />{cleanValue(product.brand, formatCategoryLabel(product.category))}</span>
               </div>
               <h1>{product.name}</h1>
-              <p>{cleanValue(product.size, "") || cleanValue(product.unit, "") || "Embalagem não informada"} · {product.category}</p>
+              <p>{cleanValue(product.size, "") || cleanValue(product.unit, "") || "Embalagem não informada"} · {formatCategoryLabel(product.category)}</p>
 
               <div className="pdl-price">
                 <div>
@@ -368,7 +369,7 @@ export function ProductDetailLive2026() {
               <dl>
                 <div><dt><Tag aria-hidden="true" />Marca</dt><dd>{cleanValue(product.brand)}</dd></div>
                 <div><dt><Factory aria-hidden="true" />Fabricante</dt><dd>{cleanValue(extra.manufacturer)}</dd></div>
-                <div><dt><Layers3 aria-hidden="true" />Categoria</dt><dd>{product.category}</dd></div>
+                <div><dt><Layers3 aria-hidden="true" />Categoria</dt><dd>{formatCategoryLabel(product.category)}</dd></div>
                 <div><dt><Package aria-hidden="true" />Embalagem</dt><dd>{cleanValue(product.size, "") || cleanValue(product.unit, "") || "Não informada"}</dd></div>
                 <div><dt><BadgeCheck aria-hidden="true" />Código de barras</dt><dd>{cleanValue(extra.barcode || product.barcode)}</dd></div>
                 <div><dt><CalendarDays aria-hidden="true" />Atualizado</dt><dd>{formatDate(product.updated_at || product.capturedAt)}</dd></div>
