@@ -328,3 +328,50 @@ html[data-theme="dark"] .ph .ph-hero__search .pc26-live-search__icon { color: #0
   .ph .ph-lock__login:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .ph :is(a, button, input):focus-visible { outline: 3px solid var(--ph-save); outline-offset: 2px; }
+
+
+/* Refinamento visual 2026: ritmo, leitura e controles acessíveis.
+   Escopo restrito à homepage atual; preserva catálogo e autenticação. */
+.ph { --ph-radius: 18px; }
+.ph-section__head { gap: 20px; }
+.ph-section__head h2 { line-height: 1.18; text-wrap: balance; }
+.ph-board__row:focus-visible,
+.ph-cats a:focus-visible,
+.ph-offer__link:focus-visible { outline-offset: 3px; }
+.ph-board__info strong { line-height: 1.4; }
+.ph-offer__name { overflow-wrap: anywhere; }
+.ph-offer__price strong { font-variant-numeric: tabular-nums; }
+.ph-hero__search { max-width: 560px; }
+.ph-hero__quick a { min-height: 40px; }
+.ph-cats a { min-height: 48px; }
+.ph-offer__foot { min-height: 36px; }
+@media (min-width: 681px) and (max-width: 1024px) {
+  .ph-offers { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ph-board-strip .ph-board__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ph-board-strip .ph-board__list li + li { border-left: 0; }
+}
+@media (max-width: 680px) {
+  .ph-hero { min-height: 0; padding-bottom: 72px; }
+  .ph-hero__copy { max-width: 100%; }
+  .ph-hero h1 { line-height: 1.08; }
+  .ph-hero__quick { gap: 7px; }
+  .ph-hero__quick a { min-height: 40px; }
+  .ph-board-strip { margin-top: -36px; }
+  .ph-board { padding: 14px; border-radius: 18px; }
+  .ph-board-strip .ph-board__list { grid-template-columns: 1fr; gap: 0; }
+  .ph-board-strip .ph-board__list li + li { border-left: 0; border-top: 1px solid var(--ph-line); }
+  .ph-board-strip .ph-board__row { grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-rows: auto; align-items: center; padding: 11px 4px; }
+  .ph-board-strip .ph-board__row .ph-thumb { grid-row: auto; }
+  .ph-board-strip .ph-board__price { grid-column: auto; display: grid; justify-items: end; }
+  .ph-board__price strong { white-space: nowrap; }
+  .ph-section { padding-top: 38px; }
+  .ph-section__head { align-items: flex-start; gap: 12px; }
+  .ph-section__head > a { font-size: 13px; }
+  .ph-offer__name { min-height: 2.6em; }
+  .ph-offer__price strong { font-size: clamp(1.12rem, 4.7vw, 1.35rem); }
+  .ph-lock__card { padding: 20px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ph .ph-offer, .ph .ph-offer__media img,
+  .ph .ph-btn, .ph .ph-cats a { transition: none !important; }
+}
