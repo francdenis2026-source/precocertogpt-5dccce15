@@ -35,10 +35,9 @@
 .adm-acc__table .spin { animation: adm-acc-spin 0.9s linear infinite; }
 @keyframes adm-acc-spin { to { transform: rotate(360deg); } }
 
-@media (prefers-color-scheme: dark) {
-  .adm-acc__pill--ok { background: rgba(20, 108, 58, 0.22); border-color: rgba(166, 227, 189, 0.4); color: #a6e3bd; }
-  .adm-acc__pill--warn { background: rgba(122, 83, 0, 0.25); border-color: rgba(242, 212, 138, 0.4); color: #f2d48a; }
-  .adm-acc__pill--bad { background: rgba(143, 48, 41, 0.25); border-color: rgba(239, 193, 189, 0.4); color: #efc1bd; }
-  .adm-acc__actions .adm-acc__danger, .adm-acc__actions .adm-acc__danger:hover:not(:disabled) { color: #f4a49b; background: transparent; }
-}
+html[data-theme="dark"] .adm-acc__pill--ok { background: rgba(20, 108, 58, 0.22); border-color: rgba(166, 227, 189, 0.4); color: #a6e3bd; }
+html[data-theme="dark"] .adm-acc__pill--warn { background: rgba(122, 83, 0, 0.25); border-color: rgba(242, 212, 138, 0.4); color: #f2d48a; }
+html[data-theme="dark"] .adm-acc__pill--bad { background: rgba(143, 48, 41, 0.25); border-color: rgba(239, 193, 189, 0.4); color: #efc1bd; }
+html[data-theme="dark"] .adm-acc__actions .adm-acc__danger,
+html[data-theme="dark"] .adm-acc__actions .adm-acc__danger:hover:not(:disabled) { color: #f4a49b; background: transparent; }
 @media (prefers-reduced-motion: reduce) { .adm-acc__table .spin { animation: none; } }
