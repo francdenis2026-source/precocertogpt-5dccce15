@@ -41,6 +41,31 @@ const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" 
 const integer = new Intl.NumberFormat("pt-BR");
 const QUICK_TERMS = ["Arroz", "Feijão", "Café", "Leite", "Açúcar", "Óleo"];
 
+const CATEGORY_LABELS: Record<string, string> = {
+  limpeza: "Limpeza",
+  higiene: "Higiene",
+  mercearia: "Mercearia",
+  laticinios: "Laticínios",
+  cabelo: "Cabelo",
+  condimentos: "Condimentos",
+  biscoitos: "Biscoitos",
+  bebidas_em_po: "Bebidas em pó",
+  bebidas: "Bebidas",
+  outros: "Outros",
+};
+
+function categoryLabel(value: string) {
+  const normalized = value.trim().toLocaleLowerCase("pt-BR");
+  if (CATEGORY_LABELS[normalized]) return CATEGORY_LABELS[normalized];
+  return normalized
+    .replace(/[_-]+/g, " ")
+    .replace(/\\s+/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map(word => word.charAt(0).toLocaleUpperCase("pt-BR") + word.slice(1))
+    .join(" ");
+}
+
 const productHref = (product: Product) => `/produto/${product.slug || product.id}`;
 const spread = (product: Product) => Math.max(0, product.maxPrice - product.minPrice);
 
@@ -324,7 +349,7 @@ export function HomeNew2026() {
             </header>
             <ul className="ph-cats">
               {categories.map(([name, count]) => (
-                <li key={name}><Link to={`/buscar?categoria=${encodeURIComponent(name)}`}><span>{name}</span><small>{integer.format(count)}</small></Link></li>
+                <li key={name}><Link to={`/buscar?categoria=${encodeURIComponent(name)}`}><span>{categoryLabel(name)}</span><small>{integer.format(count)}</small></Link></li>
               ))}
             </ul>
           </section>
