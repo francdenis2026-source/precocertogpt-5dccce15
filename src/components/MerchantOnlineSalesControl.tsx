@@ -80,7 +80,7 @@ export function MerchantOnlineSalesControl() {
   // -- mandar pra "/lojista" de novo só duplicava o cadastro.
   if (!membership) return <main style={s.center}><Store size={36}/><h1>Vendas online</h1><p>Seu cadastro foi aprovado, mas o acesso ao painel ainda não foi ativado pela nossa equipe.</p><a href="/fale-conosco">Falar com o PreçoCerto</a></main>;
 
-  return <main style={s.page}><div style={s.container}>
+  return <main className="pc-merchant-page pc-merchant-online" style={s.page}><div style={s.container}>
     <a href="/painel-lojista" style={s.back}><ArrowLeft size={16}/> Voltar ao painel</a>
     <header style={s.header}>
       <div><span style={s.eyebrow}>PUBLICAÇÃO COMERCIAL</span><h1 style={s.h1}>Vendas online</h1><p style={s.lead}>O Preço Certo só libera “Comprar” quando a operação está realmente pronta. A comparação de preços continua funcionando mesmo com vendas pausadas.</p></div>
