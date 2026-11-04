@@ -68,19 +68,33 @@
 .pc-offers__media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 8%;
+  object-fit: contain;
   display: block;
+  background: var(--px-surface, #fff);
 }
 .pc-offers__media-fallback {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   width: 100%;
   height: 100%;
+  padding: 10px;
+  background: linear-gradient(145deg, var(--px-surface-soft), var(--px-surface));
   color: var(--px-muted);
+  text-align: center;
 }
 .pc-offers__media-fallback svg {
   width: 26px;
   height: 26px;
+  opacity: .72;
+}
+.pc-offers__media-fallback small {
+  font-size: .68rem;
+  line-height: 1.25;
+  font-weight: 700;
 }
 .pc-offers__badge {
   position: absolute;
