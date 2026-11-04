@@ -59,7 +59,7 @@ function categoryLabel(value: string) {
   if (CATEGORY_LABELS[normalized]) return CATEGORY_LABELS[normalized];
   return normalized
     .replace(/[_-]+/g, " ")
-    .replace(/\\s+/g, " ")
+    .replace(/\s+/g, " ")
     .split(" ")
     .filter(Boolean)
     .map(word => word.charAt(0).toLocaleUpperCase("pt-BR") + word.slice(1))
