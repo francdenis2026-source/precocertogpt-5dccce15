@@ -228,15 +228,15 @@ export function MerchantDashboard() {
   if (!membership) return <main style={styles.center}><Store size={42} /><h1>Painel do Comerciante</h1><p>Seu cadastro foi aprovado, mas o acesso ao painel ainda não foi ativado pela nossa equipe. Fale com o PreçoCerto para concluir a liberação.</p><a href="/fale-conosco" style={styles.primaryButton}>Falar com o PreçoCerto</a></main>;
 
   return (
-    <div style={styles.shell}>
-      <aside style={styles.sidebar}>
+    <div className="pc-merchant-shell" style={styles.shell}>
+      <aside className="pc-merchant-sidebar" style={styles.sidebar}>
         <a href="/" style={styles.brand}><img src="/logo-preco-certo-inversa.svg" alt="Preço Certo" style={{ width: 150 }} /></a>
         <div style={styles.storeIdentity}><div style={styles.storeAvatar}><Store size={20} /></div><div><strong>{merchantName}</strong><small style={styles.sidebarMuted}>{profile.label} · {merchant?.plan_code || "Plano ativo"}</small></div></div>
         <nav style={styles.nav}>{nav.map(([key, label, Icon]) => <button key={key} onClick={() => setTab(key)} style={{ ...styles.navButton, ...(tab === key ? styles.navActive : {}) }}><Icon size={18} /> {label}</button>)}</nav>
         <a href="/" style={styles.backLink}>← Voltar ao Preço Certo</a>
       </aside>
 
-      <main style={styles.main}>
+      <main className="pc-merchant-main" style={styles.main}>
         <header style={styles.header}><div><span style={styles.eyebrow}>CENTRAL DO COMERCIANTE · {profile.shortLabel.toUpperCase()}</span><h1 style={styles.h1}>{tab === "overview" ? "Operação em tempo real" : nav.find(x => x[0] === tab)?.[1]}</h1><p style={styles.muted}>{merchantName} · {profile.operationalStages.join(" → ")}</p></div><button style={styles.secondaryButton} onClick={() => void refresh()}><RefreshCcw size={16} /> Atualizar</button></header>
         {notice && <div style={styles.notice}>{notice}<button onClick={() => setNotice("")} style={styles.close}>×</button></div>}
 
