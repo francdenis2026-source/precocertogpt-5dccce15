@@ -64,7 +64,7 @@ export function ProductCardActions({
       {showFavorite && (
         <button
           type="button"
-          className={`pca-btn${favorite ? " is-active" : ""}`}
+          className={`pca-btn${favorite ? " is-active is-favorite" : ""}`}
           onClick={onFavorite}
           aria-label={favorite ? "Remover dos favoritos" : "Favoritar"}
           aria-pressed={favorite}
@@ -73,7 +73,7 @@ export function ProductCardActions({
         </button>
       )}
       {showCart && (
-        <button type="button" className={`pca-btn${added ? " is-active" : ""}`} onClick={(event) => void onAdd(event)} aria-label="Adicionar à cesta" disabled={addBusy}>
+        <button type="button" className={`pca-btn${added ? " is-active is-added" : ""}`} onClick={(event) => void onAdd(event)} aria-label="Adicionar à cesta" disabled={addBusy}>
           {addBusy ? <LoaderCircle aria-hidden="true" className="pca-spin" /> : added ? <Check aria-hidden="true" /> : <ShoppingBasket aria-hidden="true" />}
         </button>
       )}
