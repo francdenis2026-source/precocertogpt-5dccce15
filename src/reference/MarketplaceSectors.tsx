@@ -8,6 +8,7 @@ import { getStoreLogoUrl } from "../data/storeLogos";
 import { sectorHeroImage } from "../data/sectorHeroImages";
 import { AppDock, PublicHeader } from "./PublicChrome";
 import { CategoryOffers } from "../components/offers/CategoryOffers";
+import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
 import { useFavorites } from "../features/favorites/FavoritesProvider";
 import { usePriceVisibility } from "../hooks/usePriceVisibility";
 import "./PharmacyDirectory.css";
@@ -205,6 +206,7 @@ function SectorProductList({ catalog, sector }: { catalog: CatalogPayload | null
     <div className="sector-product-list__grid">
       {shownProducts.map(product => (
         <Link key={product.id} className="sector-product-card" to={`/produto/${product.slug || product.id}`}>
+          <span className="sector-product-card__media"><CatalogProductThumb product={product} size="md" /></span>
           <small>{[product.brand, product.size].filter(Boolean).join(" · ") || sector.shortLabel}</small>
           <strong>{product.name}</strong>
           <span className="sector-product-card__store"><Store aria-hidden="true" /> {product.establishment}</span>
@@ -213,6 +215,7 @@ function SectorProductList({ catalog, sector }: { catalog: CatalogPayload | null
       ))}
       {teaserProducts.map(product => (
         <Link key={product.id} className="sector-product-card sector-product-card--teaser" to={signupHref} aria-label={`Crie sua conta para ver o preço de ${product.name}`}>
+          <span className="sector-product-card__media"><CatalogProductThumb product={product} size="md" /></span>
           <small>{[product.brand, product.size].filter(Boolean).join(" · ") || sector.shortLabel}</small>
           <strong>{product.name}</strong>
           <span className="sector-product-card__store"><Store aria-hidden="true" /> {product.establishment}</span>
