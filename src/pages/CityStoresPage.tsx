@@ -2,7 +2,7 @@ import establishmentsHero from "../assets/sectors-2026/sector-markets-v3.jpg";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Building2, Home, MapPin, Store, Tag, TrendingDown } from "lucide-react";
+import { ArrowLeft, Building2, Home, MapPin, PackageSearch, Store, Tag, TrendingDown } from "lucide-react";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { CatalogPayload, Product, StoreRow } from "../data/catalog";
 import { CategoryOffers } from "../components/offers/CategoryOffers";
