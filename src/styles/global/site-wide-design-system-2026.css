@@ -816,3 +816,149 @@ html:root body :is(.ref-page, .search26-page, .sector-hub, .store-pro-page, .pdl
     flex-wrap: wrap !important;
   }
 }
+
+
+/* Diretório por cidade e páginas de estabelecimentos parceiros:
+   acabamento consistente sem apagar a identidade de cada negócio. */
+html:root body .city-page {
+  width: min(1240px, calc(100% - clamp(24px, 4vw, 56px)));
+  margin-inline: auto;
+  color: var(--brand-ink);
+  font-family: var(--pc-font-body);
+}
+
+html:root body .city-page :is(.city-card, .city-store-list, .city-section) {
+  border: 1px solid var(--brand-line);
+  border-radius: 18px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .city-page .city-hero--editorial {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+  border-radius: 24px;
+  box-shadow: var(--pc-card-shadow-hover);
+}
+
+html:root body .city-page :is(.city-card, .city-store-list) {
+  padding: clamp(14px, 2vw, 20px);
+}
+
+html:root body .city-page :is(.city-card, .city-store-list, .city-product-grid) {
+  gap: 14px;
+}
+
+html:root body .city-page :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.03em;
+}
+
+html:root body .city-page .city-back a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+  color: var(--brand-primaryText);
+  font-weight: 750;
+}
+
+html:root body :is(.kelly-page, .sanduba-page) {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+  font-family: var(--pc-font-body);
+}
+
+html:root body :is(.kelly-page, .sanduba-page) .kelly-shell {
+  width: min(1240px, calc(100% - clamp(24px, 4vw, 56px)));
+  margin-inline: auto;
+}
+
+html:root body :is(.kelly-info__card, .kelly-menu-group, .kelly-menu-list__item-btn) {
+  border-radius: 16px;
+}
+
+html:root body :is(.kelly-menu-group, .kelly-info__card) {
+  border-color: var(--brand-line);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body :is(.kelly-page, .sanduba-page) :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.025em;
+}
+
+html:root body .pc-about-page .pc-about__section,
+html:root body .pc-about-page :is(.pc-about__figure, .pc-about__author, .pc-about__cta) {
+  border-radius: 20px;
+}
+
+html:root body .pc-about-page .pc-about__grid > article {
+  border: 1px solid var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-about-page .pc-about__cta {
+  border: 1px solid var(--brand-line);
+}
+
+/* Editorias especiais preservam as paletas e a direção de arte próprias;
+   apenas controles e foco recebem comportamento coerente com o restante. */
+html:root body :is(.fx-page, .db-page) :is(a, button):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+html:root body :is(.fx-page, .db-page) :is(.fx-btn, .db-btn) {
+  min-height: 42px;
+  border-radius: 12px;
+  font-family: var(--pc-font-body);
+  font-weight: 750;
+}
+
+/* Studio audiovisual e gestão administrativa complementar. */
+html:root body .avs-shell {
+  min-height: 100dvh;
+  padding: clamp(16px, 3vw, 32px);
+}
+
+html:root body .avs-hero {
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+html:root body :is(.avs-block, .adm-lic__card, .adm-gate-card) {
+  border-radius: 18px;
+}
+
+html:root body .adm-lic__table th {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--brand-line);
+}
+
+html:root body .adm-lic__table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--brand-line);
+}
+
+@media (max-width: 760px) {
+  html:root body .city-page {
+    width: calc(100% - 24px);
+  }
+
+  html:root body .city-page :is(.city-grid, .city-product-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html:root body :is(.kelly-page, .sanduba-page) .kelly-shell {
+    width: calc(100% - 24px);
+  }
+}
+
+@media (max-width: 480px) {
+  html:root body .city-page :is(.city-grid, .city-product-grid) {
+    grid-template-columns: 1fr;
+  }
+}
