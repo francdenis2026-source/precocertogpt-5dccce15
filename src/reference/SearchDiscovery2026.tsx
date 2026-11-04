@@ -16,6 +16,7 @@ import { addToBasketWithAuthGuard } from "../lib/basket";
 import { useProductOnlineSales } from "../lib/onlineSalesAvailability";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
 import { trackSearch } from "../lib/analytics";
+import { formatCategoryLabel } from "../lib/categoryLabels";
 import "./SearchDiscovery2026.css";
 import "./CompactViewportPages.css";
 
@@ -91,7 +92,7 @@ function ProductComparisonModal({product,onClose}:{product:Product;onClose:()=>v
   };
  },[onClose]);
  const meaningful=(value?:string)=>{const v=(value||"").trim();return v&&v!=="-"?v:undefined};
- const eyebrow=[meaningful(product.category),meaningful(product.brand)].filter(Boolean).join(" · ");
+ const eyebrow=[meaningful(formatCategoryLabel(product.category)),meaningful(product.brand)].filter(Boolean).join(" · ");
  const descriptor=[meaningful(product.size)||meaningful(product.unit),`${offers.length} ${offers.length===1?"estabelecimento":"estabelecimentos"}`].filter(Boolean).join(" · ");
  return <div className="search26-modal" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)onClose()}}>
   <section ref={dialogRef} className="search26-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="search26-modal-title" aria-describedby="search26-modal-description">
@@ -232,7 +233,7 @@ function SearchFiltersModal({
      <div className="sfm-section-row">
       <div className="sfm-section">
        <h3>Categoria</h3>
-       <div className="sfm-select"><select value={category} onChange={e=>setCategory(e.target.value)}><option value="all">Todas</option>{categories.map(c=><option key={c}>{c}</option>)}</select><ChevronDown aria-hidden="true"/></div>
+       <div className="sfm-select"><select value={category} onChange={e=>setCategory(e.target.value)}><option value="all">Todas</option>{categories.map(c=><option key={c} value={c}>{formatCategoryLabel(c)}</option>)}</select><ChevronDown aria-hidden="true"/></div>
       </div>
       <div className="sfm-section">
        <h3>Bairro</h3>
@@ -361,7 +362,7 @@ export function SearchDiscovery2026(){
    activeFilters={activeFilters} resultCount={results.length}
    onApply={applyFilters} onClose={()=>setFiltersOpen(false)} onClearAll={clearAllFilters}
   />}
- {!hasRequest?<section className="search26-start"><div className="search26-start__intro"><div className="search26-start-icon"><PackageSearch/></div><div><h2>Pesquise ou abra uma comparação.</h2><p>Escolha uma sugestão abaixo ou use os filtros para chegar direto ao que procura.</p></div><div className="search26-suggestions"><button onClick={()=>{setQuery("arroz");setAppliedQuery("arroz")}}>Arroz</button><button onClick={()=>{setQuery("café");setAppliedQuery("café")}}>Café</button><button onClick={()=>setFiltersOpen(true)}>Usar filtros</button></div></div>{featuredProducts.length>0&&<div className="search26-featured"><header><div><h3>Comparações rápidas</h3></div><small>Clique para ver preços e lojas</small></header><div>{featuredProducts.map(product=><div role="button" tabIndex={0} className="search26-featured-card" key={product.id} {...openProductOnActivate(product)}><div className="search26-thumb"><ProductThumb product={product}/><ProductCardActions product={product} className="pca-row--overlay pca-row--compact"/></div><span><small>{product.category}</small><strong>{product.name}</strong><em>{product.storeCount||product.offers?.length||1} lojas</em></span><b>{brl.format(product.minPrice)}</b><ArrowRight aria-hidden="true"/></div>)}</div></div>}</section>:
+ {!hasRequest?<section className="search26-start"><div className="search26-start__intro"><div className="search26-start-icon"><PackageSearch/></div><div><h2>Pesquise ou abra uma comparação.</h2><p>Escolha uma sugestão abaixo ou use os filtros para chegar direto ao que procura.</p></div><div className="search26-suggestions"><button onClick={()=>{setQuery("arroz");setAppliedQuery("arroz")}}>Arroz</button><button onClick={()=>{setQuery("café");setAppliedQuery("café")}}>Café</button><button onClick={()=>setFiltersOpen(true)}>Usar filtros</button></div></div>{featuredProducts.length>0&&<div className="search26-featured"><header><div><h3>Comparações rápidas</h3></div><small>Clique para ver preços e lojas</small></header><div>{featuredProducts.map(product=><div role="button" tabIndex={0} className="search26-featured-card" key={product.id} {...openProductOnActivate(product)}><div className="search26-thumb"><ProductThumb product={product}/><ProductCardActions product={product} className="pca-row--overlay pca-row--compact"/></div><span><small>{formatCategoryLabel(product.category)}</small><strong>{product.name}</strong><em>{product.storeCount||product.offers?.length||1} lojas</em></span><b>{brl.format(product.minPrice)}</b><ArrowRight aria-hidden="true"/></div>)}</div></div>}</section>:
  <section className="search26-results"><header><div><h2 aria-live="polite">{loading?"Consultando catálogo…":`${results.length} ${results.length===1?"resultado":"resultados"}`}</h2></div><small>Selecione um produto para comparar preços</small></header>{!loading&&results.length>0?(()=>{
   const pageCount=Math.max(1,Math.ceil(results.length/PAGE_SIZE));
   const safePage=Math.min(page,pageCount);
@@ -374,7 +375,7 @@ export function SearchDiscovery2026(){
   const signupHref=`/cadastro?redirect=${encodeURIComponent(`${location.pathname}${location.search}`)}`;
   return <>
    <div className="search26-grid">
-    {shownResults.map(product=><div role="button" tabIndex={0} className="search26-card ref-catalog-card" key={product.id} {...openProductOnActivate(product)} aria-haspopup="dialog"><div className="search26-thumb"><ProductThumb product={product}/><ProductCardActions product={product} className="pca-row--overlay pca-row--compact"/></div><div className="search26-copy"><small>{product.category} · {product.brand}</small><strong>{product.name}</strong><span><Store/>{product.establishment}<em>{product.neighborhood}</em></span></div><div className="search26-price"><small>menor preço</small><strong>{brl.format(product.minPrice)}</strong><em>{product.storeCount||product.offers?.length||1} {(product.storeCount||product.offers?.length||1)===1?"estabelecimento":"estabelecimentos"}</em></div><ArrowRight/></div>)}
+    {shownResults.map(product=><div role="button" tabIndex={0} className="search26-card ref-catalog-card" key={product.id} {...openProductOnActivate(product)} aria-haspopup="dialog"><div className="search26-thumb"><ProductThumb product={product}/><ProductCardActions product={product} className="pca-row--overlay pca-row--compact"/></div><div className="search26-copy"><small>{formatCategoryLabel(product.category)} · {product.brand}</small><strong>{product.name}</strong><span><Store/>{product.establishment}<em>{product.neighborhood}</em></span></div><div className="search26-price"><small>menor preço</small><strong>{brl.format(product.minPrice)}</strong><em>{product.storeCount||product.offers?.length||1} {(product.storeCount||product.offers?.length||1)===1?"estabelecimento":"estabelecimentos"}</em></div><ArrowRight/></div>)}
     {teaserResults.map(product=><Link to={signupHref} className="search26-card search26-card--teaser" key={product.id} aria-label={`Crie sua conta para ver o preço de ${product.name}`}><div className="search26-thumb"><ProductThumb product={product}/></div><div className="search26-copy"><small>{product.category} · {product.brand}</small><strong>{product.name}</strong><span><Store/>{product.establishment}<em>{product.neighborhood}</em></span></div><div className="search26-price search26-price--blurred"><small>menor preço</small><strong>{brl.format(product.minPrice)}</strong><em>{product.storeCount||product.offers?.length||1} lojas</em></div><i className="search26-card__lock"><LockKeyhole aria-hidden="true"/></i></Link>)}
    </div>
    {lockedCount>0?<div className="search26-gate"><div className="search26-gate__icon"><Sparkles aria-hidden="true"/></div><div className="search26-gate__copy"><h3>Veja os outros {lockedCount} {lockedCount===1?"preço":"preços"} desta busca</h3><p>Visitantes veem uma prévia do catálogo. Crie uma conta gratuita para comparar 100% dos preços e estabelecimentos de Feijó.</p></div><div className="search26-gate__actions"><Link className="pc-btn pc-btn--primary" to={signupHref}><UserPlus aria-hidden="true"/> Criar conta grátis</Link><Link className="search26-gate__login" to={`/login?redirect=${encodeURIComponent(`${location.pathname}${location.search}`)}`}>Já tenho conta</Link></div></div>:pageCount>1&&<nav className="store-pro-pagination" aria-label="Paginação dos resultados">
