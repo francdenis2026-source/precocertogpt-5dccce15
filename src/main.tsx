@@ -115,3 +115,5 @@ import "./styles/global/public-pages-layout-2026.css";
 
 import "./styles/global/campaign-heroes-2026.css";
 import "./styles/global/native-select-contrast-2026.css";
+
+import "./styles/global/site-wide-design-system-2026.css";
