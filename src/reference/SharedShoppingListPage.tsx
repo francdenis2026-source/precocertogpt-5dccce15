@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CheckCircle2, ListChecks, LoaderCircle, ShieldAlert } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { formatCategoryLabel } from "../lib/categoryLabels";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { Product } from "../data/catalog";
 import { PublicFooter, PublicHeader } from "./PublicChrome";
@@ -98,7 +99,7 @@ export function SharedShoppingListPage() {
             <input type="checkbox" checked={item.purchased} onChange={e => void togglePurchased(item.productId, e.target.checked)} />
           </label>
           <div className="pc-lists-item__product"><span className="pc-lists-thumb"><CatalogProductThumb product={product} size="sm" /></span>
-            <span><small>{product.category}</small><strong>{product.name}</strong><em>{[product.brand, product.size].filter(Boolean).join(" · ")}</em></span>
+            <span><small>{formatCategoryLabel(product.category)}</small><strong>{product.name}</strong><em>{[product.brand, product.size].filter(Boolean).join(" · ")}</em></span>
           </div>
           <div className="pc-lists-item__qty"><strong>{item.quantity}x</strong></div>
           <div className="pc-lists-item__price"><strong>{brl.format(product.minPrice)}</strong><small>{product.establishment || "Comércio local"}</small></div>
