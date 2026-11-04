@@ -123,3 +123,30 @@ html[data-theme="dark"] .ref-stores-page .ref-stores-hero__copy > p { margin: 0 
     min-height: 44px !important;
   }
 }
+
+
+/* O mapa do diretório ficava permanentemente oculto no celular, inclusive
+   quando o usuário tocava em "Mostrar no mapa". Só o painel de um comércio
+   selecionado é exibido, preservando o espaço da lista na navegação inicial. */
+@media (max-width: 680px) {
+  .ref-stores-page .ref-stores-map.is-selected {
+    display: block !important;
+    position: relative;
+    top: auto;
+    grid-row: auto;
+    margin-top: 12px;
+    border: 1px solid var(--pc-border);
+    border-radius: 15px;
+    background: var(--pc-surface);
+    scroll-margin-top: 72px;
+  }
+
+  .ref-stores-page .ref-stores-map.is-selected iframe {
+    height: 240px;
+  }
+
+  .ref-stores-page .ref-stores-map.is-selected > a {
+    min-height: 44px;
+    font-size: 12px;
+  }
+}
