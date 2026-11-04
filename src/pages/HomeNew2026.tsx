@@ -76,17 +76,22 @@ function LockVeil({ title, text }: { title: string; text: string }) {
 
 function ProductThumb({ product, size }: { product: Product; size: number }) {
   const image = resolveProductImage(product);
-  const storeLogo = getStoreLogoUrl(product.establishment || "");
   const [imageFailed, setImageFailed] = useState(false);
-  const [logoFailed, setLogoFailed] = useState(false);
   if (image && !imageFailed) {
     return <span className="ph-thumb"><img src={image} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setImageFailed(true)} /></span>;
   }
-  // Sem foto do produto: logo do estabelecimento (nunca uma letra solta).
-  if (storeLogo && !logoFailed) {
-    return <span className="ph-thumb ph-thumb--logo" role="img" aria-label={`Logo de ${product.establishment}`}><img src={storeLogo} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setLogoFailed(true)} /></span>;
-  }
-  return <span className="ph-thumb ph-thumb--empty" role="img" aria-label={`Foto de ${product.name} indisponível`}>{size >= 100 ? <ImageOff aria-hidden="true" /> : <StoreIcon aria-hidden="true" />}</span>;
+  // A marca da loja nunca substitui a foto do produto: isso confundia a
+  // identificação do item. Sem foto real, mostramos um estado neutro claro.
+  return (
+    <span
+      className={`ph-thumb ph-thumb--empty${size < 100 ? " ph-thumb--empty-compact" : ""}`}
+      role="img"
+      aria-label={`Foto de ${product.name} indisponível`}
+    >
+      <ImageOff aria-hidden="true" />
+      {size >= 100 && <small>Foto não cadastrada</small>}
+    </span>
+  );
 }
 
 function StoreMark({ store }: { store: StoreRow }) {
