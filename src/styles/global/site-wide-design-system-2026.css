@@ -1221,3 +1221,364 @@ html:root body :is(.acc-shell, .acw-shell, .pc-merchant-shell, .pc-merchant-page
     padding-bottom: calc(56px + env(safe-area-inset-bottom)) !important;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   REFINAMENTO DAS TELAS INTERNAS
+   Busca, detalhe do produto, loja, cestas e listas usam o mesmo ritmo visual,
+   sem alterar o conteúdo, as regras de preço ou os dados apresentados.
+   -------------------------------------------------------------------------- */
+
+/* Detalhe do produto */
+html:root body .pdl-page {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .pdl-main {
+  width: min(100%, 1220px);
+  padding-inline: clamp(14px, 2.5vw, 24px);
+}
+
+html:root body .pdl-hero {
+  border-color: var(--brand-line);
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 150% at 100% 0%, color-mix(in srgb, var(--brand-primarySoft) 72%, var(--brand-surface)) 0%, var(--brand-surface) 62%);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pdl-hero__visual {
+  width: 100%;
+  min-width: 0;
+  border-color: var(--brand-line);
+  border-radius: 18px;
+  background: var(--brand-surface);
+}
+
+html:root body .pdl-hero__visual :is(img, picture) {
+  max-width: 100%;
+}
+
+html:root body .pdl-price {
+  border-color: var(--brand-line);
+  background: var(--brand-surface);
+}
+
+html:root body .pdl-price strong,
+html:root body .pdl-compare__price b,
+html:root body .pdl-similar b {
+  color: var(--brand-primaryText);
+}
+
+html:root body .pdl-price__save {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .pdl-facts span,
+html:root body .pdl-card {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pdl-compare__list a {
+  border-color: var(--brand-line);
+  border-radius: 12px;
+  background: var(--brand-surface);
+}
+
+html:root body .pdl-compare__list li.is-best a {
+  border-color: color-mix(in srgb, var(--brand-primary) 55%, var(--brand-line));
+  background: color-mix(in srgb, var(--brand-primarySoft) 72%, var(--brand-surface));
+}
+
+html:root body .pdl-compare__rank {
+  background: var(--brand-soft);
+  color: var(--brand-muted);
+}
+
+html:root body .pdl-back a,
+html:root body .pdl-actions button {
+  border-color: var(--brand-line);
+  border-radius: 11px;
+}
+
+html:root body .pdl-back a:focus-visible,
+html:root body .pdl-actions button:focus-visible,
+html:root body .pdl-compare__list a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+/* Busca: resultado fácil de percorrer e preço vencedor claramente legível. */
+html:root body .search26-page .search26-search:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 14%, transparent), var(--pc-card-shadow);
+}
+
+html:root body .search26-page .search26-card {
+  min-width: 0;
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .search26-page .search26-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+html:root body .search26-page .search26-thumb {
+  border-radius: 12px;
+  background: var(--brand-soft);
+}
+
+html:root body .search26-page .search26-price strong {
+  color: var(--brand-primaryText);
+  font-variant-numeric: tabular-nums;
+}
+
+html:root body .search26-page .search26-filterbar button.is-active {
+  border-color: var(--brand-primary);
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .search26-page .search26-empty {
+  border-color: var(--brand-lineStrong);
+  border-radius: 16px;
+  background: var(--brand-surface);
+}
+
+/* Perfil da loja: mantém o hero próprio do estabelecimento e organiza
+   catálogo, filtros e informações comerciais em superfícies coerentes. */
+html:root body .store-pro-page {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .store-pro-page .store-pro-shell {
+  width: min(100% - 40px, 1240px);
+}
+
+html:root body .store-pro-page .store-pro-contact,
+html:root body .store-pro-page .store-pro-summary {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .store-pro-page .store-pro-toolbar {
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--brand-surface) 94%, transparent);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .store-pro-page :is(.store-pro-search, .store-pro-select) {
+  border-color: var(--brand-line);
+  border-radius: 11px;
+  background: var(--brand-soft);
+}
+
+html:root body .store-pro-page :is(.store-pro-search, .store-pro-select):focus-within {
+  border-color: var(--brand-primary);
+  background: var(--brand-surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 14%, transparent);
+}
+
+html:root body .store-pro-page .store-pro-grid > a {
+  border-color: var(--brand-line) !important;
+  border-radius: 16px !important;
+  background: var(--brand-surface) !important;
+  box-shadow: var(--pc-card-shadow) !important;
+}
+
+html:root body .store-pro-page .store-pro-product-image {
+  background: var(--brand-soft) !important;
+}
+
+html:root body .store-pro-page .store-pro-grid > a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+/* Cesta simples: quantidades, resumo e linhas com alvos confortáveis. */
+html:root body .pro-basket-page :is(.pro-basket-list, .pro-basket-summary, .pro-basket-empty, .pro-basket-loading) {
+  border-color: var(--brand-line);
+  border-radius: 17px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pro-basket-page .pro-basket-item {
+  transition: background-color .16s ease;
+}
+
+html:root body .pro-basket-page .pro-basket-qty button,
+html:root body .pro-basket-page .pro-basket-remove {
+  min-width: 34px;
+  min-height: 34px;
+}
+
+html:root body .pro-basket-page .pro-basket-qty button:focus-visible,
+html:root body .pro-basket-page .pro-basket-remove:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+
+/* Cesta inteligente: hierarquia mais clara entre planejamento, escolha,
+   estratégias e resumo. */
+html:root body .smart-basket-page {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .smart-basket-page :is(.smart-planner, .smart-product-picker, .smart-plan-list, .smart-summary, .smart-coverage-table) {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .smart-basket-page .smart-controls :is(input, select),
+html:root body .smart-basket-page .smart-product-search {
+  border-color: var(--brand-line);
+  border-radius: 11px;
+}
+
+html:root body .smart-basket-page :is(.smart-product-results button, .smart-custom-list article, .smart-coverage-group li) {
+  border-color: var(--brand-line);
+  border-radius: 11px;
+}
+
+html:root body .smart-basket-page :is(.smart-product-results button, .smart-picker-tabs button, .smart-strategies > button, .smart-summary button, .smart-summary a):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+html:root body .smart-basket-page .smart-summary {
+  border-color: color-mix(in srgb, var(--brand-primary) 24%, var(--brand-line));
+}
+
+/* Listas de compras e detalhe da lista. */
+html:root body .pc-lists-page :is(.pc-lists-create, .pc-lists-share, .pc-lists-ai-wrap, .pc-lists-items, .pc-lists-card) {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-lists-page .pc-lists-card {
+  transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+
+html:root body .pc-lists-page .pc-lists-card:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 12%, transparent);
+}
+
+html:root body .pc-lists-page .pc-lists-item {
+  border-color: var(--brand-line);
+}
+
+html:root body .pc-lists-page :is(.pc-lists-picker__input, .pc-lists-create__field input, .pc-lists-ai textarea, .pc-lists-share__link-row input) {
+  border-color: var(--brand-lineStrong);
+  border-radius: 11px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .pc-lists-page :is(input, textarea, select, button, a):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+/* Licenças e histórico do consumidor. */
+html:root body .my-lic-page :is(.my-lic-history, .my-lic-row) {
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .my-lic-page .my-lic-row__amount strong {
+  color: var(--brand-primaryText);
+}
+
+@media (max-width: 760px) {
+  html:root body .pdl-main {
+    padding-inline: 12px;
+  }
+
+  html:root body .pdl-hero {
+    border-radius: 17px;
+  }
+
+  html:root body .pdl-facts {
+    gap: 7px;
+  }
+
+  html:root body .pdl-facts span {
+    min-width: 0;
+    padding: 10px;
+  }
+
+  html:root body .pdl-facts b {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+  }
+
+  html:root body .store-pro-page .store-pro-shell {
+    width: calc(100% - 24px);
+  }
+
+  html:root body .store-pro-page .store-pro-toolbar {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  html:root body .store-pro-page .store-pro-grid {
+    gap: 10px !important;
+  }
+
+  html:root body .smart-basket-shell {
+    padding-inline: 12px;
+  }
+
+  html:root body .smart-basket-page .smart-assistant {
+    max-width: calc(100vw - 20px);
+  }
+}
+
+@media (max-width: 420px) {
+  html:root body .pdl-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html:root body .pdl-price {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  html:root body .pdl-actions button {
+    flex: 1 1 100%;
+  }
+
+  html:root body .store-pro-page .store-pro-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body .pc-lists-page .pc-lists-share__link-row {
+    flex-direction: column;
+  }
+
+  html:root body .pc-lists-page .pc-lists-share__link-row button {
+    justify-content: center;
+  }
+}
