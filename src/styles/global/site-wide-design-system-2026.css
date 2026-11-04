@@ -2261,3 +2261,45 @@ html:root body .pc-offers__badge {
 html[data-theme="dark"] body .pc-offers__badge {
   color: #08111f;
 }
+
+
+/* Cabeçalho exclusivo da homepage: os tokens locais hp-* ainda apontavam
+   para o antigo verde. Agora acompanham a paleta azul nos dois temas,
+   mantendo verde apenas para o sinal semântico de presença online. */
+html:root body .pcx-header {
+  --hp-bg: color-mix(in srgb, var(--brand-surface) 90%, transparent);
+  --hp-line: var(--brand-line);
+  --hp-ink: var(--brand-ink);
+  --hp-muted: var(--brand-muted);
+  --hp-hover: var(--brand-soft);
+  --hp-accent: var(--brand-primary);
+  --hp-accent-ink: var(--brand-primaryText);
+  --hp-accent-soft: var(--brand-primarySoft);
+}
+
+html:root body .pcx-header .ref-online__signal {
+  color: var(--pc-color-success);
+}
+
+html:root body .pcx-header :is(.pcx-header__icon, .pcx-header__theme, .pcx-header__menu):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+html:root body .pcx-header__nav a[aria-current="page"]::after {
+  background: var(--brand-primary);
+}
+
+html:root body .pcx-header__login:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primaryText);
+}
+
+html:root body .pcx-header__signup {
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
+
+html:root body .pcx-header__signup:hover {
+  background: var(--brand-primaryText);
+}
