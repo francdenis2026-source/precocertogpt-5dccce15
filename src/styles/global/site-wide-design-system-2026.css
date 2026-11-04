@@ -1203,3 +1203,21 @@ html:root body :is(.acw-product-grid footer button, .acw-store-grid footer butto
     justify-content: flex-start;
   }
 }
+
+
+/* Teclado, toque e acessibilidade nos workspaces autenticados. */
+html:root body :is(.acc-shell, .acw-shell, .pc-merchant-shell, .pc-merchant-page) :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  html:root body :is(.acc-shell, .acw-shell, .pc-merchant-shell, .pc-merchant-page) :is(input, select, textarea) {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  html:root body .pc-merchant-page {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom)) !important;
+  }
+}
