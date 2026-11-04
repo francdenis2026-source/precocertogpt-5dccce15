@@ -1010,3 +1010,32 @@ html:root body .pc-account-page :is(h1, h2, h3) {
   font-family: var(--pc-font-display);
   letter-spacing: -.03em;
 }
+
+
+/* Os componentes do dashboard do lojista usam estilos inline; estes poucos
+   refinamentos preservam os dados e elevam os cartões e estados interativos. */
+.pc-merchant-main :is(section[style], article[style]) {
+  border-color: var(--brand-line) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--pc-card-shadow) !important;
+}
+
+.pc-merchant-main :is(button, a):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.pc-merchant-main button {
+  font-family: var(--pc-font-body);
+}
+
+html:root body .pc-account-state {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .pc-account-state > a {
+  border-radius: 11px;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
