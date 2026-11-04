@@ -1,0 +1,818 @@
+/* ==========================================================================
+   PREÇO CERTO · SISTEMA VISUAL GLOBAL 2026
+   Uma linguagem comum para a experiência pública, administração e lojistas.
+   Mantém a identidade azul-marinho/azul da plataforma e o verde reservado
+   para economia, sucesso e estados positivos. Não altera dados nem fluxos.
+   ========================================================================== */
+
+:root {
+  --pc-font-body: "Manrope Variable", Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pc-font-display: "Outfit Variable", Outfit, var(--pc-font-body);
+  --pc-page-max: 1280px;
+  --pc-page-gutter: clamp(18px, 4vw, 56px);
+  --pc-card-radius: 18px;
+  --pc-control-radius: 12px;
+  --pc-card-shadow: 0 8px 28px rgb(9 28 54 / 5%), 0 1px 2px rgb(9 28 54 / 4%);
+  --pc-card-shadow-hover: 0 18px 42px rgb(9 28 54 / 10%), 0 3px 8px rgb(9 28 54 / 5%);
+
+  /* Aliases legados usados pelos painéis de lojista com estilos inline. */
+  --pc-color-background: var(--brand-canvas, #f4f7fb);
+  --pc-color-surface: var(--brand-surface, #fff);
+  --pc-color-foreground: var(--brand-ink, #14213d);
+  --pc-color-muted: var(--brand-muted, #52647a);
+  --pc-color-border: var(--brand-line, #d9e2ef);
+  --pc-color-primary: var(--brand-primary, #2563eb);
+  --pc-color-primary-foreground: var(--brand-onPrimary, #fff);
+  --pc-color-primary-hover: var(--brand-navy, #091c36);
+  --pc-color-accent: var(--brand-primarySoft, #e8f0ff);
+  --pc-color-accent-foreground: var(--brand-primaryText, #1d4ed8);
+  --pc-color-success: #0b9568;
+  --pc-color-danger: #c83d4b;
+  --pc-card-bg: var(--brand-soft, #edf3fa);
+}
+
+html[data-theme="dark"] {
+  --pc-color-background: var(--brand-canvas, #08111f);
+  --pc-color-surface: var(--brand-surface, #101c2e);
+  --pc-color-foreground: var(--brand-ink, #f4f7fb);
+  --pc-color-muted: var(--brand-muted, #a9b7c9);
+  --pc-color-border: var(--brand-line, #293b52);
+  --pc-color-primary: var(--brand-primary, #60a5fa);
+  --pc-color-primary-foreground: var(--brand-onPrimary, #08111f);
+  --pc-color-primary-hover: var(--brand-navy, #071426);
+  --pc-color-accent: var(--brand-primarySoft, #132d4f);
+  --pc-color-accent-foreground: var(--brand-primaryText, #93c5fd);
+  --pc-color-success: #42c99a;
+  --pc-color-danger: #fb7185;
+  --pc-card-bg: var(--brand-soft, #17263b);
+}
+
+html,
+body {
+  font-family: var(--pc-font-body);
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  color: var(--brand-ink, #14213d);
+  background: var(--brand-canvas, #f4f7fb);
+}
+
+html[data-theme="dark"] body {
+  color: var(--brand-ink, #f4f7fb);
+  background: var(--brand-canvas, #08111f);
+}
+
+/* A mesma base visual em todas as experiências públicas. */
+html:root body :is(
+  .ph, .ref-page, .ref-auth, .search26-page, .sector-hub, .sector26-page,
+  .pdl-page, .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pharmacy-directory,
+  .pc-contact-page, .pc-collab-page, .ref-info
+) {
+  font-family: var(--pc-font-body);
+  color: var(--brand-ink);
+}
+
+html:root body :is(
+  .ref-page, .ref-auth, .search26-page, .sector-hub, .sector26-page,
+  .pdl-page, .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pharmacy-directory,
+  .pc-contact-page, .pc-collab-page, .ref-info
+) {
+  background-color: var(--brand-canvas);
+}
+
+html[data-theme="dark"] body :is(
+  .ref-page, .ref-auth, .search26-page, .sector-hub, .sector26-page,
+  .pdl-page, .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pharmacy-directory,
+  .pc-contact-page, .pc-collab-page, .ref-info
+) {
+  color: var(--brand-ink);
+  background-color: var(--brand-canvas);
+}
+
+html:root body :is(
+  .ref-page, .ref-auth, .search26-page, .sector-hub, .sector26-page,
+  .pdl-page, .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pharmacy-directory,
+  .pc-contact-page, .pc-collab-page, .ref-info
+) :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+html:root body :is(
+  .ref-shell, .search26-shell, .sector-hub__shell, .store-pro-shell,
+  .pdl-main, .pro-basket-shell, .smart-basket-shell, .pc-lists-shell,
+  .my-lic-shell, .mo-shell
+) {
+  max-width: var(--pc-page-max);
+}
+
+/* Header e navegação: mesma altura visual, vidro discreto e estado ativo claro. */
+html:root body :is(.ref-header, .pcx-header) {
+  border-bottom: 1px solid var(--brand-line);
+  background: color-mix(in srgb, var(--brand-surface) 90%, transparent);
+  box-shadow: 0 5px 22px rgb(9 28 54 / 4%);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+
+html:root body :is(.ref-nav, .pcx-header__nav) a[aria-current="page"],
+html:root body .ref-nav a.is-active {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body :is(.ref-signin, .pcx-header__signup) {
+  border-radius: 11px;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
+
+html:root body :is(.ref-theme, .pcx-header__theme, .pcx-header__icon) {
+  border-radius: 11px;
+}
+
+html:root body .ref-footer {
+  background: var(--brand-navy);
+  color: #f4f7fb;
+}
+
+html:root body .ref-footer :is(a, p, small) {
+  color: #c4d1e2;
+}
+
+/* Superfícies e cards compartilhados: raio, borda e sombra consistentes. */
+html:root body :is(
+  .ref-directory-search, .ref-results-table, .ref-store-list, .ref-basket-list,
+  .ref-update, .ref-merchant-table, .ref-auth__card, .ref-store-card,
+  .ref-product-grid > a, .ref-product-grid > article,
+  .search26-card, .search26-featured-card, .sector-product-card,
+  .pharmacy-establishment, .store-pro-catalog, .store-pro-product,
+  .pdl-card, .pdl-compare, .pdl-side, .pro-basket-list,
+  .pro-basket-summary, .pro-basket-empty, .smart-planner,
+  .smart-product-picker, .smart-results, .smart-plan,
+  .pc-lists-card, .pc-lists-create, .pc-lists-share,
+  .pc-lists-kpis article, .my-lic-history, .my-lic-row,
+  .pc-contact__card, .pc-collab__card, .mo-card, .mo-steps
+) {
+  border-color: var(--brand-line);
+  border-radius: var(--pc-card-radius);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body :is(
+  .ref-directory-search, .ref-results-table, .ref-store-list, .ref-basket-list,
+  .ref-update, .ref-merchant-table, .ref-auth__card, .ref-store-card,
+  .ref-product-grid > a, .ref-product-grid > article,
+  .search26-card, .search26-featured-card, .sector-product-card,
+  .pharmacy-establishment, .store-pro-catalog, .store-pro-product,
+  .pdl-card, .pdl-compare, .pdl-side, .pro-basket-list,
+  .pro-basket-summary, .pro-basket-empty, .smart-planner,
+  .smart-product-picker, .smart-results, .smart-plan,
+  .pc-lists-card, .pc-lists-create, .pc-lists-share,
+  .pc-lists-kpis article, .my-lic-history, .my-lic-row,
+  .pc-contact__card, .pc-collab__card
+) {
+  background-color: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html[data-theme="dark"] body :is(
+  .ref-directory-search, .ref-results-table, .ref-store-list, .ref-basket-list,
+  .ref-update, .ref-merchant-table, .ref-auth__card, .ref-store-card,
+  .ref-product-grid > a, .ref-product-grid > article,
+  .search26-card, .search26-featured-card, .sector-product-card,
+  .pharmacy-establishment, .store-pro-catalog, .store-pro-product,
+  .pdl-card, .pdl-compare, .pdl-side, .pro-basket-list,
+  .pro-basket-summary, .pro-basket-empty, .smart-planner,
+  .smart-product-picker, .smart-results, .smart-plan,
+  .pc-lists-card, .pc-lists-create, .pc-lists-share,
+  .pc-lists-kpis article, .my-lic-history, .my-lic-row,
+  .pc-contact__card, .pc-collab__card
+) {
+  background-color: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+/* Formulários com o mesmo foco, sem interferir em checkboxes, radios e ranges. */
+html:root body :is(
+  .ref-page, .ref-auth, .search26-page, .sector-hub, .pdl-page,
+  .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pc-contact-page, .pc-collab-page
+) :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select, textarea
+) {
+  border-color: var(--brand-lineStrong);
+  border-radius: var(--pc-control-radius);
+  background-color: var(--brand-surface);
+  color: var(--brand-ink);
+  font-family: var(--pc-font-body);
+}
+
+html:root body :is(
+  .ref-page, .ref-auth, .search26-page, .sector-hub, .pdl-page,
+  .store-pro-page, .pro-basket-page, .smart-basket-page,
+  .pc-lists-page, .my-lic-page, .mo-page, .pc-contact-page, .pc-collab-page
+) :is(input, select, textarea, button, a):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 38%, transparent);
+  outline-offset: 2px;
+}
+
+/* Ações primárias seguem o azul da marca; verde permanece reservado à economia. */
+html:root body :is(
+  .pc-btn--primary, .pdl-actions__primary, .pc-lists-new-btn,
+  .pc-lists-share__enable, .mo-submit, .adm-gate-primary
+) {
+  border-color: transparent;
+  border-radius: 12px;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+  font-weight: 800;
+  box-shadow: 0 7px 18px color-mix(in srgb, var(--brand-primary) 18%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body :is(
+    .pc-btn--primary, .pdl-actions__primary, .pc-lists-new-btn,
+    .pc-lists-share__enable, .mo-submit, .adm-gate-primary
+  ):hover {
+    background: var(--brand-primaryText);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--brand-primary) 24%, transparent);
+  }
+
+  html:root body :is(
+    .ref-store-card, .search26-card, .sector-product-card,
+    .store-pro-product, .pc-lists-card, .my-lic-row
+  ):hover {
+    border-color: var(--brand-lineStrong);
+    box-shadow: var(--pc-card-shadow-hover);
+  }
+}
+
+/* Homepage: mantém verde para economia e usa a paleta global nas superfícies. */
+html:root body .ph {
+  --ph-canvas: var(--brand-canvas);
+  --ph-surface: var(--brand-surface);
+  --ph-surface-2: var(--brand-soft);
+  --ph-ink: var(--brand-ink);
+  --ph-muted: var(--brand-muted);
+  --ph-line: var(--brand-line);
+  --ph-save: #0b9568;
+  --ph-save-soft: color-mix(in srgb, #0b9568 12%, var(--brand-surface));
+  --ph-save-ink: #08704f;
+}
+
+html[data-theme="dark"] body .ph {
+  --ph-canvas: var(--brand-canvas);
+  --ph-surface: var(--brand-surface);
+  --ph-surface-2: var(--brand-soft);
+  --ph-ink: var(--brand-ink);
+  --ph-muted: var(--brand-muted);
+  --ph-line: var(--brand-line);
+  --ph-save: #42c99a;
+  --ph-save-soft: color-mix(in srgb, #42c99a 14%, var(--brand-surface));
+  --ph-save-ink: #7ce2bc;
+}
+
+/* Busca, cards e listas: ritmo mais legível e responsivo. */
+html:root body .search26-page .search26-card,
+html:root body .sector-hub .sector-hub__sector-link,
+html:root body .store-pro-page .store-pro-product,
+html:root body .pdl-page .pdl-card {
+  border-radius: 16px;
+}
+
+html:root body :is(.search26-results, .search26-grid, .sector-product-list__grid, .store-pro-grid) {
+  gap: 16px;
+}
+
+html:root body :is(.search26-card, .sector-product-card, .store-pro-product) :is(h2, h3, strong) {
+  line-height: 1.35;
+}
+
+html:root body :is(.search26-page, .sector-hub, .store-pro-page, .pdl-page) :is(.search26-empty, .sector-hub__empty, .store-pro-empty, .pdl-empty) {
+  border: 1px dashed var(--brand-lineStrong);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  color: var(--brand-muted);
+}
+
+/* Área do lojista: aliases acima corrigem os tokens ausentes dos estilos inline. */
+.pc-merchant-shell {
+  min-height: 100dvh;
+  background: var(--brand-canvas) !important;
+  color: var(--brand-ink) !important;
+  font-family: var(--pc-font-body) !important;
+  grid-template-columns: 248px minmax(0, 1fr) !important;
+}
+
+.pc-merchant-sidebar {
+  background: var(--brand-navy) !important;
+  color: #f4f7fb !important;
+  border-right: 1px solid color-mix(in srgb, #fff 9%, transparent);
+}
+
+.pc-merchant-sidebar nav button {
+  min-height: 42px;
+  border-radius: 11px !important;
+  font-family: var(--pc-font-body);
+  font-size: 13px;
+  transition: background .16s ease, color .16s ease, transform .16s ease;
+}
+
+.pc-merchant-sidebar nav button[aria-current="page"],
+.pc-merchant-sidebar nav button:focus-visible {
+  background: color-mix(in srgb, var(--brand-primary) 22%, transparent) !important;
+  color: #fff !important;
+}
+
+.pc-merchant-main {
+  min-width: 0;
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+.pc-merchant-main > header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.pc-merchant-main :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.025em;
+}
+
+.pc-merchant-main :is(button, a) {
+  touch-action: manipulation;
+}
+
+.pc-merchant-page {
+  min-height: 100dvh;
+  background: var(--brand-canvas) !important;
+  color: var(--brand-ink) !important;
+  font-family: var(--pc-font-body) !important;
+}
+
+.pc-merchant-page :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.025em;
+}
+
+.pc-merchant-page :is(input, select, textarea) {
+  min-width: 0;
+  border-color: var(--brand-lineStrong) !important;
+  border-radius: 11px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+  font: inherit;
+}
+
+.pc-merchant-page :is(button, a) {
+  font-family: var(--pc-font-body);
+  touch-action: manipulation;
+}
+
+.pc-merchant-page section[style] {
+  border-color: var(--brand-line) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--pc-card-shadow);
+}
+
+/* Administração: substitui os antigos tons sépia por um workspace sóbrio,
+   com navegação marinho, superfícies claras e acentos azuis. */
+html:root body :is(.acc-shell, .acw-shell) {
+  min-height: 100dvh;
+  grid-template-columns: 248px minmax(0, 1fr) !important;
+  background: var(--brand-canvas) !important;
+  color: var(--brand-ink) !important;
+  font-family: var(--pc-font-body) !important;
+}
+
+html:root body :is(.acc-sidebar, .acw-sidebar) {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  background: var(--brand-navy) !important;
+  color: #f4f7fb !important;
+  border-right: 1px solid color-mix(in srgb, #fff 10%, transparent);
+}
+
+html:root body :is(.acc-sidebar, .acw-sidebar) nav a {
+  min-height: 40px;
+  border-radius: 10px;
+  color: #c4d1e2 !important;
+  transition: background .16s ease, color .16s ease;
+}
+
+html:root body :is(.acc-sidebar, .acw-sidebar) nav a:is(:hover, .active) {
+  background: color-mix(in srgb, var(--brand-primary) 22%, transparent) !important;
+  color: #fff !important;
+  box-shadow: inset 3px 0 var(--brand-primary);
+}
+
+html:root body :is(.acc-sidebar, .acw-sidebar) nav small {
+  color: #91a7c4 !important;
+  letter-spacing: .14em;
+}
+
+html:root body :is(.acc-main, .acw-main) {
+  min-width: 0;
+  background: var(--brand-canvas) !important;
+  color: var(--brand-ink) !important;
+  padding: clamp(18px, 2.5vw, 34px) !important;
+}
+
+html:root body :is(.acc-top, .acw-top) {
+  align-items: flex-start;
+  gap: 18px;
+}
+
+html:root body :is(.acc-top, .acw-top) h1 {
+  color: var(--brand-ink);
+  font-family: var(--pc-font-display);
+  font-size: clamp(25px, 2.5vw, 34px);
+  letter-spacing: -.035em;
+}
+
+html:root body :is(.acc-top, .acw-top) p {
+  color: var(--brand-muted);
+  line-height: 1.55;
+}
+
+html:root body :is(
+  .acc-panel, .acc-table-wrap, .acw-summary article, .acw-summary button,
+  .acw-product-grid article, .acw-store-grid article, .acw-env-grid article,
+  .acw-modal > form, .adm-lic__card, .avs-block
+) {
+  border: 1px solid var(--brand-line) !important;
+  border-radius: 16px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body :is(.acc-cards, .acw-summary) {
+  gap: 12px;
+}
+
+html:root body :is(.acc-cards article, .acw-summary article, .acw-summary button) {
+  min-height: 88px;
+  padding: 14px;
+}
+
+html:root body .acc-cards article {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+html:root body :is(.acc-panel > header, .acw-tabs) {
+  border-color: var(--brand-line);
+}
+
+html:root body :is(.acc-panel h2, .acw-section-head h2, .acw-gap-hero h2) {
+  color: var(--brand-ink);
+  font-family: var(--pc-font-display);
+}
+
+html:root body :is(.acc-kpis > a, .acc-kpis > div) {
+  border: 1px solid var(--brand-line);
+  border-radius: 12px;
+  background: var(--brand-soft) !important;
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acc-table-wrap, .acw-table-wrap, .acc-table-scroll) {
+  overflow-x: auto;
+  border: 1px solid var(--brand-line);
+  border-radius: 14px;
+  background: var(--brand-surface);
+}
+
+html:root body :is(.acc-table, .acw-table) {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--brand-ink);
+  background: var(--brand-surface);
+}
+
+html:root body :is(.acc-table, .acw-table) th {
+  background: var(--brand-soft) !important;
+  color: var(--brand-muted) !important;
+  border-color: var(--brand-line) !important;
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+
+html:root body :is(.acc-table, .acw-table) td {
+  border-color: var(--brand-line) !important;
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acc-table, .acw-table) tr:hover td {
+  background: color-mix(in srgb, var(--brand-primarySoft) 55%, var(--brand-surface));
+}
+
+html:root body :is(.acc-top-actions label, .acw-top label, .acw-store-picker select) {
+  border-color: var(--brand-lineStrong);
+  border-radius: 11px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acc-top-actions input, .acw-top input) {
+  background: transparent;
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acc-top-actions > button, .acc-top-actions > a, .acw-top button, .acw-top .acw-back) {
+  border-color: var(--brand-line);
+  border-radius: 11px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acc-top-actions > button:hover, .acw-top button:hover, .acw-top .acw-back:hover) {
+  border-color: var(--brand-primary);
+  color: var(--brand-primaryText);
+}
+
+html:root body :is(.acc-error, .acw-error) {
+  border-radius: 12px;
+}
+
+html:root body :is(.acw-form-grid, .acw-price-link) :is(input, textarea, select) {
+  border-color: var(--brand-lineStrong);
+  border-radius: 10px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body :is(.acw-gap-list article, .acw-store-tools, .acw-env-grid article) {
+  border-color: var(--brand-line);
+  border-radius: 14px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body :is(.adm-lic, .avs-shell, .adm-gate) {
+  color: var(--brand-ink);
+  font-family: var(--pc-font-body);
+}
+
+html:root body .adm-lic {
+  background: var(--brand-canvas);
+}
+
+html:root body .adm-lic__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--brand-line);
+  border-radius: 14px;
+  background: var(--brand-surface);
+}
+
+html:root body .adm-lic__table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--brand-ink);
+}
+
+html:root body .adm-lic__table th {
+  background: var(--brand-soft);
+  color: var(--brand-muted);
+}
+
+html:root body .avs-shell {
+  background: var(--brand-canvas);
+}
+
+html:root body .adm-gate-card {
+  border: 1px solid var(--brand-line);
+  border-radius: 22px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+  box-shadow: var(--pc-card-shadow-hover);
+}
+
+/* A página de cadastro do lojista mantém seu fluxo próprio, mas usa o mesmo
+   acabamento, paleta, formulário e hierarquia de títulos. */
+html:root body .mo-page :is(.mo-card, .mo-steps, .mo-status) {
+  border-color: var(--brand-line);
+  border-radius: 18px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .mo-page .mo-title {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.035em;
+  color: var(--brand-ink);
+}
+
+html:root body .mo-page .mo-sidebar {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+
+html:root body .mo-page :is(input, select, textarea) {
+  border-color: var(--brand-lineStrong);
+  border-radius: 11px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+/* Tabelas, estados vazios e feedbacks mantêm contraste nos dois temas. */
+html:root body :is(.pc-lists-page, .my-lic-page, .search26-page, .store-pro-page) :is(th, .empty, .search26-empty) {
+  color: var(--brand-muted);
+}
+
+html:root body :is(.ref-page, .search26-page, .sector-hub, .store-pro-page, .pdl-page, .pro-basket-page, .smart-basket-page, .pc-lists-page, .my-lic-page, .mo-page) :is(button, a) {
+  touch-action: manipulation;
+}
+
+@media (max-width: 1040px) {
+  html:root body :is(.acc-shell, .acw-shell) {
+    grid-template-columns: 1fr !important;
+  }
+
+  html:root body :is(.acc-sidebar, .acw-sidebar) {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    padding: 14px 16px;
+  }
+
+  html:root body :is(.acc-sidebar, .acw-sidebar) nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 6px;
+  }
+
+  html:root body :is(.acc-sidebar, .acw-sidebar) nav small {
+    grid-column: 1 / -1;
+  }
+
+  html:root body :is(.acc-cards, .acw-summary) {
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  }
+
+  html:root body .acc-grid {
+    grid-template-columns: 1fr;
+  }
+
+  html:root body .acc-panel--full {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  html:root body :is(.acc-main, .acw-main) {
+    padding: 16px !important;
+  }
+
+  html:root body :is(.acc-top, .acw-top) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  html:root body :is(.acc-top-actions, .acw-top > div:last-child) {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  html:root body :is(.acc-top-actions input, .acw-top input) {
+    width: min(100%, 260px);
+  }
+
+  html:root body :is(.acc-kpis, .acc-cards--links, .acw-env-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html:root body :is(.acw-product-grid, .acw-store-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html:root body .acw-gap-list article {
+    grid-template-columns: 1fr;
+  }
+
+  html:root body .acw-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  html:root body .acc-bars > div {
+    grid-template-columns: minmax(0, 1fr) 1fr 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  html:root body :is(.acc-cards--links, .acw-env-grid, .acw-product-grid, .acw-store-grid) {
+    grid-template-columns: 1fr;
+  }
+
+  html:root body :is(.acc-top-actions label, .acw-top label) {
+    width: 100%;
+  }
+
+  html:root body :is(.acc-top-actions input, .acw-top input) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  html:root body .adm-lic__table {
+    min-width: 640px;
+  }
+
+  html:root body .acc-table {
+    min-width: 640px;
+  }
+}
+
+/* Redução de movimento respeitada em todas as áreas. */
+@media (prefers-reduced-motion: reduce) {
+  html:root body :is(.ref-page, .search26-page, .sector-hub, .store-pro-page, .pdl-page, .pro-basket-page, .smart-basket-page, .pc-lists-page, .my-lic-page, .mo-page, .acc-shell, .acw-shell, .pc-merchant-shell) *,
+  html:root body :is(.ref-page, .search26-page, .sector-hub, .store-pro-page, .pdl-page, .pro-basket-page, .smart-basket-page, .pc-lists-page, .my-lic-page, .mo-page, .acc-shell, .acw-shell, .pc-merchant-shell) *::before,
+  html:root body :is(.ref-page, .search26-page, .sector-hub, .store-pro-page, .pdl-page, .pro-basket-page, .smart-basket-page, .pc-lists-page, .my-lic-page, .mo-page, .acc-shell, .acw-shell, .pc-merchant-shell) *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Painel do lojista — dashboard com sidebar responsiva e cards adaptáveis. */
+@media (max-width: 1040px) {
+  .pc-merchant-shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pc-merchant-sidebar {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 14px 16px !important;
+    gap: 12px !important;
+  }
+
+  .pc-merchant-sidebar nav {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 6px !important;
+  }
+
+  .pc-merchant-main {
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .pc-merchant-sidebar nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .pc-merchant-main > header {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .pc-merchant-main :is(section[style], article[style]) {
+    min-width: 0;
+  }
+
+  .pc-merchant-main [style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .pc-merchant-main [style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  .pc-merchant-main :is(input, select, textarea) {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .pc-merchant-page {
+    padding: 20px 14px 56px !important;
+  }
+
+  .pc-merchant-page [style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .pc-merchant-page [style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
+}
