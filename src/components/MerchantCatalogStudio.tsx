@@ -107,7 +107,7 @@ export function MerchantCatalogStudio() {
   const tabs:Array<[Tab,string]>=[["products",profile.catalogLabel],["variants","Tamanhos e variações"],["modifiers","Adicionais e opções"]];
   if(businessType==="pharmacy")tabs.push(["compliance","Conformidade farmacêutica"]);
 
-  return <main style={styles.page}><div style={styles.container}>
+  return <main className="pc-merchant-page pc-merchant-catalog" style={styles.page}><div style={styles.container}>
     <a href="/painel-lojista" style={styles.back}><ArrowLeft size={16}/> Voltar ao painel</a>
     <header style={styles.header}><div><span style={styles.eyebrow}>ESTÚDIO DE CATÁLOGO</span><h1 style={styles.h1}>{profile.catalogLabel}</h1><p style={styles.lead}>{profile.label} · gerencie itens, configurações e personalizações do seu negócio.</p></div><button onClick={()=>void refresh()} style={styles.secondary}><RefreshCcw size={16}/> Atualizar</button></header>
     {notice&&<div style={styles.notice}><CheckCircle2 size={17}/>{notice}<button onClick={()=>setNotice("")}>×</button></div>}
