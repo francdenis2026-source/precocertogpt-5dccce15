@@ -20,23 +20,23 @@
 .pca-btn svg { width: 16px; height: 16px; }
 .pca-btn .pca-spin { animation: pca-spin 0.8s linear infinite; }
 @keyframes pca-spin { to { transform: rotate(360deg); } }
-.pca-btn:hover { transform: translateY(-1px); border-color: #0fa958; }
+.pca-btn:hover { transform: translateY(-1px); border-color: var(--brand-primary, #2563eb); color: var(--brand-primaryText, #1d4ed8); }
 .pca-btn:active { transform: scale(0.88); transition-duration: 0.08s; }
-.pca-btn:focus-visible { outline: 2px solid #0fa958; outline-offset: 2px; }
-html[data-theme="dark"] .pca-btn:focus-visible { outline-color: #28cc70; }
+.pca-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand-primary, #2563eb) 42%, transparent); outline-offset: 2px; }
 .pca-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
-.pca-btn.is-active { background: #0fa958; border-color: #0fa958; color: #fff; }
+.pca-btn.is-favorite { background: #fff0f3; border-color: #f1b7c6; color: #be123c; }
+.pca-btn.is-added { background: var(--pc-color-success, #0b9568); border-color: var(--pc-color-success, #0b9568); color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   .pca-btn { transition-duration: 0.01ms !important; }
   .pca-btn:hover, .pca-btn:active { transform: none !important; }
 }
-.pca-btn--buy { background: #0fa958; border-color: #0fa958; color: #fff; text-decoration: none; }
-.pca-btn--buy:hover { background: #087a45; border-color: #087a45; }
+ .pca-btn--buy { background: var(--brand-primary, #2563eb); border-color: var(--brand-primary, #2563eb); color: var(--brand-onPrimary, #fff); text-decoration: none; }
+.pca-btn--buy:hover { background: var(--brand-primaryText, #1d4ed8); border-color: var(--brand-primaryText, #1d4ed8); }
 
 html[data-theme="dark"] .pca-btn { background: rgba(23, 29, 35, 0.9); border-color: rgba(241, 244, 247, 0.14); color: #f1f4f7; }
-html[data-theme="dark"] .pca-btn:hover { border-color: #28cc70; }
-html[data-theme="dark"] .pca-btn.is-active { background: #28cc70; border-color: #28cc70; color: #06120d; }
+html[data-theme="dark"] .pca-btn.is-favorite { background: #3a1a28; border-color: #7f1d3a; color: #fda4af; }
+html[data-theme="dark"] .pca-btn.is-added { background: #42c99a; border-color: #42c99a; color: #08111f; }
 
 /* Overlay: encaixa no canto de um card com imagem, como no e-commerce comum. */
 .pca-row--overlay {
