@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CheckCircle2, ListChecks, LoaderCircle, PackageSearch, ShieldAlert } from "lucide-react";
+import { CheckCircle2, ListChecks, LoaderCircle, ShieldAlert } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { Product } from "../data/catalog";
-import { resolveProductImage } from "../data/productImageResolver";
 import { PublicFooter, PublicHeader } from "./PublicChrome";
+import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
 import type { ShoppingListMode } from "../features/shoppingLists/useShoppingLists";
 import "./ShoppingLists.css";
 
@@ -18,13 +18,6 @@ const MODE_LABEL: Record<ShoppingListMode, string> = {
 };
 
 type SharedItem = { productId: string; quantity: number; purchased: boolean };
-
-function ProductThumb({ product }: { product: Product }) {
-  const source = resolveProductImage(product);
-  const [failed, setFailed] = useState(false);
-  if (source && !failed) return <img src={source} alt={product.name} loading="lazy" onError={() => setFailed(true)} />;
-  return <PackageSearch aria-hidden="true" />;
-}
 
 export function SharedShoppingListPage() {
   const { token } = useParams<{ token: string }>();
@@ -104,7 +97,7 @@ export function SharedShoppingListPage() {
           <label className="pc-lists-item__check" aria-label={item.purchased ? `Desmarcar ${product.name}` : `Marcar ${product.name} como comprado`}>
             <input type="checkbox" checked={item.purchased} onChange={e => void togglePurchased(item.productId, e.target.checked)} />
           </label>
-          <div className="pc-lists-item__product"><span className="pc-lists-thumb"><ProductThumb product={product} /></span>
+          <div className="pc-lists-item__product"><span className="pc-lists-thumb"><CatalogProductThumb product={product} size="sm" /></span>
             <span><small>{product.category}</small><strong>{product.name}</strong><em>{[product.brand, product.size].filter(Boolean).join(" · ")}</em></span>
           </div>
           <div className="pc-lists-item__qty"><strong>{item.quantity}x</strong></div>
