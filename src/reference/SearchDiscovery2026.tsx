@@ -14,6 +14,7 @@ import { useFavorites } from "../features/favorites/FavoritesProvider";
 import { usePriceVisibility } from "../hooks/usePriceVisibility";
 import { addToBasketWithAuthGuard } from "../lib/basket";
 import { useProductOnlineSales } from "../lib/onlineSalesAvailability";
+import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
 import { trackSearch } from "../lib/analytics";
 import { formatCategoryLabel } from "../lib/categoryLabels";
@@ -28,14 +29,6 @@ const brl=new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
 const intBr=new Intl.NumberFormat("pt-BR");
 const normalize=(value:string)=>value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("pt-BR").trim();
 type SortMode="relevance"|"lowest"|"highest"|"name"|"stores";
-function ProductThumb({product}:{product:Product}){
- const src=resolveProductImage(product);
- const [failed,setFailed]=useState(false);
- useEffect(()=>setFailed(false),[src]);
- if(!src||failed) return <PackageSearch aria-hidden="true"/>;
- return <img src={src} alt="" width="76" height="70" loading="lazy" onError={()=>setFailed(true)}/>;
-}
-
 function ProductComparisonModal({product,onClose}:{product:Product;onClose:()=>void}){
  const closeRef=useRef<HTMLButtonElement>(null);
  const dialogRef=useRef<HTMLElement>(null);
