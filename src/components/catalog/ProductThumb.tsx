@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PackageSearch } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import type { Product } from "../../data/catalog";
 import { resolveProductImage } from "../../data/productImageResolver";
 import "./ProductThumb.css";
@@ -42,7 +42,7 @@ export function ProductThumb({ product, size = "md", className = "", eager = fal
       )}
       {state === "failed" && (
         <span className="pthumb__fallback" role="img" aria-label={`Foto de ${product.name} indisponível`}>
-          <PackageSearch aria-hidden="true" />
+          <><ImageOff aria-hidden="true" /><small>Imagem indisponível</small></>
         </span>
       )}
     </span>
