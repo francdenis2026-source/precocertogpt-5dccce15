@@ -1582,3 +1582,478 @@ html:root body .my-lic-page .my-lic-row__amount strong {
     justify-content: center;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   ÁREAS ADMINISTRATIVAS, CONTA E FAVORITOS
+   -------------------------------------------------------------------------- */
+
+/* O painel administrativo antigo ainda tinha vários elementos internos
+   sépia. Mantemos os estados semânticos, mas trocamos as superfícies e a
+   navegação para a mesma linguagem navy/azul do restante do Preço Certo. */
+html:root body .acc-sidebar nav a {
+  color: #c4d1e2 !important;
+}
+
+html:root body .acc-sidebar nav a:is(:hover, .active) {
+  background: color-mix(in srgb, var(--brand-primary) 22%, transparent) !important;
+  color: #fff !important;
+}
+
+html:root body .acc-sidebar nav a.active {
+  box-shadow: inset 3px 0 var(--brand-primary) !important;
+}
+
+html:root body .acc-sidebar nav a b {
+  background: var(--brand-primary) !important;
+  color: var(--brand-onPrimary) !important;
+}
+
+html:root body .acc-sidebar footer {
+  border-color: color-mix(in srgb, #fff 14%, transparent) !important;
+}
+
+html:root body .acc-sidebar footer :is(span, button) {
+  color: #c4d1e2 !important;
+}
+
+html:root body :is(.acc-price-gate, .acc-store-tools--detail, .acc-users-hero > div, .acc-activity, .acc-application-grid article, .acc-empty, .acc-state) {
+  border-color: var(--brand-line) !important;
+  border-radius: 14px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acc-price-gate__toggle {
+  border-color: var(--brand-line) !important;
+  border-radius: 12px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acc-price-gate__toggle-track {
+  background: var(--brand-lineStrong) !important;
+}
+
+html:root body .acc-price-gate__toggle[aria-checked="true"] .acc-price-gate__toggle-track {
+  background: var(--brand-primary) !important;
+}
+
+html:root body .acc-price-gate__hint,
+html:root body .acc-bars-hint,
+html:root body .acc-users-hero span {
+  color: var(--brand-muted) !important;
+}
+
+html:root body .acc-users-hero strong {
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acc-store-tools--detail :is(dt, dd, a) {
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acc-store-tools--detail dt {
+  color: var(--brand-muted) !important;
+}
+
+html:root body .acc-store-tools--detail a {
+  color: var(--brand-primaryText) !important;
+}
+
+html:root body .acc-table button,
+html:root body .acc-application-grid button {
+  min-height: 34px;
+  border-color: var(--brand-line) !important;
+  border-radius: 9px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acc-table button:hover,
+html:root body .acc-application-grid button:hover {
+  border-color: var(--brand-primary) !important;
+  color: var(--brand-primaryText) !important;
+}
+
+html:root body .acc-status,
+html:root body .acc-chip {
+  border-radius: 999px;
+}
+
+html:root body .acc-empty {
+  border-style: dashed !important;
+  color: var(--brand-muted) !important;
+}
+
+html:root body .acw-environments article {
+  border-color: var(--brand-line) !important;
+  border-radius: 15px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .acw-environments article > span {
+  background: var(--brand-primarySoft) !important;
+  color: var(--brand-primaryText) !important;
+}
+
+html:root body .acw-environments article p {
+  color: var(--brand-muted) !important;
+}
+
+html:root body .acw-environments article a {
+  color: var(--brand-primaryText) !important;
+}
+
+html:root body .acw-environments .env-demonstracao,
+html:root body .acw-environments .env-editorial {
+  background: var(--brand-soft) !important;
+  color: var(--brand-muted) !important;
+}
+
+html:root body .acw-modal > form {
+  border-color: var(--brand-line) !important;
+  border-radius: 18px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acw-modal :is(header, footer) {
+  border-color: var(--brand-line) !important;
+}
+
+html:root body .acw-modal footer button.ghost,
+html:root body .acw-modal .ghost {
+  border: 1px solid var(--brand-line) !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .acw-empty,
+html:root body .acw-state {
+  border-color: var(--brand-line) !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-muted) !important;
+}
+
+/* Cadastros, clientes e licenças usam os mesmos cartões e controles. */
+html:root body :is(.adm-lic__card, .adm-cust__finance article, .adm-cust__profile) {
+  border-color: var(--brand-line) !important;
+  border-radius: 16px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body :is(.adm-lic__head h1, .adm-cust__profile h1) {
+  color: var(--brand-ink) !important;
+  font-family: var(--pc-font-display);
+}
+
+html:root body :is(.adm-lic__head p, .adm-lic__muted, .adm-cust__profile p, .adm-cust__finance small) {
+  color: var(--brand-muted) !important;
+}
+
+html:root body .adm-lic__plan {
+  border-color: var(--brand-line) !important;
+  border-radius: 11px !important;
+  background: var(--brand-soft) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .adm-lic__plan.is-active {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand-primary) 16%, transparent) !important;
+}
+
+html:root body .adm-lic__gen-row input,
+html:root body .adm-acc__search,
+html:root body .adm-gate-form input {
+  border-color: var(--brand-lineStrong) !important;
+  border-radius: 11px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .adm-acc__filters button {
+  border-color: var(--brand-line) !important;
+  border-radius: 999px !important;
+  background: var(--brand-surface) !important;
+  color: var(--brand-ink) !important;
+}
+
+html:root body .adm-acc__filters button[aria-pressed="true"] {
+  border-color: var(--brand-primary) !important;
+  background: var(--brand-primary) !important;
+  color: var(--brand-onPrimary) !important;
+}
+
+html:root body .adm-acc__notice {
+  border: 1px solid var(--brand-line);
+  border-radius: 11px;
+  background: var(--brand-primarySoft);
+  color: var(--brand-ink);
+}
+
+html:root body .adm-acc__roles em {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .adm-acc__actions button {
+  border-color: var(--brand-line);
+  border-radius: 9px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .adm-acc__actions button:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  color: var(--brand-primaryText);
+}
+
+html:root body .adm-lic__table-wrap {
+  border-color: var(--brand-line);
+  border-radius: 14px;
+  background: var(--brand-surface);
+}
+
+html:root body .adm-lic__table th,
+html:root body .adm-lic__table td {
+  border-color: var(--brand-line);
+}
+
+html:root body .adm-lic__table th {
+  background: var(--brand-soft);
+  color: var(--brand-muted);
+}
+
+html:root body .adm-lic__table td {
+  color: var(--brand-ink);
+}
+
+/* Estúdio de vídeos: editor de trabalho com scroll seguro em telas pequenas. */
+html:root body .avs-shell {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .avs-block {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .avs-block > header small,
+html:root body .avs-counter,
+html:root body .avs-product-list button.active {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .avs-product-list button.active {
+  border-color: var(--brand-primary);
+}
+
+html:root body .avs-render {
+  border-color: var(--brand-line);
+  background: var(--brand-surface);
+}
+
+html:root body .avs-render-actions button {
+  border-color: var(--brand-line);
+  border-radius: 10px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .avs-render-actions button.primary {
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
+
+@media (max-width: 720px) {
+  html:root body .avs-shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  html:root body .avs-body {
+    min-height: 0;
+    overflow: visible;
+    padding: 12px;
+  }
+
+  html:root body .avs-render {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--brand-surface) 94%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  html:root body .avs-render-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  html:root body .avs-render-actions button {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* Menu de conta do usuário: o menu permanece navy, mas a ação no cabeçalho
+   passa a acompanhar o tema ativo e os azuis da marca. */
+html:root body .pc-user-trigger {
+  border-color: var(--brand-line);
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .pc-user-trigger:hover,
+html:root body .pc-user-trigger:focus-visible {
+  border-color: var(--brand-primary);
+  background: var(--brand-primarySoft);
+}
+
+html:root body .pc-user-avatar {
+  background: linear-gradient(135deg, var(--brand-navy), var(--brand-primary));
+}
+
+html:root body .pc-user-menu {
+  border-color: color-mix(in srgb, var(--brand-primary) 40%, #fff);
+  background: var(--brand-navy);
+  color: #f4f7fb;
+}
+
+html:root body .pc-user-menu > header {
+  border-color: color-mix(in srgb, #fff 12%, transparent);
+}
+
+html:root body .pc-user-menu > header small,
+html:root body .pc-user-menu > header em,
+html:root body .pc-user-menu nav small,
+html:root body .pc-user-menu > button {
+  color: #b9cbe2;
+}
+
+html:root body .pc-user-menu > header em,
+html:root body .pc-user-menu nav a > svg {
+  background: color-mix(in srgb, var(--brand-primary) 22%, var(--brand-navy));
+  color: #cfe0f7;
+}
+
+html:root body .pc-user-menu nav a:is(:hover, :focus-visible),
+html:root body .pc-user-menu > button:hover {
+  background: color-mix(in srgb, var(--brand-primary) 22%, var(--brand-navy));
+  color: #fff;
+}
+
+html:root body .pc-user-menu > button {
+  border-color: color-mix(in srgb, #fff 12%, transparent);
+}
+
+/* Favoritos: dois blocos distintos (produtos e lojas), com largura de leitura
+   confortável e cards que não mudam de altura de forma imprevisível. */
+html:root body .pc-favorites-page .ref-page-title {
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+html:root body .pc-favorites-page .ref-page-title h1 {
+  max-width: 22ch;
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  line-height: 1.05;
+}
+
+html:root body .pc-favorites-page .ref-product-grid {
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 14px;
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a {
+  display: grid;
+  height: 100%;
+  color: var(--brand-ink);
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a > div {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  background: var(--brand-soft);
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a > div img {
+  max-width: 100%;
+  max-height: 142px;
+  object-fit: contain;
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > button {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--brand-line);
+  border-radius: 50%;
+  background: var(--brand-surface);
+  color: var(--brand-muted);
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a > :is(small, strong, span, footer) {
+  margin-inline: 13px;
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a > strong {
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
+html:root body .pc-favorites-page .ref-product-grid > article > a > footer b {
+  color: var(--brand-primaryText);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 680px) {
+  html:root body .pc-favorites-page .ref-page-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  html:root body .pc-favorites-page .ref-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  html:root body .pc-favorites-page .ref-product-grid > article > a > div {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 380px) {
+  html:root body .pc-favorites-page .ref-product-grid {
+    grid-template-columns: 1fr;
+  }
+}
