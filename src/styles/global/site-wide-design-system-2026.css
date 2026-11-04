@@ -962,3 +962,51 @@ html:root body .adm-lic__table td {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Área da conta: dashboard pessoal no mesmo sistema de superfícies e ações. */
+html:root body .pc-account-page {
+  min-height: 100dvh;
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+  font-family: var(--pc-font-body);
+}
+
+html:root body .pc-account-page .pc-account-shell {
+  width: min(1160px, calc(100% - clamp(24px, 4vw, 56px)));
+  margin-inline: auto;
+  padding-block: clamp(20px, 3vw, 36px) 48px;
+}
+
+html:root body .pc-account-page .pc-account-hero {
+  border: 1px solid var(--brand-line);
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--brand-surface), var(--brand-primarySoft));
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-account-page .pc-account-tools > a {
+  min-height: 88px;
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-account-page .pc-account-details {
+  border-color: var(--brand-line);
+  background: var(--brand-line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+html:root body .pc-account-page .pc-account-details > div {
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .pc-account-page :is(h1, h2, h3) {
+  font-family: var(--pc-font-display);
+  letter-spacing: -.03em;
+}
