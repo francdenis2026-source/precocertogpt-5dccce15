@@ -227,7 +227,7 @@ html:root body :is(
 /* Ações primárias seguem o azul da marca; verde permanece reservado à economia. */
 html:root body :is(
   .pc-btn--primary, .pdl-actions__primary, .pc-lists-new-btn,
-  .pc-lists-share__enable, .mo-submit, .adm-gate-primary
+  .pc-lists-share__enable, .mo-submit, .adm-gate-primary, .ref-auth__submit
 ) {
   border-color: transparent;
   border-radius: 12px;
@@ -603,6 +603,37 @@ html:root body .adm-gate-card {
 
 /* A página de cadastro do lojista mantém seu fluxo próprio, mas usa o mesmo
    acabamento, paleta, formulário e hierarquia de títulos. */
+
+html:root body .ref-auth__submit {
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+  font-family: var(--pc-font-body);
+  font-weight: 800;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 20%, transparent);
+}
+
+html:root body .ref-auth__back {
+  min-height: 40px;
+  border: 1px solid var(--brand-line);
+  border-radius: 10px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .ref-auth__hint,
+html:root body .ref-auth__safe {
+  color: var(--brand-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:root body .ref-auth__submit:hover {
+    background: var(--brand-primaryText);
+  }
+}
+
 html:root body .mo-page :is(.mo-card, .mo-steps, .mo-status) {
   border-color: var(--brand-line);
   border-radius: 18px;
