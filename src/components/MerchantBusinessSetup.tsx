@@ -140,7 +140,7 @@ export function MerchantBusinessSetup() {
   if (!membership) return <main style={styles.center}><Building2 size={40} /><h1>Configuração do negócio</h1><p>Seu cadastro foi aprovado, mas o acesso ao painel ainda não foi ativado pela nossa equipe.</p><a href="/fale-conosco" style={styles.primary}>Falar com o PreçoCerto</a></main>;
 
   return (
-    <main style={styles.page}>
+    <main className="pc-merchant-page pc-merchant-setup" style={styles.page}>
       <div style={styles.container}>
         <a href="/painel-lojista" style={styles.back}><ArrowLeft size={16} /> Voltar ao painel</a>
         <header style={styles.header}>
