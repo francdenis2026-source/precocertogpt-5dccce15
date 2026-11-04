@@ -95,7 +95,6 @@ html[data-theme="dark"] .ph {
 html[data-theme="dark"] .ph-thumb { background: #f2f5f7; }
 .ph-thumb--empty { color: var(--ph-muted); }
 html[data-theme="dark"] .ph-thumb--empty { background: var(--ph-surface-2); }
-.ph-thumb--empty { background: var(--ph-save-soft) !important; }
 .ph-thumb--empty svg { width: 40%; height: 40%; }
 
 /* Seções */
