@@ -324,7 +324,7 @@ export function SearchDiscovery2026(){
  const openProduct=(product:Product,target:HTMLElement)=>{lastProductTrigger.current=target;setSelectedProduct(product)};
  const openProductOnActivate=(product:Product)=>({
   onClick:(event:MouseEvent<HTMLElement>)=>openProduct(product,event.currentTarget),
-  onKeyDown:(event:ReactKeyboardEvent<HTMLElement>)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openProduct(product,event.currentTarget)}},
+  onKeyDown:(event:ReactKeyboardEvent<HTMLElement>)=>{if(event.target!==event.currentTarget)return;if(event.key==="Enter"||event.key===" "){event.preventDefault();openProduct(product,event.currentTarget)}},
  });
  const closeProduct=()=>{setSelectedProduct(null);window.setTimeout(()=>lastProductTrigger.current?.focus(),0)};
  useGSAP(()=>{
