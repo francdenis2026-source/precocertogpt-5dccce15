@@ -2303,3 +2303,105 @@ html:root body .pcx-header__signup {
 html:root body .pcx-header__signup:hover {
   background: var(--brand-primaryText);
 }
+
+
+/* Páginas informativas e estados vazios (pedidos, ajuda, página não
+   encontrada): uma composição editorial limpa em vez de texto solto. */
+html:root body .ref-info {
+  width: min(100%, 980px);
+  min-height: min(680px, calc(100dvh - 190px));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 18px;
+  padding: clamp(42px, 7vw, 88px) clamp(20px, 4vw, 44px);
+  background:
+    radial-gradient(80% 65% at 100% 0%, color-mix(in srgb, var(--brand-primarySoft) 76%, transparent), transparent 72%),
+    var(--brand-canvas);
+}
+
+html:root body .ref-info > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 22%, var(--brand-line));
+  border-radius: 999px;
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+html:root body .ref-info h1 {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--brand-ink);
+  font-family: var(--pc-font-display);
+  font-size: clamp(2.1rem, 5.2vw, 3.8rem);
+  font-weight: 850;
+  line-height: 1.02;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+html:root body .ref-info p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--brand-muted);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.7;
+}
+
+html:root body .ref-info > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  margin-top: 6px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 20%, transparent);
+  transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+html:root body .ref-info > a svg {
+  width: 16px;
+  height: 16px;
+}
+
+html:root body .ref-info > a:hover {
+  transform: translateY(-1px);
+  background: var(--brand-primaryText);
+  box-shadow: 0 12px 26px color-mix(in srgb, var(--brand-primary) 24%, transparent);
+}
+
+html:root body .ref-info > a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  html:root body .ref-info {
+    min-height: calc(100dvh - 160px);
+    padding: 38px 20px;
+    gap: 14px;
+  }
+
+  html:root body .ref-info h1 {
+    font-size: clamp(1.9rem, 9vw, 2.8rem);
+  }
+
+  html:root body .ref-info > a {
+    width: 100%;
+  }
+}
