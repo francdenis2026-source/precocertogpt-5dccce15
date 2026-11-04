@@ -6,6 +6,24 @@ import "./CategoryOffers.css";
 
 const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
+function OfferMedia({ imageUrl, productName, discount }: { imageUrl: string | null; productName: string; discount: number | null }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [imageUrl]);
+  return (
+    <span className="pc-offers__media">
+      {imageUrl && !failed ? (
+        <img src={imageUrl} alt={productName} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+      ) : (
+        <span className="pc-offers__media-fallback" role="img" aria-label={`Imagem de ${productName} indisponível`}>
+          <Tag aria-hidden="true" />
+          <small>Imagem indisponível</small>
+        </span>
+      )}
+      {discount !== null && <em className="pc-offers__badge">-{discount}%</em>}
+    </span>
+  );
+}
+
 function remaining(endsAt: string | null) {
   if (!endsAt) return null;
   const diff = new Date(endsAt).getTime() - Date.now();
@@ -72,16 +90,7 @@ export function CategoryOffers({ categorySlug, title = "Ofertas da semana", limi
           return (
             <li key={offer.id} className="pc-offers__card">
               <Link to={offer.linkUrl || "/buscar"} className="pc-offers__link">
-                <span className="pc-offers__media">
-                  {offer.imageUrl ? (
-                    <img src={offer.imageUrl} alt={offer.productName} loading="lazy" decoding="async" />
-                  ) : (
-                    <span className="pc-offers__media-fallback" aria-hidden="true">
-                      <Tag />
-                    </span>
-                  )}
-                  {discount !== null && <em className="pc-offers__badge">-{discount}%</em>}
-                </span>
+                <OfferMedia imageUrl={offer.imageUrl} productName={offer.productName} discount={discount} />
                 <span className="pc-offers__body">
                   <strong className="pc-offers__title">{offer.productName}</strong>
                   {offer.storeName && (
