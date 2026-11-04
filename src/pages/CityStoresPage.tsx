@@ -2,10 +2,11 @@ import establishmentsHero from "../assets/sectors-2026/sector-markets-v3.jpg";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Building2, Home, MapPin, PackageSearch, Store, Tag, TrendingDown } from "lucide-react";
+import { ArrowLeft, Building2, Home, MapPin, Store, Tag, TrendingDown } from "lucide-react";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { CatalogPayload, Product, StoreRow } from "../data/catalog";
 import { CategoryOffers } from "../components/offers/CategoryOffers";
+import { ProductThumb } from "../components/catalog/ProductThumb";
 import { cities, cityForNeighborhood, cityLabel, findCity, type CityDefinition } from "../data/cities";
 import { PublicFooter } from "../reference/PublicChrome";
 import "./CityStoresPage.css";
@@ -255,13 +256,7 @@ export function CityStoresPage() {
             {products.map(product => (
               <li key={String(product.id)}>
                 <Link to={`/produto/${product.slug}`}>
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} loading="lazy" decoding="async" />
-                  ) : (
-                    <span className="city-product-fallback" aria-hidden="true">
-                      <PackageSearch />
-                    </span>
-                  )}
+                  <ProductThumb product={product} size="sm" />
                   <strong>{product.name}</strong>
                   <small>{product.establishment}</small>
                   <b>{brl.format(product.minPrice)}</b>
