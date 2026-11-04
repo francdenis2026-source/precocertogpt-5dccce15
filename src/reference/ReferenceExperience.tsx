@@ -188,7 +188,7 @@ function ProductVisual({ product, eager = false }: { product: Product; eager?: b
   useEffect(() => setFailed(false), [source]);
   return source && !failed
     ? <img src={source} alt={product.name} width="280" height="240" loading={eager ? "eager" : "lazy"} onError={() => setFailed(true)} />
-    : <span className="ref-product-fallback" role="img" aria-label={`Foto de ${product.name} indisponível`}><span className="ref-product-fallback__mark"><PackageSearch aria-hidden="true" /></span><small>{product.category || "Produto local"}<em>Foto indisponível</em></small></span>;
+    : <span className="ref-product-fallback" role="img" aria-label={`Foto de ${product.name} indisponível`}><span className="ref-product-fallback__mark"><PackageSearch aria-hidden="true" /></span><small>{formatCategoryLabel(product.category) || "Produto local"}<em>Foto indisponível</em></small></span>;
 }
 
 
