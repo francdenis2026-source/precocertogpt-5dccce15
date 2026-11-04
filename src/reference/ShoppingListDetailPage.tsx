@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
-  ArrowLeft, Check, Copy, Link2, ListChecks, LoaderCircle, MessageCircle, Minus, PackageSearch, Pencil, Plus, RefreshCw, Scale, Search,
+  ArrowLeft, Check, Copy, Link2, ListChecks, LoaderCircle, MessageCircle, Minus, Pencil, Plus, RefreshCw, Scale, Search,
   Sparkles, Store, Trash2, Wallet, X,
 } from "lucide-react";
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { Product, StoreRow } from "../data/catalog";
-import { resolveProductImage } from "../data/productImageResolver";
 import { buildAutoBasket } from "../data/autoBasket";
 import { AppDock, PublicFooter, PublicHeader } from "./PublicChrome";
+import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
 import { SubscriberGate } from "../components/access/SubscriberGate";
 import { useShoppingListItems, type ResolvedItem } from "../features/shoppingLists/useShoppingListItems";
 import { renameShoppingList, deleteShoppingList, type ShoppingListMode } from "../features/shoppingLists/useShoppingLists";
@@ -21,13 +21,6 @@ const MODE_LABEL: Record<ShoppingListMode, string> = {
   store: "Por estabelecimento",
   price: "Por valor/orçamento",
 };
-
-function ProductThumb({ product }: { product: Product }) {
-  const source = resolveProductImage(product);
-  const [failed, setFailed] = useState(false);
-  if (source && !failed) return <img src={source} alt={product.name} loading="lazy" onError={() => setFailed(true)} />;
-  return <PackageSearch aria-hidden="true" />;
-}
 
 function ProductPicker({ products, onPick }: { products: Product[]; onPick: (id: string | number) => void }) {
   const [query, setQuery] = useState("");
@@ -46,7 +39,7 @@ function ProductPicker({ products, onPick }: { products: Product[]; onPick: (id:
     {results.length > 0 && <ul className="pc-lists-picker__results">
       {results.map(product => <li key={product.id}>
         <button type="button" onClick={() => { onPick(product.id); setQuery(""); }}>
-          <ProductThumb product={product} />
+          <CatalogProductThumb product={product} size="sm" />
           <span><strong>{product.name}</strong><small>{[product.brand, product.size].filter(Boolean).join(" · ") || product.category}</small></span>
           <em>{brl.format(product.minPrice)}</em>
         </button>
@@ -310,7 +303,7 @@ export function ShoppingListDetailPage() {
           <label className="pc-lists-item__check" aria-label={row.purchased ? `Desmarcar ${row.product.name} como comprado` : `Marcar ${row.product.name} como comprado`}>
             <input type="checkbox" checked={row.purchased} onChange={e => void togglePurchased(row.product.id, e.target.checked)} />
           </label>
-          <div className="pc-lists-item__product"><span className="pc-lists-thumb"><ProductThumb product={row.product} /></span>
+          <div className="pc-lists-item__product"><span className="pc-lists-thumb"><CatalogProductThumb product={row.product} size="sm" /></span>
             <span><small>{row.product.category}</small><strong>{row.product.name}</strong><em>{[row.product.brand, row.product.size].filter(Boolean).join(" · ")}</em></span>
           </div>
           <div className="pc-lists-item__qty">
