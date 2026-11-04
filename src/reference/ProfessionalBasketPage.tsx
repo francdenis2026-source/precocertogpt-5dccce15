@@ -3,6 +3,7 @@ import { useGSAP, gsap, ScrollTrigger } from "../lib/lightMotion";
 import { Link } from "react-router-dom";
 import { ArrowRight, BadgeCheck, Minus, PiggyBank, Plus, ShoppingBasket, Sparkles, Store, Trash2 } from "lucide-react";
 import { fetchCatalog } from "../data/remoteCatalog";
+import { formatCategoryLabel } from "../lib/categoryLabels";
 import type { Product } from "../data/catalog";
 import { AppDock, PublicFooter, PublicHeader } from "./PublicChrome";
 import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
@@ -101,7 +102,7 @@ export function ProfessionalBasketPage() {
           <header><div><small>PRODUTOS SELECIONADOS</small><h2>Sua lista</h2></div><Link to="/buscar">+ Adicionar produto</Link></header>
           <div className="pro-basket-table-head"><span>Produto</span><span>Quantidade</span><span>Melhor preço</span><span>Total</span><span /></div>
           {rows.map(({ entry, product }) => <article key={product.id} className="pro-basket-item">
-            <div className="pro-basket-product"><span className="pro-basket-thumb"><CatalogProductThumb product={product} size="sm" /></span><span><small>{product.category}</small><strong>{product.name}</strong><em>{[product.brand, product.size].filter(Boolean).join(" · ")}</em></span></div>
+            <div className="pro-basket-product"><span className="pro-basket-thumb"><CatalogProductThumb product={product} size="sm" /></span><span><small>{formatCategoryLabel(product.category)}</small><strong>{product.name}</strong><em>{[product.brand, product.size].filter(Boolean).join(" · ")}</em></span></div>
             <div className="pro-basket-qty"><button type="button" onClick={() => update(product.id, -1)} aria-label={`Diminuir ${product.name}`}>{entry.quantity === 1 ? <Trash2 /> : <Minus />}</button><strong>{entry.quantity}</strong><button type="button" onClick={() => update(product.id, 1)} aria-label={`Aumentar ${product.name}`}><Plus /></button></div>
             <div className="pro-basket-unit"><strong>{brl.format(product.minPrice)}</strong><small>{product.establishment || "Comércio local"}</small></div>
             <div className="pro-basket-line-total"><strong>{brl.format(product.minPrice * entry.quantity)}</strong><small>{product.maxPrice > product.minPrice ? `até ${brl.format((product.maxPrice - product.minPrice) * entry.quantity)} de diferença` : "melhor preço atual"}</small></div>
