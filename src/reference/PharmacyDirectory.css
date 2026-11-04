@@ -294,3 +294,36 @@ html[data-theme="dark"] .sector-product-card__price b { color: #93c5fd; }
 /* 4.6:1 sobre #10161d. */
 .pharmacy-footer p,
 .pharmacy-footer small { color: rgba(255, 255, 255, 0.66); font-size: 0.7rem; }
+
+
+/* Catálogo de categorias: fotografias reais do produto em proporção uniforme.
+   O fallback vem do ProductThumb compartilhado e nunca inventa uma foto. */
+.sector-product-card__media {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--pc-surface-2, #edf3fa);
+}
+
+.sector-product-card__media > .pthumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+}
+
+.sector-product-card__media .pthumb img {
+  padding: 7%;
+}
+
+.sector-product-card__media .pthumb__fallback small {
+  font-size: 10px;
+}
+
+@media (max-width: 620px) {
+  .sector-product-card__media > .pthumb {
+    aspect-ratio: 4 / 3;
+  }
+}
