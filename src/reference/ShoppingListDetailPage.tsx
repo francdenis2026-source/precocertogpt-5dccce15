@@ -7,6 +7,7 @@ import {
 import { fetchCatalog } from "../data/remoteCatalog";
 import type { Product, StoreRow } from "../data/catalog";
 import { buildAutoBasket } from "../data/autoBasket";
+import { formatCategoryLabel } from "../lib/categoryLabels";
 import { AppDock, PublicFooter, PublicHeader } from "./PublicChrome";
 import { ProductThumb as CatalogProductThumb } from "../components/catalog/ProductThumb";
 import { SubscriberGate } from "../components/access/SubscriberGate";
@@ -40,7 +41,7 @@ function ProductPicker({ products, onPick }: { products: Product[]; onPick: (id:
       {results.map(product => <li key={product.id}>
         <button type="button" onClick={() => { onPick(product.id); setQuery(""); }}>
           <CatalogProductThumb product={product} size="sm" />
-          <span><strong>{product.name}</strong><small>{[product.brand, product.size].filter(Boolean).join(" · ") || product.category}</small></span>
+          <span><strong>{product.name}</strong><small>{[product.brand, product.size].filter(Boolean).join(" · ") || formatCategoryLabel(product.category)}</small></span>
           <em>{brl.format(product.minPrice)}</em>
         </button>
       </li>)}
@@ -304,7 +305,7 @@ export function ShoppingListDetailPage() {
             <input type="checkbox" checked={row.purchased} onChange={e => void togglePurchased(row.product.id, e.target.checked)} />
           </label>
           <div className="pc-lists-item__product"><span className="pc-lists-thumb"><CatalogProductThumb product={row.product} size="sm" /></span>
-            <span><small>{row.product.category}</small><strong>{row.product.name}</strong><em>{[row.product.brand, row.product.size].filter(Boolean).join(" · ")}</em></span>
+            <span><small>{formatCategoryLabel(row.product.category)}</small><strong>{row.product.name}</strong><em>{[row.product.brand, row.product.size].filter(Boolean).join(" · ")}</em></span>
           </div>
           <div className="pc-lists-item__qty">
             <button type="button" onClick={() => void setQuantity(row.product.id, row.quantity - 1)} aria-label={`Diminuir ${row.product.name}`}>{row.quantity === 1 ? <Trash2 aria-hidden="true" /> : <Minus aria-hidden="true" />}</button>
