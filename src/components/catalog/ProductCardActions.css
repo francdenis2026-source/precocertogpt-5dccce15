@@ -90,3 +90,20 @@ html[data-theme="dark"] .pca-btn.is-added { background: #42c99a; border-color: #
   }
   .pca-row--overlay { gap: 0.3rem; top: 6px; right: 6px; }
 }
+
+
+html[data-theme="dark"] .pca-btn:hover:not(.pca-btn--buy):not(.is-active) {
+  border-color: var(--brand-primary, #60a5fa);
+  color: var(--brand-primaryText, #93c5fd);
+}
+
+html[data-theme="dark"] .pca-btn--buy {
+  background: var(--brand-primary, #60a5fa);
+  border-color: var(--brand-primary, #60a5fa);
+  color: var(--brand-onPrimary, #08111f);
+}
+
+html[data-theme="dark"] .pca-btn--buy:hover {
+  background: var(--brand-primaryText, #93c5fd);
+  border-color: var(--brand-primaryText, #93c5fd);
+}
