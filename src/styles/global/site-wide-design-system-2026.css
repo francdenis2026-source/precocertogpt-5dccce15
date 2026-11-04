@@ -2057,3 +2057,195 @@ html:root body .pc-favorites-page .ref-product-grid > article > a > footer b {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Explorar, setores e vitrines locais: mais profundidade nos cards sem
+   uniformizar as fotografias e identidades próprias de cada segmento. */
+html:root body .sector-hub__sector {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .sector-hub__sector-icon,
+html:root body .sector-hub__tool-grid > a > svg:first-child {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .sector-hub__sector-meta span {
+  border-radius: 8px;
+  background: var(--brand-soft);
+  color: var(--brand-muted);
+}
+
+html:root body .sector-hub__tool-grid {
+  border-color: var(--brand-line);
+  background: var(--brand-surface);
+}
+
+html:root body .sector-hub__tool-grid > a {
+  border-color: var(--brand-line);
+  border-radius: 12px;
+  background: var(--brand-soft);
+  color: var(--brand-ink);
+}
+
+html:root body .sector-hub__store-grid > a {
+  border-color: var(--brand-line);
+  border-radius: 14px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .sector-hub__store-grid > a > b,
+html:root body .sector-hub__stores > header > a {
+  color: var(--brand-primaryText);
+}
+
+html:root body .sector-hub__special article,
+html:root body .sector-hub__how {
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .sector-hub__special article > svg {
+  background: var(--brand-primarySoft);
+  color: var(--brand-primaryText);
+}
+
+html:root body .sector-hub__special a {
+  color: var(--brand-primaryText);
+}
+
+html:root body .sector-hub__how > div {
+  border-color: var(--brand-line);
+}
+
+html:root body .sector-hub__how > div > svg {
+  color: var(--brand-primaryText);
+}
+
+/* Diretórios setoriais preservam a fotografia e a personalidade do setor,
+   enquanto preços, cartões e chamadas de ação seguem o sistema da marca. */
+html:root body .pharmacy-directory-page {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+}
+
+html:root body .pharmacy-directory-page .pharmacy-establishment {
+  border-color: var(--brand-line);
+  border-radius: 16px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pharmacy-directory-page .pharmacy-establishment__catalog {
+  border-color: var(--brand-line);
+}
+
+html:root body .pharmacy-directory-page .sector-product-card {
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pharmacy-directory-page .sector-product-card__price {
+  border-color: var(--brand-line);
+}
+
+html:root body .pharmacy-directory-page .sector-product-card__price strong {
+  color: var(--brand-primaryText);
+  font-variant-numeric: tabular-nums;
+}
+
+html:root body .pharmacy-directory-page .sector-product-gate {
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 30%, transparent);
+  border-radius: 17px;
+  background: linear-gradient(120deg, var(--brand-navy), color-mix(in srgb, var(--brand-navy) 76%, var(--brand-primary)));
+  color: #fff;
+}
+
+html:root body .pharmacy-directory-page .sector-product-gate .pc-btn--primary {
+  border-color: transparent;
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
+
+html:root body .pharmacy-directory-page .sector-product-gate__login {
+  color: #fff;
+}
+
+/* Páginas de cidade: os cards de produto e loja têm a mesma qualidade visual
+   das vitrines principais, mantendo os dados locais e a cor própria da loja. */
+html:root body .city-page .city-store-list a,
+html:root body .city-page .city-product-grid a {
+  min-width: 0;
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .city-page .city-product-grid a {
+  overflow: hidden;
+  padding: 12px;
+  gap: 7px;
+}
+
+html:root body .city-page .city-product-grid b,
+html:root body .city-page .city-product-grid em {
+  color: var(--brand-primaryText);
+  font-variant-numeric: tabular-nums;
+}
+
+html:root body .city-page .city-back a {
+  border-color: var(--brand-line);
+  border-radius: 10px;
+  background: var(--brand-surface);
+  color: var(--brand-ink);
+}
+
+html:root body .city-page .city-back a:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primaryText);
+}
+
+/* Ofertas publicadas pelo painel: imagem e informação comercial em um card
+   mais estável, com foco acessível e preço em algarismos tabulares. */
+html:root body .pc-offers {
+  border-color: var(--brand-line);
+  border-radius: 19px;
+  background: var(--brand-surface);
+  box-shadow: var(--pc-card-shadow);
+}
+
+html:root body .pc-offers__card {
+  border-color: var(--brand-line);
+  border-radius: 15px;
+  background: var(--brand-soft);
+}
+
+html:root body .pc-offers__media {
+  background: var(--brand-soft);
+}
+
+html:root body .pc-offers__prices b {
+  color: var(--brand-primaryText);
+  font-variant-numeric: tabular-nums;
+}
+
+html:root body .pc-offers__badge {
+  background: var(--brand-primary);
+  color: var(--brand-onPrimary);
+}
+
+html:root body .pc-offers__link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary) 42%, transparent);
+  outline-offset: 2px;
+}
