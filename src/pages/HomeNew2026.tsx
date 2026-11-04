@@ -90,7 +90,7 @@ function ProductThumb({ product, size }: { product: Product; size: number }) {
       aria-label={`Foto de ${product.name} indisponível`}
     >
       <ImageOff aria-hidden="true" />
-      {size >= 100 && <small>Foto não cadastrada</small>}
+      {size >= 100 && <small>Imagem indisponível</small>}
     </span>
   );
 }
