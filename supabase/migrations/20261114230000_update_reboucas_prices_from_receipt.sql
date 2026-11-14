@@ -11,7 +11,8 @@ insert into public.products (name, brand, category, size, unit, slug)
 select v.name, v.brand, v.category, v.size, v.unit, v.slug
 from (values
   ('Bolinho Bauducco', 'Bauducco', 'biscoitos', 'un', 'un', 'bolinho-bauducco'),
-  ('Biscoito Wafer Atrevidos Napolitano Itamaraty 80g', 'Itamaraty', 'biscoitos', '80g', 'un', 'biscoito-wafer-atrevidos-napolitano-itamaraty-80g')
+  ('Biscoito Wafer Atrevidos Napolitano Itamaraty 80g', 'Itamaraty', 'biscoitos', '80g', 'un', 'biscoito-wafer-atrevidos-napolitano-itamaraty-80g'),
+  ('Esponja Multiuso Bombril Leve 4 Pague 3 (4 un)', 'Bombril', 'limpeza', '4un', 'un', 'esponja-multiuso-bombril-leve-4-pague-3-4-un')
 ) as v(name, brand, category, size, unit, slug)
 where not exists (select 1 from public.products p where p.slug = v.slug);
 
@@ -45,7 +46,8 @@ with desired(slug, value) as (
     ('desinfetante-casaflor-1l', 11),
     ('desinfetante-pinho-trop-500ml', 5.5),
     ('colorau-bernardo-alimentos-500g', 12),
-    ('biscoito-wafer-atrevidos-napolitano-itamaraty-80g', 2.5)
+    ('biscoito-wafer-atrevidos-napolitano-itamaraty-80g', 2.5),
+    ('esponja-multiuso-bombril-leve-4-pague-3-4-un', 4)
 ),
 resolved as (
   select distinct on (d.slug) p.id as product_id, d.value, 'c3f3df85-42fe-41ed-97a1-3115330783e2'::uuid as establishment_id
