@@ -47,7 +47,10 @@ with desired(slug, value) as (
     ('colorau-bernardo-alimentos-500g', 12),
     ('biscoito-wafer-atrevidos-napolitano-itamaraty-80g', 2.5),
     ('esponja-multiuso-bombril-leve-4-pague-3-4-un', 4),
-    ('nissin-lamen-galinha-80g', 3)
+    ('nissin-lamen-galinha-80g', 3),
+    ('sabao-em-po-omo-lavagem-perfeita-400g', 10),
+    ('salgadinho-ziim-100g', 3.25),
+    ('file-de-peito-friato', 27)
 ),
 resolved as (
   select distinct on (d.slug) p.id as product_id, d.value, 'c3f3df85-42fe-41ed-97a1-3115330783e2'::uuid as establishment_id
