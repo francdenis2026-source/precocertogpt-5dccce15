@@ -29,7 +29,8 @@ with desired(slug, value) as (
     ('bolacha-amanteigada-todeschini-360g', 6),
     ('flocao-nutrivita-milho-500g', 3),
     ('detergente-ype-500ml', 3.25),
-    ('bolinho-bauducco', 3)
+    ('bolinho-bauducco', 3),
+    ('mistura-lactea-condensada-mococa-395g', 4.25)
 ),
 resolved as (
   select distinct on (d.slug) p.id as product_id, d.value, 'c3f3df85-42fe-41ed-97a1-3115330783e2'::uuid as establishment_id
