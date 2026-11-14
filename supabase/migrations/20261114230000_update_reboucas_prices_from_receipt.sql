@@ -27,7 +27,6 @@ with desired(slug, value) as (
     ('creme-de-leite', 2.5),
     ('coco-ralado-sococo-100g', 9),
     ('achocolatado-nescau-nestle-350g', 12.5),
-    ('miojo-nissin', 3),
     ('macarrao-espaguete-todeschini-500g', 4.25),
     ('arroz-bom-paladar-1kg', 5),
     ('leite-em-po-dobom-400g', 13.5),
@@ -47,7 +46,8 @@ with desired(slug, value) as (
     ('desinfetante-pinho-trop-500ml', 5.5),
     ('colorau-bernardo-alimentos-500g', 12),
     ('biscoito-wafer-atrevidos-napolitano-itamaraty-80g', 2.5),
-    ('esponja-multiuso-bombril-leve-4-pague-3-4-un', 4)
+    ('esponja-multiuso-bombril-leve-4-pague-3-4-un', 4),
+    ('nissin-lamen-galinha-80g', 3)
 ),
 resolved as (
   select distinct on (d.slug) p.id as product_id, d.value, 'c3f3df85-42fe-41ed-97a1-3115330783e2'::uuid as establishment_id
