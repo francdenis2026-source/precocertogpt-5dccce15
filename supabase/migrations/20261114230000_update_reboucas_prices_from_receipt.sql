@@ -2,10 +2,16 @@
 -- Idempotente: cria produtos ausentes e atualiza só o preço mais recente da loja,
 -- guardando o valor anterior em previous_value quando o preço muda.
 
+-- O Nescafé com Leite Lata 300g estava sem slug no catálogo.
+update public.products set slug = 'nescafe-com-leite-lata-300g'
+where name = 'Nescafé com Leite Lata 300g' and slug is null
+  and not exists (select 1 from public.products where slug = 'nescafe-com-leite-lata-300g');
+
 insert into public.products (name, brand, category, size, unit, slug)
 select v.name, v.brand, v.category, v.size, v.unit, v.slug
 from (values
-  ('Bolinho Bauducco', 'Bauducco', 'biscoitos', 'un', 'un', 'bolinho-bauducco')
+  ('Bolinho Bauducco', 'Bauducco', 'biscoitos', 'un', 'un', 'bolinho-bauducco'),
+  ('Biscoito Wafer Atrevidos Napolitano Itamaraty 80g', 'Itamaraty', 'biscoitos', '80g', 'un', 'biscoito-wafer-atrevidos-napolitano-itamaraty-80g')
 ) as v(name, brand, category, size, unit, slug)
 where not exists (select 1 from public.products p where p.slug = v.slug);
 
@@ -28,9 +34,18 @@ with desired(slug, value) as (
     ('pipoca-doce', 3),
     ('bolacha-amanteigada-todeschini-360g', 6),
     ('flocao-nutrivita-milho-500g', 3),
-    ('detergente-ype-500ml', 3.25),
     ('bolinho-bauducco', 3),
-    ('mistura-lactea-condensada-mococa-395g', 4.25)
+    ('mistura-lactea-condensada-mococa-395g', 4.25),
+    ('milho-de-pipoca-dona-clara-400g', 3.5),
+    ('nescafe-com-leite-lata-300g', 22),
+    ('canjica-bernardo-amarela-400g', 2.5),
+    ('oleo-de-soja-concordia-900ml', 8.75),
+    ('papel-higienico-duetto-fd-perfumado-4x30m', 9),
+    ('detergente-ype-coco-500ml', 3.25),
+    ('desinfetante-casaflor-1l', 11),
+    ('desinfetante-pinho-trop-500ml', 5.5),
+    ('colorau-bernardo-alimentos-500g', 12),
+    ('biscoito-wafer-atrevidos-napolitano-itamaraty-80g', 2.5)
 ),
 resolved as (
   select distinct on (d.slug) p.id as product_id, d.value, 'c3f3df85-42fe-41ed-97a1-3115330783e2'::uuid as establishment_id
