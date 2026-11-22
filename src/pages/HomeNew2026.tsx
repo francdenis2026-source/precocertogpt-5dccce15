@@ -249,7 +249,11 @@ export function HomeNew2026() {
   }, [cycle]);
 
   const products = useMemo(() => catalog.products.filter(product => product.minPrice > 0), [catalog.products]);
-  const featured = useMemo(() => buildFeatured(products, cycle, 8), [products, cycle]);
+  // Vitrine prioriza produtos com foto própria; sem foto só entra se faltar opção.
+  const featured = useMemo(() => {
+    const withPhoto = products.filter(hasProfessionalProductPhoto);
+    return buildFeatured(withPhoto.length >= 8 ? withPhoto : products, cycle, 8);
+  }, [products, cycle]);
   const board = useMemo(
     () => products.filter(product => product.storeCount > 1 && spread(product) > 0 && hasProfessionalProductPhoto(product)).sort((a, b) => spread(b) - spread(a)).slice(0, 5),
     [products],

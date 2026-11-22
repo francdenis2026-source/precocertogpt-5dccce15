@@ -64,16 +64,18 @@ export function buildRecentUpdates(products: Product[], stores: StoreRow[], limi
   }
 
   return [...groups.values()]
-    .sort((a, b) => b.day.localeCompare(a.day) || b.changes.length - a.changes.length)
+    .filter(group => changedOf(group).length > 0)
+    .sort((a, b) => b.day.localeCompare(a.day) || changedOf(b).length - changedOf(a).length)
     .slice(0, limit);
 }
 
+// Só conta como atualização o que mudou de preço; registros sem mudança não aparecem.
+const changedOf = (group: UpdateGroup) =>
+  group.changes.filter(change => change.previous !== undefined && change.previous !== change.value);
+
 function variation(change: Change) {
-  if (change.previous === undefined || change.previous === change.value) {
-    return `${money.format(change.value)} (sem alteração)`;
-  }
-  const delta = (change.value - change.previous) / change.previous;
-  return `${money.format(change.previous)} → ${money.format(change.value)} (${percent.format(delta)})`;
+  const delta = (change.value - (change.previous ?? change.value)) / (change.previous ?? change.value);
+  return `${money.format(change.previous ?? change.value)} → ${money.format(change.value)} (${percent.format(delta)})`;
 }
 
 export function RecentUpdates({ products, stores }: { products: Product[]; stores: StoreRow[] }) {
@@ -90,10 +92,11 @@ export function RecentUpdates({ products, stores }: { products: Product[]; store
       </header>
       <ul className="ph-updates">
         {groups.map(group => {
-          const shown = group.changes.slice(0, 3);
+          const changed = changedOf(group);
+          const shown = changed.slice(0, 3);
           const scope = group.total
-            ? `Atualizou ${integer.format(group.changes.length)} de ${integer.format(group.total)} produtos desta loja. Os demais seguem com o último preço registrado.`
-            : `Atualizou ${integer.format(group.changes.length)} produtos desta loja. Os demais seguem com o último preço registrado.`;
+            ? `${integer.format(changed.length)} de ${integer.format(group.total)} produtos com preço novo. Os demais seguem com o último preço registrado.`
+            : `${integer.format(changed.length)} produtos com preço novo. Os demais seguem com o último preço registrado.`;
           return (
             <li key={group.key} className="ph-update">
               <div className="ph-update__head">
@@ -109,8 +112,8 @@ export function RecentUpdates({ products, stores }: { products: Product[]; store
                   </li>
                 ))}
               </ul>
-              {group.changes.length > shown.length && (
-                <p className="ph-update__more">+ {integer.format(group.changes.length - shown.length)} produtos atualizados</p>
+              {changed.length > shown.length && (
+                <p className="ph-update__more">+ {integer.format(changed.length - shown.length)} produtos com preço novo</p>
               )}
             </li>
           );
