@@ -201,10 +201,9 @@ type ManualDataset = { id: string; name: string; stores: StoreRow[]; products: P
 // criar um arquivo manualEstablishmentsN.ts (mesmo formato deste) e somar uma
 // entrada nesta lista — o resto (busca, diretório, cesta, métricas) já
 // funciona automaticamente para todos.
-const manualDatasets: ManualDataset[] = [
-  { id: KELLY_ID, name: KELLY_NAME, stores: manualStores, products: manualProducts },
-  { id: SANDUBA_ID, name: SANDUBA_NAME, stores: sandubaStores, products: sandubaProducts },
-];
+// Cardápios Kelly e Beto Burguer já foram gravados em products/prices no banco.
+// Lista mantida vazia para não somar os produtos duas vezes no contador.
+const manualDatasets: ManualDataset[] = [];
 
 /**
  * Mescla os cadastros manuais (acima) num CatalogPayload já resolvido, seja
