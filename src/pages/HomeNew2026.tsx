@@ -34,6 +34,7 @@ import { Footer } from "../components/home/Footer";
 import { Header } from "../components/home/Header";
 import { LiveProductSearch } from "../components/home/LiveProductSearch";
 import { RecentUpdates, ShareReceiptsBanner } from "../components/home/RecentUpdates";
+import { DeveloperContact } from "../components/home/DeveloperContact";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
 import "./HomeProfessionalRedesign2026.css";
 import "./HomePreco2026.css";
@@ -434,6 +435,7 @@ export function HomeNew2026() {
             <Link className="ph-btn ph-btn--primary" to="/cadastro-lojista">Cadastrar minha loja <ArrowRight aria-hidden="true" /></Link>
           </div>
         </section>
+        <DeveloperContact />
       </main>
       <Footer />
       <AppDock current="home" />
