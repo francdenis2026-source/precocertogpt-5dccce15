@@ -164,6 +164,27 @@ html[data-theme="dark"] .ph-thumb--empty { background: var(--ph-surface-2); }
 .ph-merchant h2 { margin: 0; font-size: 1.3rem; font-weight: 800; }
 .ph-merchant p { margin: 4px 0 0; color: var(--ph-muted); }
 
+/* Últimas atualizações por loja */
+.ph-updates { list-style: none; margin: 0 0 clamp(24px, 4vw, 40px); padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ph-update { min-width: 0; padding: 16px; border: 1px solid var(--ph-line); border-radius: 16px; background: var(--ph-surface); }
+.ph-update__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.ph-update__head strong { font-weight: 800; overflow-wrap: anywhere; }
+.ph-update__head time { color: var(--ph-muted); font-size: .875rem; white-space: nowrap; }
+.ph-update__scope { margin: 6px 0 10px; color: var(--ph-muted); font-size: .9rem; }
+.ph-update__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ph-update__items li { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; }
+.ph-update__items li > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.ph-update__items li > span:last-child { flex: none; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ph-update__more { margin: 8px 0 0; color: var(--ph-muted); font-size: .85rem; }
+@media (max-width: 860px) { .ph-updates { grid-template-columns: 1fr; } }
+
+/* Banner: compartilhar notas */
+.ph-notes-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: clamp(24px, 4vw, 40px); padding: clamp(20px, 3vw, 28px); border: 1px solid var(--ph-line); border-radius: 20px; background: var(--ph-save-soft); }
+.ph-notes-banner__copy { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ph-notes-banner__copy svg { width: 28px; height: 28px; flex: none; color: var(--ph-save-ink); }
+.ph-notes-banner h2 { margin: 0; font-size: 1.2rem; font-weight: 800; text-wrap: balance; }
+.ph-notes-banner p { margin: 4px 0 0; color: var(--ph-muted); }
+
 /* QR Code do site */
 .ph-qr { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; margin-bottom: clamp(24px, 4vw, 40px); padding: clamp(20px, 3vw, 32px); border: 1px solid var(--ph-line); border-radius: 20px; background: var(--ph-surface); }
 .ph-qr h2 { margin: 0; font-size: 1.3rem; font-weight: 800; text-wrap: balance; }

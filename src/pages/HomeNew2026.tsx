@@ -33,6 +33,7 @@ import { AppDock } from "../reference/PublicChrome";
 import { Footer } from "../components/home/Footer";
 import { Header } from "../components/home/Header";
 import { LiveProductSearch } from "../components/home/LiveProductSearch";
+import { RecentUpdates, ShareReceiptsBanner } from "../components/home/RecentUpdates";
 import { ProductCardActions } from "../components/catalog/ProductCardActions";
 import "./HomeProfessionalRedesign2026.css";
 import "./HomePreco2026.css";
@@ -355,6 +356,9 @@ export function HomeNew2026() {
             <p className="ph-empty">Os preços estão sendo atualizados. <Link to="/buscar">Pesquise o catálogo completo</Link>.</p>
           )}
         </section>
+
+        <RecentUpdates products={products} stores={catalog.stores} />
+        <ShareReceiptsBanner />
 
         <section className="ph-band" aria-labelledby="ph-basket-title">
           <div className="ph-wrap ph-band__grid">
