@@ -409,6 +409,17 @@ export function HomeNew2026() {
           </section>
         )}
 
+        <section className="ph-section ph-wrap" aria-labelledby="ph-qr-title">
+          <div className="ph-qr">
+            <div>
+              <h2 id="ph-qr-title">Leve o PreçoCerto no bolso</h2>
+              <p>Aponte a câmera do celular para abrir o site e consultar os preços de Feijó.</p>
+              <span className="ph-qr__url">www.precocerto.live</span>
+            </div>
+            <img className="ph-qr__code" src="/qr-precocerto.svg" alt="QR Code com o endereço www.precocerto.live" width="132" height="132" loading="lazy" decoding="async" />
+          </div>
+        </section>
+
         <section className="ph-section ph-wrap" aria-labelledby="ph-merchant-title">
           <div className="ph-merchant">
             <span className="ph-merchant__icon" aria-hidden="true"><BadgeCheck /></span>
