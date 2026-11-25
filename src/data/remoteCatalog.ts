@@ -199,6 +199,8 @@ const extractSpecification = (product: ProductRow) => {
 };
 
 const baseProductName = (value: string | null) => normalizeCatalogTerm(value || "")
+  // "(kg)" ou "(un)" no nome só indica a unidade de venda; não cria outro produto.
+  .replace(/\((?:kg|g|gr|l|lt|ml|un|und|unid|unidade)\)/g, " ")
   .replace(/\b\d+\s*x\s*\d+(?:[.,]\d+)?\s*(?:kg|g|gr|l|lt|ml|un|und|unid|unidade|unidades)\b/g, " ")
   .replace(/\b\d+(?:[.,]\d+)?\s*(?:kg|g|gr|grama|gramas|l|lt|litro|litros|ml|mililitro|mililitros|un|und|unid|unidade|unidades)\b/g, " ")
   .replace(/[^a-z0-9]+/g, " ")
@@ -226,7 +228,9 @@ const identitySpecification = (product: ProductRow) => {
   // presente nas demais lojas. Sem este alias, ele ficaria isolado como
   // "unit:un" e criaria um segundo cartão com preço divergente.
   if (isLeiteDobom(product)) return "mass:400g";
-  return extractSpecification(product);
+  const spec = extractSpecification(product);
+  // Sem gramagem ou volume no cadastro, a unidade de venda (kg, un) não separa produtos iguais.
+  return spec.startsWith("unit:") ? "unit:any" : spec;
 };
 
 const officialProfileKey = (name: string, specification: string) => `${identityFor(name)}|${specification}`;

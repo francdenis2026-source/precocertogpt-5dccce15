@@ -63,8 +63,17 @@ export function buildRecentUpdates(products: Product[], stores: StoreRow[], limi
     }
   }
 
-  return [...groups.values()]
-    .filter(group => changedOf(group).length > 0)
+  // Uma atualização por loja (a mais recente), para que uma rede com muitos
+  // registros não ocupe todo o destaque.
+  const latestByStore = new Map<string, UpdateGroup>();
+  for (const group of groups.values()) {
+    if (!changedOf(group).length) continue;
+    const current = latestByStore.get(group.store);
+    if (!current || group.day > current.day || (group.day === current.day && changedOf(group).length > changedOf(current).length)) {
+      latestByStore.set(group.store, group);
+    }
+  }
+  return [...latestByStore.values()]
     .sort((a, b) => b.day.localeCompare(a.day) || changedOf(b).length - changedOf(a).length)
     .slice(0, limit);
 }
