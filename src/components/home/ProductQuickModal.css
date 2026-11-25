@@ -1,4 +1,4 @@
-.pqm-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, 0.45); }
+.pqm-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, 0.45); overflow: hidden; overscroll-behavior: contain; }
 .pqm { width: min(440px, 100%); max-height: min(640px, calc(100dvh - 32px)); display: flex; flex-direction: column; border-radius: 18px; background: var(--ph-surface, #fff); color: var(--ph-ink, #0f172a); box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25); overflow: hidden; }
 .pqm__head { display: flex; align-items: center; gap: 12px; padding: 16px 16px 12px; }
 .pqm__thumb { flex: none; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--ph-line, #e2e8f0); background: #fff; overflow: hidden; }
@@ -12,7 +12,7 @@
 .pqm__summary > div { padding: 8px 10px; border-radius: 12px; background: var(--ph-surface-2, #f1f5f9); }
 .pqm__summary dt { font-size: .7rem; color: var(--ph-muted, #64748b); }
 .pqm__summary dd { margin: 2px 0 0; font-size: .9rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-.pqm__offers { list-style: none; margin: 0; padding: 0 8px; overflow-y: auto; flex: 1 1 auto; }
+.pqm__offers { list-style: none; margin: 0; padding: 0 8px; overflow-y: auto; overscroll-behavior: contain; flex: 1 1 auto; min-height: 0; }
 .pqm__offers li { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 10px 8px; border-top: 1px solid var(--ph-line, #e2e8f0); }
 .pqm__store { min-width: 0; display: grid; gap: 2px; }
 .pqm__store strong { font-size: .9rem; overflow-wrap: anywhere; }

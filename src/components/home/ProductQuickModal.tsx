@@ -38,6 +38,13 @@ export function ProductQuickModal({ product, onClose }: ProductQuickModalProps) 
   const offers = [...(product.offers ?? [])].sort((a, b) => a.value - b.value);
   const detailHref = `/produto/${product.slug || product.id}`;
 
+  // Trava a rolagem da página enquanto o modal está aberto.
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, []);
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();

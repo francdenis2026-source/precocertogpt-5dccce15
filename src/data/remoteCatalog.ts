@@ -316,13 +316,31 @@ async function loadCatalog(query = ""): Promise<CatalogResult> {
       return { ...local, source: "local", error: failure.message };
     }
 
-    const storeRows = (establishments.data ?? []) as unknown as EstablishmentRow[];
+    const rawStoreRows = (establishments.data ?? []) as unknown as EstablishmentRow[];
+    // Doce Dia é um único estabelecimento (mercado + padaria): cada unidade
+    // cadastrada separadamente é unificada num só para não duplicar preços.
+    const storeGroupOf = (name?: string | null) => (/doce\s*dia/i.test(name ?? "") ? "doce-dia" : null);
+    const groupRepresentative = new Map<string, EstablishmentRow>();
+    rawStoreRows.forEach(store => {
+      const group = storeGroupOf(store.name);
+      if (!group) return;
+      const current = groupRepresentative.get(group);
+      if (!current || (/^comercial/i.test(store.name ?? "") && !/^comercial/i.test(current.name ?? ""))) {
+        groupRepresentative.set(group, store);
+      }
+    });
+    const canonicalStoreId = (id: unknown) => {
+      const store = rawStoreRows.find(row => String(row.id) === String(id));
+      const group = storeGroupOf(store?.name);
+      return group ? String(groupRepresentative.get(group)!.id) : String(id);
+    };
+    const storeRows = rawStoreRows.filter(store => canonicalStoreId(store.id) === String(store.id));
     const productRows = ((products.data ?? []) as unknown as ProductRow[]).filter(product =>
       normalize(product.name || "") !== "test product",
     );
-    const priceRows = ((prices.data ?? []) as unknown as PriceRow[]).filter(row =>
-      Number.isFinite(toNumber(row.value)),
-    );
+    const priceRows = ((prices.data ?? []) as unknown as PriceRow[])
+      .filter(row => Number.isFinite(toNumber(row.value)))
+      .map(row => ({ ...row, establishment_id: canonicalStoreId(row.establishment_id) }));
 
     if (!storeRows.length || !productRows.length || !priceRows.length) {
       return { ...local, source: "local", error: "Banco conectado, porém sem dados de preços." };
