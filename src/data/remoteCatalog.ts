@@ -339,8 +339,12 @@ async function loadCatalog(query = ""): Promise<CatalogResult> {
       return group ? String(groupRepresentative.get(group)!.id) : String(id);
     };
     const storeRows = rawStoreRows.filter(store => canonicalStoreId(store.id) === String(store.id));
+    // "Carne Moída" cadastrada fora da categoria de carnes (ex.: salgado de padaria) não é carne: fica fora do catálogo.
+    const isMislabeledMeat = (product: ProductRow) =>
+      normalize(product.name || "").startsWith("carne moida")
+      && !/carne|acougue/.test(normalize(product.category || ""));
     const productRows = ((products.data ?? []) as unknown as ProductRow[]).filter(product =>
-      normalize(product.name || "") !== "test product",
+      normalize(product.name || "") !== "test product" && !isMislabeledMeat(product),
     );
     const priceRows = ((prices.data ?? []) as unknown as PriceRow[])
       .filter(row => Number.isFinite(toNumber(row.value)))
