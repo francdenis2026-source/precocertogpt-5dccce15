@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { Product } from "../../data/catalog";
 import { resolveProductImage } from "../../data/productImageResolver";
 import { suggestProducts } from "../../lib/productSearch";
+import { formatCategoryLabel } from "../../lib/categoryLabels";
 import { ProductQuickModal } from "./ProductQuickModal";
 import { useFavorites } from "../../features/favorites/FavoritesProvider";
 import { usePriceVisibility } from "../../hooks/usePriceVisibility";
@@ -271,7 +272,7 @@ export function LiveProductSearch({
                     <span className="pcx-search-panel__copy">
                       <strong>{product.name}</strong>
                       <small>
-                        {[product.brand, product.size && product.size.trim() !== "-" ? product.size : product.category]
+                        {[product.brand, product.size && product.size.trim() !== "-" ? product.size : formatCategoryLabel(product.category)]
                           .filter(Boolean)
                           .join(" · ")}
                       </small>

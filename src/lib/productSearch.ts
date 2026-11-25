@@ -107,7 +107,8 @@ export function suggestProducts(products: Product[], query: string, limit = 6) {
     const nameWords = normalizeSearchText(product.name).split(" ");
     const directMatch = queryTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word)));
     const aliasMatch = Boolean(alias && recognizedFamilyFromName(product.name) === alias.family && alias.remainderTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word))));
-    return directMatch || aliasMatch;
+    // Categoria (ex.: "açougue", "padaria") também conta, para o cliente achar a seção inteira.
+    return directMatch || aliasMatch || productSearchScore(product, q) > 0;
   });
 
   const unique = new Map<string, Product>();
