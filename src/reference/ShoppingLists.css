@@ -179,3 +179,11 @@
   .pc-lists-new-btn{justify-content:center}
   .pc-lists-grid{grid-template-columns:1fr}
 }
+
+/* Filtros e aviso discreto na busca de produtos da lista */
+.pc-lists-picker__filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.pc-lists-picker__filters label{display:grid;gap:4px;min-width:0}
+.pc-lists-picker__filters span{font-size:.72rem;color:var(--pl-muted)}
+.pc-lists-picker__filters select{min-height:40px;padding:0 10px;border:1px solid var(--pl-line);border-radius:10px;background:var(--pl-surface);color:inherit;font:inherit}
+.pc-lists-picker__empty{margin:10px 2px 0;font-size:.85rem;color:var(--pl-muted)}
+@media (max-width:520px){.pc-lists-picker__filters{grid-template-columns:1fr}}

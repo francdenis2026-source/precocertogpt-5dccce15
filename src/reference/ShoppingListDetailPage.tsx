@@ -25,27 +25,68 @@ const MODE_LABEL: Record<ShoppingListMode, string> = {
 
 function ProductPicker({ products, onPick }: { products: Product[]; onPick: (id: string | number) => void }) {
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("");
+  const [store, setStore] = useState("");
+
+  const categories = useMemo(() => [...new Set(products.map(p => p.category).filter(Boolean))]
+    .sort((a, b) => formatCategoryLabel(a).localeCompare(formatCategoryLabel(b), "pt-BR")), [products]);
+  const stores = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const product of products) for (const offer of product.offers ?? []) map.set(String(offer.establishmentId), offer.establishment);
+    return [...map.entries()].sort((a, b) => a[1].localeCompare(b[1], "pt-BR"));
+  }, [products]);
+
+  const hasFilter = Boolean(query.trim() || category || store);
   const results = useMemo(() => {
+    if (!hasFilter) return [];
     const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return products.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)).slice(0, 8);
-  }, [query, products]);
+    return products.filter(p => {
+      if (category && p.category !== category) return false;
+      if (store && !(p.offers ?? []).some(o => String(o.establishmentId) === store)) return false;
+      if (!q) return true;
+      return p.name.toLowerCase().includes(q) || (p.brand ?? "").toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+    }).slice(0, 8);
+  }, [query, category, store, products, hasFilter]);
+
+  // Preço mostrado: o da loja escolhida no filtro, ou o menor entre todas.
+  const priceOf = (product: Product) => (store
+    ? (product.offers ?? []).find(o => String(o.establishmentId) === store)?.value ?? product.minPrice
+    : product.minPrice);
 
   return <div className="pc-lists-picker">
     <div className="pc-lists-picker__input">
       <Search aria-hidden="true" />
-      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Buscar produto para adicionar…" />
-      {query && <button type="button" onClick={() => setQuery("")}><X aria-hidden="true" /></button>}
+      <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Digite o nome do produto, ex.: carne, arroz, leite…" />
+      {query && <button type="button" onClick={() => setQuery("")} aria-label="Limpar busca"><X aria-hidden="true" /></button>}
+    </div>
+    <div className="pc-lists-picker__filters">
+      <label>
+        <span>Categoria</span>
+        <select value={category} onChange={e => setCategory(e.target.value)}>
+          <option value="">Todas</option>
+          {categories.map(c => <option key={c} value={c}>{formatCategoryLabel(c)}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Estabelecimento</span>
+        <select value={store} onChange={e => setStore(e.target.value)}>
+          <option value="">Todos</option>
+          {stores.map(([id, name]) => <option key={id} value={id}>{name}</option>)}
+        </select>
+      </label>
     </div>
     {results.length > 0 && <ul className="pc-lists-picker__results">
       {results.map(product => <li key={product.id}>
         <button type="button" onClick={() => { onPick(product.id); setQuery(""); }}>
           <CatalogProductThumb product={product} size="sm" />
           <span><strong>{product.name}</strong><small>{[product.brand, product.size].filter(Boolean).join(" · ") || formatCategoryLabel(product.category)}</small></span>
-          <em>{brl.format(product.minPrice)}</em>
+          <em>{brl.format(priceOf(product))}</em>
         </button>
       </li>)}
     </ul>}
+    {hasFilter && results.length === 0 && <p className="pc-lists-picker__empty" role="status">
+      {query.trim() ? `Não encontramos “${query.trim()}” com esses filtros. Tente outro nome ou ajuste categoria e estabelecimento.` : "Nenhum produto para esses filtros."}
+    </p>}
   </div>;
 }
 

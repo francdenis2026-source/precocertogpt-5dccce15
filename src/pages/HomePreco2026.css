@@ -478,3 +478,10 @@ html[data-theme="dark"] .ph .ph-hero__search .pc26-live-search__icon { color: #0
   .ph-offer__save { max-width: 100%; font-size: 11px; }
   .ph-board { padding: 12px; }
 }
+
+/* Propaganda da lista de compras */
+.ph-list-promo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: clamp(24px, 4vw, 40px); padding: clamp(20px, 3vw, 28px); border: 1px solid var(--ph-line); border-radius: 20px; background: var(--ph-surface); }
+.ph-list-promo__copy { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ph-list-promo__copy svg { width: 28px; height: 28px; flex: none; color: var(--ph-save-ink); }
+.ph-list-promo h2 { margin: 0; font-size: 1.2rem; font-weight: 800; text-wrap: balance; }
+.ph-list-promo p { margin: 4px 0 0; color: var(--ph-muted); max-width: 60ch; }
