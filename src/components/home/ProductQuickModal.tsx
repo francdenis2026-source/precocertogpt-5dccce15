@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import type { Product } from "../../data/catalog";
@@ -53,9 +54,11 @@ export function ProductQuickModal({ product, onClose }: ProductQuickModalProps) 
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  return (
-    <div className="pqm-overlay" onClick={onClose}>
-      <div className="pqm" role="dialog" aria-modal="true" aria-labelledby="pqm-title" onClick={event => event.stopPropagation()}>
+  // Renderiza no <body>: a busca usa filter/transform, que prenderia o overlay fixo dentro dela.
+  return createPortal(
+    <div className="pqm-overlay">
+      <button type="button" className="pqm-backdrop" aria-label="Fechar" onClick={onClose} />
+      <div className="pqm" role="dialog" aria-modal="true" aria-labelledby="pqm-title">
         <header className="pqm__head">
           <div className="pqm__thumb">
             {image ? <img src={image} alt="" width="64" height="64" loading="lazy" decoding="async" /> : null}
@@ -95,6 +98,7 @@ export function ProductQuickModal({ product, onClose }: ProductQuickModalProps) 
           <Link to={detailHref} onClick={onClose}>Ver página completa →</Link>
         </footer>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
