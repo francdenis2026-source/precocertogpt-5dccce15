@@ -102,6 +102,8 @@ export function suggestProducts(products: Product[], query: string, limit = 6) {
   const queryTokens = q.split(" ").filter(Boolean);
   const alias = queryFamily(q);
   const matches = products.filter(product => {
+    // Adicionais (recheios, acréscimos de lanche) não são produtos de compra: não aparecem na busca.
+    if (normalizeSearchText(product.category || "") === "adicionais") return false;
     const nameWords = normalizeSearchText(product.name).split(" ");
     const directMatch = queryTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word)));
     const aliasMatch = Boolean(alias && recognizedFamilyFromName(product.name) === alias.family && alias.remainderTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word))));
