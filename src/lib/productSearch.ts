@@ -19,6 +19,22 @@ function tokenMatchesWord(token: string, word: string) {
   return exactWordSearchTerms.has(token) ? word === token : word === token || word.startsWith(token);
 }
 
+// Cortes e termos de açougue: quando a busca tem um deles, os produtos das
+// categorias de açougue, carnes ou aves entram mesmo sem o nome do corte.
+const MEAT_TERMS = new Set([
+  "carne", "carnes", "acougue", "aves", "frango", "galinha", "peru", "porco", "boi", "bovina",
+  "picanha", "alcatra", "maminha", "fraldinha", "contrafile", "costela", "patinho", "coxao",
+  "acem", "lombo", "bisteca", "file", "cupim", "musculo", "paleta", "pernil", "linguica",
+  "coxa", "sobrecoxa", "asa", "peito", "bife", "hamburguer", "moida", "moido", "suina", "bovino",
+  "salsicha", "bacon", "costelinha", "toucinho",
+]);
+
+const isMeatCategory = (product: Product) => /acougue|carne|aves/.test(normalizeSearchText(product.category || ""));
+
+function hasMeatIntent(normalizedQuery: string) {
+  return normalizedQuery.split(" ").some(token => MEAT_TERMS.has(token));
+}
+
 type ProductFamilyId = "achocolatado" | "amido-de-milho" | "lava-roupas-em-po" | "macarrao-instantaneo";
 type SearchFamily = { id: ProductFamilyId; pattern: RegExp };
 
@@ -67,8 +83,9 @@ export function productSearchScore(product: Product, query: string) {
   const directMatch = tokens.every(token => tokenMatchesText(token, all));
   const alias = queryFamily(q);
   const aliasMatch = Boolean(alias && recognizedFamilyFromName(product.name) === alias.family && alias.remainderTokens.every(token => tokenMatchesText(token, all)));
-  if (!directMatch && !aliasMatch) return 0;
-  let score = 20;
+  const meatMatch = hasMeatIntent(q) && isMeatCategory(product);
+  if (!directMatch && !aliasMatch && !meatMatch) return 0;
+  let score = meatMatch && !directMatch ? 15 : 20;
   if (aliasMatch) score += 55;
   if (name === q) score += 120;
   else if (name.startsWith(q)) score += 90;
@@ -108,7 +125,7 @@ export function suggestProducts(products: Product[], query: string, limit = 6) {
     const directMatch = queryTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word)));
     const aliasMatch = Boolean(alias && recognizedFamilyFromName(product.name) === alias.family && alias.remainderTokens.every(token => nameWords.some(word => tokenMatchesWord(token, word))));
     // Categoria (ex.: "açougue", "padaria") também conta, para o cliente achar a seção inteira.
-    return directMatch || aliasMatch || productSearchScore(product, q) > 0;
+    return directMatch || aliasMatch || (hasMeatIntent(q) && isMeatCategory(product)) || productSearchScore(product, q) > 0;
   });
 
   const unique = new Map<string, Product>();
