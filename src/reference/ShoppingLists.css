@@ -187,3 +187,17 @@
 .pc-lists-picker__filters select{min-height:40px;padding:0 10px;border:1px solid var(--pl-line);border-radius:10px;background:var(--pl-surface);color:inherit;font:inherit}
 .pc-lists-picker__empty{margin:10px 2px 0;font-size:.85rem;color:var(--pl-muted)}
 @media (max-width:520px){.pc-lists-picker__filters{grid-template-columns:1fr}}
+
+/* Lista por texto e sugestões do histórico */
+.pc-lists-textpanel,.pc-lists-history{margin-top:16px;padding:16px;border:1px solid var(--pl-line);border-radius:14px;background:var(--pl-surface)}
+.pc-lists-textpanel__intro,.pc-lists-history p{display:flex;align-items:center;gap:6px;margin:0 0 10px;font-size:.9rem;color:var(--pl-muted)}
+.pc-lists-textpanel textarea{width:100%;min-height:96px;padding:10px 12px;border:1px solid var(--pl-line);border-radius:10px;background:var(--pl-surface);color:inherit;font:inherit;resize:vertical}
+.pc-lists-textpanel>button,.pc-lists-textpanel__result>button{margin-top:10px;min-height:44px;padding:0 16px;border:0;border-radius:10px;background:var(--pl-green);color:#fff;font-weight:700;cursor:pointer}
+.pc-lists-textpanel__result{margin-top:12px}
+.pc-lists-textpanel__result ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.pc-lists-textpanel__result li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--pl-line)}
+.pc-lists-textpanel__result li small{display:block;color:var(--pl-muted)}
+.pc-lists-textpanel__total{margin:10px 0 0;font-size:.9rem}
+.pc-lists-textpanel__missing{margin:10px 0 0;font-size:.85rem;color:var(--pl-muted)}
+.pc-lists-history__chips{display:flex;flex-wrap:wrap;gap:8px}
+.pc-lists-history__chips button{min-height:36px;padding:0 12px;border:1px solid var(--pl-line);border-radius:999px;background:var(--pl-surface);color:inherit;font:inherit;font-size:.85rem;cursor:pointer}

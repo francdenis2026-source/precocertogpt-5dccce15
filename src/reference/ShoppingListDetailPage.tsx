@@ -13,6 +13,8 @@ import { ProductThumb as CatalogProductThumb } from "../components/catalog/Produ
 import { SubscriberGate } from "../components/access/SubscriberGate";
 import { useShoppingListItems, type ResolvedItem } from "../features/shoppingLists/useShoppingListItems";
 import { renameShoppingList, deleteShoppingList, type ShoppingListMode } from "../features/shoppingLists/useShoppingLists";
+import { ListTextPanel } from "../features/shoppingLists/ListTextPanel";
+import { HistorySuggestions } from "../features/shoppingLists/HistorySuggestions";
 import "./ShoppingLists.css";
 
 const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
@@ -315,6 +317,8 @@ export function ShoppingListDetailPage() {
       </div>}
 
       <ProductPicker products={catalog} onPick={id => void addItem(id)} />
+      <ListTextPanel catalog={catalog} onAdd={(productId, quantity) => addItem(productId, quantity)} />
+      <HistorySuggestions catalog={catalog} currentProductIds={new Set(resolved.map(r => String(r.product.id)))} onAdd={(productId, quantity) => addItem(productId, quantity)} />
 
       <section className="pc-lists-ai-toggle">
         <button type="button" onClick={() => setShowAi(v => !v)}><Sparkles aria-hidden="true" /> {showAi ? "Fechar montagem automática" : "Montar (ou completar) esta lista automaticamente"}</button>
