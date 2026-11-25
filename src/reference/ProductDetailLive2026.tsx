@@ -16,6 +16,7 @@ import { trackProductView } from "../lib/analytics";
 import { buildComparableOffers, findComparableProducts, type ComparableOffer } from "../lib/productSearch";
 import { ProductThumb } from "../components/catalog/ProductThumb";
 import { PriceChangeBadge } from "../components/catalog/PriceChangeBadge";
+import { PriceStatus } from "../components/home/ProductQuickModal";
 import { PublicFooter, PublicHeader } from "./PublicChrome";
 import "./ProductDetailLive2026.css";
 
@@ -418,24 +419,6 @@ export function ProductDetailLive2026() {
       </div>
       {message && <div className="pdl-toast" role="status" aria-live="polite">{message}</div>}
     </div>
-  );
-}
-
-// Situação de cada loja em relação ao último registro de preço, sem limite de dias.
-function PriceStatus({ value, previous }: { value: number; previous?: number }) {
-  if (previous === undefined) {
-    return <small className="pdl-compare__status">Primeiro registro</small>;
-  }
-  if (previous === value) {
-    return <small className="pdl-compare__status">Sem alteração no último registro</small>;
-  }
-  const diff = Math.abs(value - previous);
-  const pct = Math.round((diff / previous) * 100);
-  const up = value > previous;
-  return (
-    <small className="pdl-compare__status" style={{ color: up ? "#b42318" : "#146c3a", fontWeight: 700 }}>
-      {up ? "Subiu" : "Baixou"} {brl.format(diff)} ({pct}%) · antes {brl.format(previous)}
-    </small>
   );
 }
 

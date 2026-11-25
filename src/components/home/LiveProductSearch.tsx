@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { Product } from "../../data/catalog";
 import { resolveProductImage } from "../../data/productImageResolver";
 import { suggestProducts } from "../../lib/productSearch";
+import { ProductQuickModal } from "./ProductQuickModal";
 import { useFavorites } from "../../features/favorites/FavoritesProvider";
 import { usePriceVisibility } from "../../hooks/usePriceVisibility";
 
@@ -54,13 +55,14 @@ export function LiveProductSearch({
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
+  const [quickProduct, setQuickProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const normalizedQuery = query.trim();
   const suggestions = useMemo(
     () =>
       normalizedQuery.length >= 2
-        ? suggestProducts(products, normalizedQuery, compact ? 5 : 6)
+        ? suggestProducts(products, normalizedQuery, compact ? 8 : 10)
         : [],
     [compact, normalizedQuery, products],
   );
@@ -245,7 +247,12 @@ export function LiveProductSearch({
                     onPointerMove={(event) => {
                       if (event.pointerType === "mouse") setActiveIndex(index);
                     }}
-                    onClick={() => (locked ? goToSignup() : openProduct(product))}
+                    onClick={() => {
+                      if (locked) return goToSignup();
+                      setOpen(false);
+                      setActiveIndex(-1);
+                      setQuickProduct(product);
+                    }}
                   >
                     <span className="pcx-search-panel__thumb">
                       {image ? (
@@ -332,6 +339,7 @@ export function LiveProductSearch({
           )}
         </div>
       )}
+      {quickProduct && <ProductQuickModal product={quickProduct} onClose={() => setQuickProduct(null)} />}
       <span className="sr-only" role="status" aria-live="polite">
         {showPanel && !loading
           ? `${suggestions.length} sugestões disponíveis`
