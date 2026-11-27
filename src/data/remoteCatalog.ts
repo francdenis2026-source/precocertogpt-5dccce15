@@ -84,7 +84,37 @@ type PriceRow = {
   previous_value: number | string | null;
   captured_at: string | null;
   source?: string;
+  promo_label?: string | null;
+  promo_until?: string | null;
+  regular_value?: number | string | null;
 };
+
+/**
+ * Preço efetivo de uma linha: durante a promoção vale o valor promocional;
+ * depois da validade, o app volta sozinho ao preço normal (regular_value).
+ */
+function effectivePrice(row: PriceRow, now = Date.now()) {
+  const value = toNumber(row.value);
+  const until = row.promo_until ? Date.parse(row.promo_until) : NaN;
+  const regular = toNumber(row.regular_value ?? null);
+  if (!row.promo_label || !Number.isFinite(until)) {
+    return { value, previous: toNumber(row.previous_value), promo: undefined };
+  }
+  if (now > until) {
+    return Number.isFinite(regular)
+      ? { value: regular, previous: NaN, promo: undefined }
+      : { value, previous: NaN, promo: undefined };
+  }
+  return {
+    value,
+    previous: NaN,
+    promo: {
+      label: row.promo_label,
+      until: row.promo_until!,
+      regularPrice: Number.isFinite(regular) ? Math.round(regular * 100) / 100 : undefined,
+    },
+  };
+}
 
 export type CatalogSource = "supabase" | "local";
 
@@ -312,7 +342,7 @@ async function loadCatalog(query = ""): Promise<CatalogResult> {
     const [establishments, products, prices] = await Promise.all([
       fetchAllRows("establishments", "id, name, slug, neighborhood, brand_color, kind, address, logo_url", "id"),
       fetchAllRows("products", "id, name, brand, category, size, unit, barcode, image_url", "id"),
-      fetchAllRows("prices", "id, product_id, establishment_id, value, previous_value, captured_at", "id"),
+      fetchAllRows("prices", "*", "id"),
     ]);
 
     const failure = establishments.error ?? products.error ?? prices.error;
@@ -423,16 +453,18 @@ async function loadCatalog(query = ""): Promise<CatalogResult> {
           return map;
         }, new Map<string, PriceRow>()).values());
 
-        const values = latestByStore.map(row => toNumber(row.value)).filter(Number.isFinite);
+        const effective = new Map(latestByStore.map(row => [row, effectivePrice(row)] as const));
+        const values = latestByStore.map(row => effective.get(row)!.value).filter(Number.isFinite);
         if (!values.length) return null;
 
         const best = latestByStore.reduce((lowest, row) =>
-          toNumber(row.value) < toNumber(lowest.value) ? row : lowest,
+          effective.get(row)!.value < effective.get(lowest)!.value ? row : lowest,
         );
+        const bestEffective = effective.get(best)!;
         const store = storesById.get(String(best.establishment_id));
         if (!store) return null;
 
-        const previous = toNumber(best.previous_value);
+        const previous = bestEffective.previous;
         const normalizedProductName = normalize(product.name || "");
         const normalizedProductSize = normalize(product.size || "").replace(/\s+/g, "");
         const isLimpolPerfumes500ml = normalizedProductName.includes("limpol perfumes")
@@ -458,21 +490,24 @@ async function loadCatalog(query = ""): Promise<CatalogResult> {
           storeColor: store.brand_color ?? "#1473E6",
           capturedAt: best.captured_at ?? new Date().toISOString(),
           previousPrice: Number.isFinite(previous) ? round(previous) : undefined,
+          promo: bestEffective.promo,
           image_url: product.image_url || undefined,
           source: "Coleta Manual",
           updated_at: best.captured_at || undefined,
           offers: latestByStore.map(row => {
             const offerStore = storesById.get(String(row.establishment_id));
-            const offerPrevious = toNumber(row.previous_value);
+            const offerEffective = effective.get(row)!;
+            const offerPrevious = offerEffective.previous;
             return {
               establishmentId: row.establishment_id,
               establishmentSlug: storeSlugById.get(String(row.establishment_id)) || String(row.establishment_id),
               establishment: offerStore?.name ?? "Estabelecimento",
               neighborhood: offerStore?.neighborhood ?? "—",
               storeColor: offerStore?.brand_color ?? "#1473E6",
-              value: round(toNumber(row.value)),
+              value: round(offerEffective.value),
               capturedAt: row.captured_at ?? new Date().toISOString(),
               previousPrice: Number.isFinite(offerPrevious) ? round(offerPrevious) : undefined,
+              promo: offerEffective.promo,
             };
           }).sort((a, b) => a.value - b.value),
           price_history: rows

@@ -230,6 +230,7 @@ function offersFor(product: Product): ProductOffer[] {
     value: product.minPrice,
     capturedAt: product.capturedAt,
     previousPrice: product.previousPrice,
+    promo: product.promo,
   }];
 }
 

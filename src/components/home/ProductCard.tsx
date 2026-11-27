@@ -97,7 +97,7 @@ export const ProductCard = memo(function ProductCard({
             <strong>{brl.format(product.minPrice)}</strong>
           </div>
         </div>
-        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} />
+        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} promo={product.promo} />
 
         <div className="pcx-product__footer">
           <time dateTime={product.capturedAt}>

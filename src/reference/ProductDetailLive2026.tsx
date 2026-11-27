@@ -289,7 +289,9 @@ export function ProductDetailLive2026() {
                 {dropped > 0 && (
                   <span className="pdl-price__save"><TrendingDown aria-hidden="true" />{brl.format(dropped)} abaixo do preço anterior</span>
                 )}
-                {previous > 0 && previous < price && (
+                {displayed?.promo ? (
+                  <PriceChangeBadge promo={displayed.promo} />
+                ) : previous > 0 && previous < price && (
                   <PriceChangeBadge current={price} previous={previous} capturedAt={displayed?.capturedAt} />
                 )}
               </div>

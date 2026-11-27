@@ -4,6 +4,12 @@
 
 import { withManualAdditions } from "./manualEstablishments";
 
+export type PricePromo = {
+  label: string;
+  until: string;
+  regularPrice?: number;
+};
+
 export type ProductOffer = {
   establishmentId: string | number;
   establishmentSlug: string;
@@ -13,6 +19,7 @@ export type ProductOffer = {
   value: number;
   capturedAt: string;
   previousPrice?: number;
+  promo?: PricePromo;
 };
 
 export type Product = {
@@ -35,6 +42,7 @@ export type Product = {
   storeColor: string;
   capturedAt: string;
   previousPrice?: number;
+  promo?: PricePromo;
   image_url?: string;
   source?: string;
   updated_at?: string;

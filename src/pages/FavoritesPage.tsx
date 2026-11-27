@@ -499,7 +499,7 @@ function FavoriteCard({
           <span style={{ fontSize: '0.7rem', color: 'var(--muted)', display: 'block' }}>Menor preço em Feijó</span>
           <strong style={{ fontSize: '1.5rem', color: 'var(--green)', fontWeight: 900 }}>{money(product.minPrice)}</strong>
         </div>
-        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} />
+        <PriceChangeBadge current={product.minPrice} previous={product.previousPrice} capturedAt={product.capturedAt} promo={product.promo} />
       </div>
 
       <div style={{ display: 'flex', gap: '0.75rem' }}>
