@@ -12,7 +12,8 @@ where not exists (select 1 from public.products p where p.slug = v.slug);
 
 with desired(slug, value) as (
   values
-    ('florent-200mg-6-capsulas', 38.18::numeric),
+    ('resfenol-20-capsulas', 11.99::numeric),
+    ('florent-200mg-6-capsulas', 38.18),
     ('soro-hidrali-45-tutti-frutti-500ml', 13.99),
     ('leite-em-po-ninho-integral-380g', 18.49)
 ),
